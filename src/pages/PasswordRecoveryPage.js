@@ -1,7 +1,19 @@
+import { Alert } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import * as Yup from "yup";
+
+import authApi from "../api/auth";
 import { Links } from "../components";
 import { AppForm, FormControl } from "../components/forms";
+
+import {
+  changePasswordRequest,
+  getUser,
+  userRequested,
+  userRequesetFailed,
+} from "../store/user";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -10,7 +22,18 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function PasswordRecoveryPage() {
-  const handleSubmit = (values) => console.log(values);
+  const user = useSelector(getUser);
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (values) => {
+    try {
+      dispatch(userRequested());
+      const response = await authApi.forgotPassword(values.email);
+      return dispatch(changePasswordRequest(response.data));
+    } catch (error) {
+      return dispatch(userRequesetFailed(error));
+    }
+  };
   return (
     <AppContainer>
       <FormContainer>
@@ -31,6 +54,16 @@ export default function PasswordRecoveryPage() {
             name="email"
             className="p-2"
           />
+          {user.successMessage && (
+            <Alert variant="success">{user.successMessage}</Alert>
+          )}
+          {user.errorMessage && (
+            <Alert variant="danger">
+              {user.errorMessage.response.data ||
+                "Something went wrong. Please try again later."}
+            </Alert>
+          )}
+
           <FormControl
             variant="button"
             title="Start Recovering"

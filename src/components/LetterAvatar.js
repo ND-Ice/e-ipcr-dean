@@ -5,7 +5,7 @@ import getLetterAvatarBg from "../utils/getLetterAvatarBg";
 export default function LetterAvatar({ user, size }) {
   return (
     <AvatarContainer size={size} dept={user?.dept}>
-      <Letter size={size}>{user?.name.trim()[0]} </Letter>
+      <Letter size={size}>{user?.name?.firstName?.trim()[0]} </Letter>
     </AvatarContainer>
   );
 }

@@ -1,58 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EvaluationCard } from "../components/Cards";
 import styled from "styled-components";
-import { CustomModal, IconButton } from "../components";
+import { CustomModal, IconButton, MyLoader } from "../components";
 import { FiPlus } from "react-icons/fi";
 import { CreateEvaluation } from "../components/Modals";
+import { useDispatch, useSelector } from "react-redux";
 
-const evaluations = [
-  {
-    id: 1,
-    title: "2021-2022 IPCR Evaluation for CAS",
-    dept: "CAS",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta porro iste sapiente nisi quaerat. Dolor nostrum quos tempora libero facilis!",
-    postDate: "2021/10/30",
-    due: "2021/12/20",
-  },
-  {
-    id: 2,
-    title: "2021-2022 IPCR Evaluation for CAS",
-    dept: "CHM",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta porro iste sapiente nisi quaerat. Dolor nostrum quos tempora libero facilis!",
-    postDate: "2021/10/30",
-    due: "2021/12/20",
-  },
-  {
-    id: 3,
-    title: "2021-2022 IPCR Evaluation for CAS",
-    dept: "CAFA",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta porro iste sapiente nisi quaerat. Dolor nostrum quos tempora libero facilis!",
-    postDate: "2021/10/30",
-    due: "2021/12/20",
-  },
-  {
-    id: 4,
-    title: "2021-2022 IPCR Evaluation for CAS",
-    dept: "CBA",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta porro iste sapiente nisi quaerat. Dolor nostrum quos tempora libero facilis!",
-    postDate: "2021/10/30",
-    due: "2021/12/20",
-  },
-];
+import evaluationsApi from "../api/evaluations";
+import {
+  evaluationsRequestFailed,
+  evaluationsRequested,
+  evaluationsReceived,
+  getEvaluations,
+} from "../store/evaluations";
+import { getUser } from "../store/user";
 
 export default function Evaluations({ history }) {
   const [isActive, setIsActive] = useState(false);
+
+  const user = useSelector(getUser);
+  const evaluations = useSelector(getEvaluations);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchEvaluations(user.currentUser.dept);
+  }, []);
+
+  const fetchEvaluations = async (department) => {
+    try {
+      dispatch(evaluationsRequested());
+      const response = await evaluationsApi.getEvaluations(department);
+      dispatch(evaluationsReceived(response.data));
+    } catch (error) {
+      return dispatch(evaluationsRequestFailed(error));
+    }
+  };
 
   const handleCreateEvaluation = () => setIsActive(!isActive);
 
   return (
     <AppContainer>
       <AppHeader>
-        <h1>List of Evaluations</h1>
+        <h2>List of Evaluations</h2>
         <IconButton
           icon={FiPlus}
           size={40}
@@ -61,17 +50,21 @@ export default function Evaluations({ history }) {
           onClick={handleCreateEvaluation}
         />
       </AppHeader>
-      <AppContent>
-        {evaluations.map((evaluation) => (
-          <EvaluationCard
-            evaluationInfo={evaluation}
-            key={evaluation.id}
-            onPreview={() =>
-              history.push(`/dashboard/evaluations/${evaluation.id}`)
-            }
-          />
-        ))}
-      </AppContent>
+      {evaluations.loading ? (
+        <MyLoader />
+      ) : (
+        <AppContent>
+          {evaluations?.list?.map((evaluation) => (
+            <EvaluationCard
+              evaluationInfo={evaluation}
+              key={evaluation._id}
+              onPreview={() =>
+                history.push(`/dashboard/evaluations/${evaluation._id}`)
+              }
+            />
+          ))}
+        </AppContent>
+      )}
       <CustomModal
         show={isActive}
         onHide={handleCreateEvaluation}

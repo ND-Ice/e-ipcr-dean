@@ -2,8 +2,9 @@ import { Form } from "react-bootstrap";
 import { useFormikContext } from "formik";
 
 export default function Password(props) {
-  const { title, name, ...otherProps } = props;
-  const { handleChange, setFieldTouched, errors, touched } = useFormikContext();
+  const { title, name, loading, ...otherProps } = props;
+  const { handleChange, setFieldTouched, errors, touched, values } =
+    useFormikContext();
 
   return (
     <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -14,6 +15,8 @@ export default function Password(props) {
         name={name}
         onBlur={() => setFieldTouched(name)}
         onChange={handleChange(name)}
+        disabled={loading}
+        value={values[name]}
         isValid={touched[name] && !errors[name]}
         isInvalid={!touched[name] || !errors[name] ? false : true}
         {...otherProps}

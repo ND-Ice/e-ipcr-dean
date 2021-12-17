@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { getFaculties } from "../store/faculties";
 
 import { Avatar, LetterAvatar } from "../components";
 import InformationCard from "../components/Cards/InformationCard";
@@ -34,14 +36,27 @@ const contactInfo = [
 
 export default function FacultyPreview({ match }) {
   const [imageError, setImageError] = useState(false);
+
+  const id = match.params.id;
+  const faculties = useSelector(getFaculties);
+
+  const faculty = faculties.list.filter((faculty) => faculty._id === id);
+
   return (
     <AppContainer>
       <AppHeader>
-        {!imageError && (
-          <Avatar size={150} user={user} onError={() => setImageError(true)} />
+        {imageError || !faculty[0].image.current ? (
+          <LetterAvatar size={150} user={faculty[0]} />
+        ) : (
+          <Avatar
+            size={150}
+            user={faculty[0]}
+            onError={() => setImageError(true)}
+          />
         )}
-        {imageError && <LetterAvatar size={150} user={user} />}
-        <h1 className="text-white mt-2">Joshua Dela Cruz</h1>
+        <h1 className="text-white mt-2">
+          {faculty[0].name.firstName} {faculty[0].name.lastName}
+        </h1>
       </AppHeader>
 
       <AppContent>

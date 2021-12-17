@@ -5,7 +5,7 @@ import getLetterAvatarBg from "../utils/getLetterAvatarBg";
 export default function Avatar({ user, onError, size }) {
   return (
     <AvatarContainer dept={user?.dept} size={size}>
-      <UserAvatar src={user?.image} onError={onError} />
+      <UserAvatar src={user?.image?.current} onError={onError} />
     </AvatarContainer>
   );
 }

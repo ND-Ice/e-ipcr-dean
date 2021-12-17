@@ -1,63 +1,57 @@
-import React from "react";
-import { EvaluationCard } from "../components/Cards";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
-const evaluations = [
-  {
-    id: 1,
-    title: "2021-2022 IPCR Evaluation for CAS",
-    dept: "CAS",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta porro iste sapiente nisi quaerat. Dolor nostrum quos tempora libero facilis!",
-    postDate: "2021/10/30",
-    due: "2021/12/20",
-  },
-  {
-    id: 2,
-    title: "2021-2022 IPCR Evaluation for CAS",
-    dept: "CHM",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta porro iste sapiente nisi quaerat. Dolor nostrum quos tempora libero facilis!",
-    postDate: "2021/10/30",
-    due: "2021/12/20",
-  },
-  {
-    id: 3,
-    title: "2021-2022 IPCR Evaluation for CAS",
-    dept: "CAFA",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta porro iste sapiente nisi quaerat. Dolor nostrum quos tempora libero facilis!",
-    postDate: "2021/10/30",
-    due: "2021/12/20",
-  },
-  {
-    id: 4,
-    title: "2021-2022 IPCR Evaluation for CAS",
-    dept: "CBA",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta porro iste sapiente nisi quaerat. Dolor nostrum quos tempora libero facilis!",
-    postDate: "2021/10/30",
-    due: "2021/12/20",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../store/user";
+import evaluationsApi from "../api/evaluations";
+import { EvaluationCard } from "../components/Cards";
+
+import {
+  evaluationsRequested,
+  pastReceived,
+  evaluationsRequestFailed,
+  getEvaluations,
+} from "../store/evaluations";
+import { MyLoader } from "../components";
 
 export default function PastEvaluations({ history }) {
+  const dispatch = useDispatch();
+  const user = useSelector(getUser);
+  const evaluations = useSelector(getEvaluations);
+
+  useEffect(() => {
+    fetchPastEvaluations(user.currentUser.dept);
+  }, []);
+
+  const fetchPastEvaluations = async (dept) => {
+    try {
+      dispatch(evaluationsRequested());
+      const response = await evaluationsApi.getPastEvaluations(dept);
+      return dispatch(pastReceived(response.data));
+    } catch (error) {
+      return dispatch(evaluationsRequestFailed(error));
+    }
+  };
   return (
     <AppContainer>
       <AppHeader>
-        <h1>List of Past Evaluations</h1>
+        <h2>List of Past Evaluations</h2>
       </AppHeader>
-      <AppContent>
-        {evaluations.map((evaluation) => (
-          <EvaluationCard
-            evaluationInfo={evaluation}
-            key={evaluation.id}
-            onPreview={() =>
-              history.push(`/dashboard/evaluations/${evaluation.id}`)
-            }
-          />
-        ))}
-      </AppContent>
+      {evaluations.loading ? (
+        <MyLoader />
+      ) : (
+        <AppContent>
+          {evaluations?.past?.map((evaluation) => (
+            <EvaluationCard
+              evaluationInfo={evaluation}
+              key={evaluation._id}
+              onPreview={() =>
+                history.push(`/dashboard/evaluations/${evaluation._id}`)
+              }
+            />
+          ))}
+        </AppContent>
+      )}
     </AppContainer>
   );
 }

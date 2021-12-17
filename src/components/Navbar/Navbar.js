@@ -1,31 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { AvatarMenu, BrandName, IconButton } from "..";
-import { Sidebar, SidebarItem } from "../Sidebar";
 import { FiCalendar, FiClock, FiFolder, FiMenu, FiUsers } from "react-icons/fi";
 import { useHistory, useLocation } from "react-router";
-import { Notifications } from "../Notifications";
 
-const notifications = [
-  {
-    id: 1,
-    from: "System",
-    message: "This is just a sample notifications",
-    time: Date.now(),
-  },
-  {
-    id: 2,
-    from: "System",
-    message: "This is just a sample notifications",
-    time: Date.now(),
-  },
-  {
-    id: 3,
-    from: "System",
-    message: "This is just a sample notifications",
-    time: Date.now(),
-  },
-];
+import { AvatarMenu, BrandName, IconButton } from "..";
+import { Sidebar, SidebarItem } from "../Sidebar";
+
 const sidebarItems = [
   {
     id: 1,
@@ -59,8 +39,7 @@ export default function Navbar({ user }) {
     <NavContainer>
       <BrandName />
       <StatusContainer>
-        <Notifications notifications={notifications} />
-        <AvatarMenu user={user} />
+        <AvatarMenu user={user?.currentUser} />
         <IconButton
           className="menu-icon"
           size={40}

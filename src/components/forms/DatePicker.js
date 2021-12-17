@@ -3,8 +3,9 @@ import { Form } from "react-bootstrap";
 import { useFormikContext } from "formik";
 
 export default function DatePicker(props) {
-  const { name, title, ...otherProps } = props;
-  const { setFieldTouched, handleChange, touched, errors } = useFormikContext();
+  const { name, title, loading, ...otherProps } = props;
+  const { setFieldTouched, handleChange, touched, errors, values } =
+    useFormikContext();
   return (
     <Form.Group className="mb-3" controlId="formBasicEmail">
       <Form.Label>{title}</Form.Label>
@@ -14,6 +15,8 @@ export default function DatePicker(props) {
         name={name}
         onBlur={() => setFieldTouched(name)}
         onChange={handleChange(name)}
+        disabled={loading}
+        value={values[name]}
         isValid={touched[name] && !errors[name]}
         isInvalid={!touched[name] || !errors[name] ? false : true}
         {...otherProps}

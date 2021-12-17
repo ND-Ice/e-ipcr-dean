@@ -12,3 +12,4 @@ export { default as EvaluationPreview } from "./EvaluationPreview";
 export { default as FacultySearch } from "./FacultySearch";
 export { default as FilteredEvaluationResult } from "./FilteredEvaluationResult";
 export { default as FilteredSentimentResult } from "./FilteredSentimentResult";
+export { default as ChangePassword } from "./ChangePassword";

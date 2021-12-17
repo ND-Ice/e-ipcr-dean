@@ -1,56 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { UserCard } from "../components/Cards";
-import { FiSearch } from "react-icons/fi";
-import { IconButton } from "../components";
+import { Table } from "react-bootstrap";
 
-const faculties = [
-  {
-    id: 1,
-    name: "Joshua Dela Cruz",
-    email: "delacruz.joshua.bscs@gmail.com",
-    image:
-      "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGhvdG9ncmFwaGVyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80",
-    dept: "CAS",
-  },
-  {
-    id: 2,
-    name: "Hazel Annuncio",
-    email: "annuncio.hazel.cas@gmail.com",
-    dept: "CEN",
-  },
-  {
-    id: 3,
-    name: "Arlene Evangelista",
-    email: "evangelista.arlene.cen@gmail.com",
-    dept: "CAFA",
-  },
-  {
-    id: 4,
-    name: "Jesus Mangubat",
-    email: "mangubat.jesus.cas@gmail.com",
-    dept: "CBA",
-  },
-  {
-    id: 5,
-    name: "Raymond Bolalin",
-    email: "bolalin.raymond.cas@gmail.com",
-    dept: "CHM",
-  },
-  {
-    id: 6,
-    name: "Jefferson Costales",
-    email: "costales.jefferson.cas@gmail.com",
-    dept: "CIT",
-  },
-];
+import { FiSearch } from "react-icons/fi";
+import { IconButton, MyLoader, TableData } from "../components";
+
+import facultiesApi from "../api/faculties";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../store/user";
+import {
+  facultiesReceived,
+  facultiesRequested,
+  facultiesRequestFailed,
+  getFaculties,
+} from "../store/faculties";
 
 export default function Faculties({ history }) {
+  const dispatch = useDispatch();
+  const user = useSelector(getUser);
+  const faculties = useSelector(getFaculties);
+
+  useEffect(() => {
+    getFacultyList(user.currentUser.dept);
+  }, []);
+
   const handleSearch = () => history.push("/dashboard/faculties/search");
+
+  const getFacultyList = async (dept) => {
+    try {
+      dispatch(facultiesRequested());
+      const response = await facultiesApi.getFacultiesByDepartment(dept);
+      dispatch(facultiesReceived(response.data));
+    } catch (error) {
+      return dispatch(facultiesRequestFailed(error));
+    }
+  };
+
+  const handleNavigateFaculty = (id) =>
+    history.push(`/dashboard/faculties/${id}`);
+
   return (
     <Appcontainer>
       <AppHeader>
-        <h1 className="m-0">Faculty List</h1>
+        <h2 className="m-0">Faculty List</h2>
         <IconContainer>
           <IconButton
             icon={FiSearch}
@@ -61,15 +53,28 @@ export default function Faculties({ history }) {
           />
         </IconContainer>
       </AppHeader>
-      <AppContent>
-        {faculties?.map((faculty) => (
-          <UserCard
-            user={faculty}
-            key={faculty.id}
-            onClick={() => history.push(`/dashboard/faculties/${faculty.id}`)}
-          />
-        ))}
-      </AppContent>
+      {faculties.loading ? (
+        <MyLoader />
+      ) : (
+        <Table borderless className="mt-2 w-100">
+          <TableHead>
+            <TableHeader>Profile</TableHeader>
+            <TableHeader>Email Address</TableHeader>
+            <TableHeader>First Name</TableHeader>
+            <TableHeader>Last Name</TableHeader>
+            <TableHeader>Department</TableHeader>
+          </TableHead>
+          <tbody>
+            {faculties.list.map((faculty) => (
+              <TableData
+                key={faculty._id}
+                userInfo={faculty}
+                onNavigate={handleNavigateFaculty}
+              />
+            ))}
+          </tbody>
+        </Table>
+      )}
     </Appcontainer>
   );
 }
@@ -98,17 +103,11 @@ const IconContainer = styled.div`
   }
 `;
 
-const AppContent = styled.div`
-  margin-top: 1rem;
-  display: grid;
-  gap: 0.5rem;
+const TableHead = styled.thead`
+  border-bottom: 2px solid ${({ theme }) => theme.colors.secondary};
+`;
 
-  @media (min-width: ${(props) => props.theme.breakpoints.md}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-
-  @media (min-width: ${(props) => props.theme.breakpoints.lg}) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+const TableHeader = styled.th`
+  padding: 1rem;
+  font-weight: 500;
 `;

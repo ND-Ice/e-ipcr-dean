@@ -17,6 +17,8 @@ import {
   FilteredSentimentResult,
   Me,
 } from ".";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../store/user";
 
 const user = {
   id: 1,
@@ -28,6 +30,7 @@ const user = {
 };
 
 export default function Dashboard() {
+  const user = useSelector(getUser);
   return (
     <>
       <Navbar user={user} />

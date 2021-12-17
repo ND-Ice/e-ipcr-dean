@@ -3,30 +3,34 @@ import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
 import { Spinner } from "react-bootstrap";
 import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 
-const searchedItems = [
-  { title: "Joshua Dela Cruz", id: "494ssv2244" },
-  { title: "Rhael Dela Cruz", id: "494ss224b4" },
-  { title: "John Louie Dela Cruz", id: "494s4s2244" },
-  { title: "Ezekiel Dela Cruz", id: "494ss2r244" },
-  { title: "Dj Remix Dela Cruz", id: "494ss32244" },
-];
+import { getFaculties } from "../store/faculties";
+import { lowerCase } from "../utils";
 
 export default function SearchBox({ ...otherProps }) {
   const [searching, setIsSearching] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
+  const faculties = useSelector(getFaculties);
   const history = useHistory();
 
   useEffect(() => {
-    getFilteredItem(searchedItems, searchText);
+    getFilteredItem(faculties.list, searchText);
   }, [searchText]);
 
-  const handleChange = (e) => setSearchText(e.target.value);
+  const handleChange = (e) => {
+    setIsSearching(true);
+    setSearchText(e.target.value);
+    return setIsSearching(false);
+  };
+
   const getFilteredItem = (arr, searchText) => {
     return setFilteredItems(
-      arr.filter((item) =>
-        item.title.toLowerCase().includes(searchText.toLowerCase())
+      arr.filter((faculty) =>
+        lowerCase(
+          faculty.name.firstName.concat(" ", faculty.name.lastName)
+        ).includes(searchText.toLowerCase())
       )
     );
   };
@@ -48,12 +52,14 @@ export default function SearchBox({ ...otherProps }) {
 
       {searchText && filteredItems && (
         <AutoCompleteContainer>
-          {filteredItems.map((item) => (
+          {filteredItems.map((faculty) => (
             <SearchItem
-              key={item.id}
-              onClick={() => history.push(`/dashboard/faculties/${item.id}`)}
+              key={faculty._id}
+              onClick={() =>
+                history.push(`/dashboard/faculties/${faculty._id}`)
+              }
             >
-              {item.title}
+              {faculty.name.firstName} {faculty.name.lastName}
             </SearchItem>
           ))}
         </AutoCompleteContainer>

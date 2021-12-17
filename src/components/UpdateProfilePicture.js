@@ -2,6 +2,8 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
 
+import avatarImg from "../image/avatarImg.jpg";
+
 export default function UpdateProfilePicture() {
   const hiddenFileUpdload = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -46,11 +48,7 @@ export default function UpdateProfilePicture() {
       </Header>
       <ImageContainer>
         <ProfilePicture
-          src={
-            selectedImage
-              ? URL.createObjectURL(selectedImage)
-              : "https://scontent.fmnl3-2.fna.fbcdn.net/v/t1.6435-9/71756577_196585848007718_4137557491925909504_n.jpg?_nc_cat=105&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeG1y-KmTF4YjCu05IbCuU9ZgzJHcpnrvHeDMkdymeu8d5EQBgpQ28egWp9x6HhuGOn_yUy5HHIKo4yjgYHyxa7c&_nc_ohc=YsWuvrFrWsYAX8xnyg9&_nc_ht=scontent.fmnl3-2.fna&oh=cc987b3ceecf03c3021c16edcbed95b6&oe=61A37351"
-          }
+          src={selectedImage ? URL.createObjectURL(selectedImage) : avatarImg}
         />
       </ImageContainer>
 
@@ -87,4 +85,5 @@ const ProfilePicture = styled.img`
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
+  border: 4px solid ${(props) => props.theme.colors.accent.blue};
 `;
