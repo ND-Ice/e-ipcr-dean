@@ -1,17 +1,26 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { AvatarProfile } from ".";
+import { AvatarProfile, UpdateProfilePicture, CustomModal } from ".";
 
 export default function ProfileIntro({ user }) {
+  const [show, setShow] = useState(false);
   return (
     <Container>
       <Header>
-        <AvatarProfile size={100} user={user} />
+        <AvatarProfile size={100} user={user} onClick={() => setShow(true)} />
         <h3 className="mt-2">
           {user.name.firstName} {user.name.lastName}
         </h3>
         <p>Dean of {user.dept}</p>
       </Header>
+      <CustomModal
+        show={show}
+        onHide={() => setShow(false)}
+        heading="Update Profile Picture"
+      >
+        <UpdateProfilePicture />
+      </CustomModal>
     </Container>
   );
 }

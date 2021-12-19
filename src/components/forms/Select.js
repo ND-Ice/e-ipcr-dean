@@ -20,8 +20,8 @@ export default function Select(props) {
       >
         <option>Select option</option>
         {menuItems?.map((menuItem) => (
-          <option key={menuItem.value} value={menuItem?.value}>
-            {menuItem?.title}
+          <option key={menuItem.id} value={menuItem?.value}>
+            {menuItem?.value}
           </option>
         ))}
       </Form.Select>

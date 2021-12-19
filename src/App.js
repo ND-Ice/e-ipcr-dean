@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import {
-  ActivateAccount,
   ChangePassword,
   Dashboard,
   LoginPage,
   PasswordRecoveryPage,
+  RegisterPage,
 } from "./pages";
 
 import { Provider } from "react-redux";
@@ -21,7 +21,7 @@ export default function App() {
       <ScrollToTop />
       <PersistGate loading="Loading..." persistor={persistor}>
         <Switch>
-          <Route path="/activate-account" component={ActivateAccount} />
+          <Route path="/register" component={RegisterPage} />
           <Route path="/forgot-password" component={PasswordRecoveryPage} />
           <ProtectedRoute path="/dashboard" component={Dashboard} />
           <Route path="/change-password/:id" component={ChangePassword} />

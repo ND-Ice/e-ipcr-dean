@@ -23,12 +23,8 @@ export default function UpdateProfilePicture() {
   return (
     <Container>
       <Header>
-        <Button
-          onClick={handlePick}
-          variant="primary"
-          className="w-100 mx-1 p-3"
-        >
-          Upload
+        <Button onClick={handlePick} variant="primary" className="mx-1">
+          Upload New
           <input
             className="d-none"
             onChange={handleChange}
@@ -37,11 +33,7 @@ export default function UpdateProfilePicture() {
           />
         </Button>
         {selectedImage && (
-          <Button
-            onClick={handleDelete}
-            variant="danger"
-            className="w-100 mx-1 p-3"
-          >
+          <Button onClick={handleDelete} variant="danger" className="mx-1">
             Delete
           </Button>
         )}
@@ -53,11 +45,7 @@ export default function UpdateProfilePicture() {
       </ImageContainer>
 
       {selectedImage && (
-        <Button
-          onClick={handleUpdate}
-          variant="primary"
-          className="w-100 mx-1 p-3"
-        >
+        <Button onClick={handleUpdate} variant="primary" className="mx-1">
           Upload
         </Button>
       )}
@@ -70,7 +58,6 @@ const Container = styled.div``;
 const Header = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
 `;
 
 const ImageContainer = styled.div`
@@ -80,8 +67,8 @@ const ImageContainer = styled.div`
 `;
 
 const ProfilePicture = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;

@@ -8,4 +8,5 @@ export default function getLetterAvatarBg(dept) {
   if (dept === "CIT") return "#cf1210";
   if (dept === "CAFA") return "#800000";
   if (dept === "CPAC") return "#882788";
+  else return "#d4d4d4";
 }

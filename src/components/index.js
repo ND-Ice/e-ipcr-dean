@@ -19,3 +19,6 @@ export { default as ProtectedRoute } from "./ProtectedRoute";
 export { default as TableData } from "./TableData";
 export { default as ProfileIntro } from "./ProfileIntro";
 export { default as PrimaryInfo } from "./PrimaryInfo";
+export { default as ProfileItem } from "./ProfileItem";
+export { default as BasicInformation } from "./BasicInformation";
+export { default as BasicInfoItem } from "./BasicInfoItem";

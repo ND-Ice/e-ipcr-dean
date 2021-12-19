@@ -88,7 +88,7 @@ export default function LoginPage({ history }) {
           />
           <LinkContainer>
             <Links to="/forgot-password" title="Forgot Password" />
-            <Links to="/activate-account" title="Activate Account?" />
+            <Links to="/register" title="Create account" />
           </LinkContainer>
         </AppForm>
       </FormContainer>

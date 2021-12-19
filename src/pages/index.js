@@ -13,3 +13,4 @@ export { default as FacultySearch } from "./FacultySearch";
 export { default as FilteredEvaluationResult } from "./FilteredEvaluationResult";
 export { default as FilteredSentimentResult } from "./FilteredSentimentResult";
 export { default as ChangePassword } from "./ChangePassword";
+export { default as RegisterPage } from "./RegisterPage";
