@@ -4,10 +4,9 @@ import { Alert, Button } from "react-bootstrap";
 
 import avatarImg from "../image/avatarImg.jpg";
 import deansApi from "../api/deans";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   currentUserReceived,
-  getUser,
   userRequested,
   userRequestFailed,
 } from "../store/user";
@@ -16,7 +15,6 @@ export default function UpdateProfilePicture({ user, open }) {
   const dispatch = useDispatch();
   const hiddenFileUpdload = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -38,13 +36,11 @@ export default function UpdateProfilePicture({ user, open }) {
         user?._id,
         selectedImage
       );
-      setSuccessMessage("Updated Successfuly.");
       setErrorMessage(null);
       dispatch(currentUserReceived(dean.data));
       setLoading(false);
       return open(false);
     } catch (error) {
-      setSuccessMessage(null);
       setErrorMessage(error);
       setLoading(false);
       return dispatch(userRequestFailed(error));
@@ -59,17 +55,13 @@ export default function UpdateProfilePicture({ user, open }) {
           <input
             className="d-none"
             onChange={handleChange}
+            accept="image/png, image/jpeg"
             ref={hiddenFileUpdload}
             type="file"
           />
         </Button>
         {selectedImage && (
-          <Button
-            disabled={loading}
-            onClick={handleDelete}
-            variant="danger"
-            className="mx-1"
-          >
+          <Button onClick={handleDelete} variant="danger" className="mx-1">
             Delete
           </Button>
         )}
@@ -89,10 +81,14 @@ export default function UpdateProfilePicture({ user, open }) {
             "Something went wrong. Please try again later."}
         </Alert>
       )}
-      {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
       {selectedImage && (
-        <Button onClick={handleUpdate} variant="primary" className="mx-1">
+        <Button
+          variant="primary"
+          className="mx-1"
+          disabled={loading}
+          onClick={handleUpdate}
+        >
           Upload
         </Button>
       )}

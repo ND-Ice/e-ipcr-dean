@@ -1,5 +1,4 @@
 export { default as IconButton } from "./IconButton";
-export { default as BrandName } from "./BrandName";
 export { default as LetterAvatar } from "./LetterAvatar";
 export { default as Avatar } from "./Avatar";
 export { default as CustomModal } from "./CustomModal";

@@ -30,8 +30,6 @@ export default function ResponseData({ response, onPreview }) {
     }
   };
 
-  console.log(user);
-
   return (
     <TableRow isLate={isLate} onClick={() => onPreview(response?._id)}>
       <TableData>
@@ -64,7 +62,7 @@ export default function ResponseData({ response, onPreview }) {
         </TableData>
       }
       <TableData>
-        {response.isApproved ? (
+        {response?.isApproved ? (
           <Approved>Approved</Approved>
         ) : (
           <Pending>Pending</Pending>

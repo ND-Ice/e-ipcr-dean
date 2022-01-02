@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { useHistory, useLocation } from "react-router";
 import { FiMenu } from "react-icons/fi";
 
-import { AvatarMenu, BrandName, IconButton } from "..";
+import { AvatarMenu, IconButton } from "..";
 import { Sidebar, SidebarItem } from "../Sidebar";
 import sidebarItems from "../../utils/sidebarItems";
+import Logo from "../../image/Logo.png";
 
 export default function Navbar({ user }) {
   const [isSidebarToggle, setIsSidebarToggle] = useState(false);
@@ -16,7 +17,9 @@ export default function Navbar({ user }) {
 
   return (
     <NavContainer>
-      <BrandName />
+      <div className="d-flex align-items-center">
+        <LogoImage src={Logo} alt="logo" /> E-IPCR
+      </div>
       <StatusContainer>
         <AvatarMenu user={user?.currentUser} />
         <IconButton
@@ -32,11 +35,11 @@ export default function Navbar({ user }) {
         {sidebarItems?.map((sidebarInfo) => (
           <SidebarItem
             sidebarInfo={sidebarInfo}
-            key={sidebarInfo.id}
+            key={sidebarInfo?.id}
             icon={sidebarInfo?.icon}
-            isActive={location.pathname === sidebarInfo.path}
+            isActive={location?.pathname === sidebarInfo?.path}
             onNavigate={() => {
-              history.push(sidebarInfo.path);
+              history.push(sidebarInfo?.path);
               return handleSidebarToggle();
             }}
           />
@@ -74,4 +77,10 @@ const StatusContainer = styled.div`
       display: none;
     }
   }
+`;
+
+const LogoImage = styled.img`
+  width: 30px;
+  height: 30px;
+  margin-right: 0.5rem;
 `;

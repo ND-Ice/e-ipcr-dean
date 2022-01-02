@@ -21,7 +21,6 @@ export default function Evaluations({ history }) {
   const user = useSelector(getUser);
   const dispatch = useDispatch();
   const evaluations = useSelector(getEvaluations);
-  console.log(evaluations);
 
   useEffect(() => {
     fetchEvaluations(user.currentUser.dept);

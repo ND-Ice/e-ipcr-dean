@@ -8,12 +8,15 @@ import { getUser } from "../../store/user";
 import responseApi from "../../api/response";
 import { useHistory } from "react-router-dom";
 import { FiCheckCircle } from "react-icons/fi";
+import { Alert } from "bootstrap";
 
 export default function RatingSummary({ response }) {
   const history = useHistory();
   const { coreFunctions, supportFunctions, _id } = response;
   const { currentUser } = useSelector(getUser);
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   // get the core functions ratings
   const coreFuncRating = coreFunctions?.map((coreFunc) => {
@@ -37,6 +40,7 @@ export default function RatingSummary({ response }) {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       await responseApi.rateEvaluation(
         _id,
         currentUser,
@@ -44,9 +48,11 @@ export default function RatingSummary({ response }) {
         supportFunctions,
         finalRating
       );
+      setLoading(false);
       return history.goBack();
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      return console.log(error);
     }
   };
 
@@ -172,23 +178,31 @@ export default function RatingSummary({ response }) {
         </Modal.Header>
         <Modal.Body>
           <Wrapper>
-            <FiCheckCircle className="icon-check" />
-            <span>
-              I{" "}
-              <strong>
-                {currentUser?.name?.firstName} {currentUser?.name?.lastName}{" "}
-              </strong>{" "}
-              certify that I discussed the assessment of the performance of the
-              employee
-            </span>
+            <div>
+              <FiCheckCircle className="icon-check" />
+              <span>
+                I{" "}
+                <strong>
+                  {currentUser?.name?.firstName} {currentUser?.name?.lastName}{" "}
+                </strong>{" "}
+                certify that I discussed the assessment of the performance of
+                the employee
+              </span>
+            </div>
+            {errorMessage && (
+              <Alert>
+                {errorMessage?.response?.data ||
+                  "Something went wrong. Please try again later."}
+              </Alert>
+            )}
           </Wrapper>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShow(false)}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Save Changes
+          <Button variant="primary" disabled={loading} onClick={handleSubmit}>
+            {loading ? "Saving..." : "Save Changes"}
           </Button>
         </Modal.Footer>
       </Modal>
