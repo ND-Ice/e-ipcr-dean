@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import moment from "moment";
 import {
   FiCalendar,
   FiEdit,
@@ -28,12 +29,23 @@ export default function PrimaryInfo({ user }) {
       <ProfileItem
         title="Birth Date"
         icon={FiCalendar}
-        text={`Born in, ${user.birthDate || "Not yet defined."}`}
+        text={`Born in, ${
+          moment(user.birthDate).format("LL") || "Not yet defined."
+        }`}
       />
       <ProfileItem
         title="Address"
         icon={FiMapPin}
-        text={user.address || "Not yet defined."}
+        text={
+          user.address.houseNumber &&
+          user.address.street &&
+          user.address.barangay &&
+          user.address.barangay &&
+          user.address.city &&
+          user.address.province
+            ? `${user.address.houseNumber} ${user.address.street} ${user.address.barangay} ${user.address.city} ${user.address.province}`
+            : "Not yet defined."
+        }
       />
 
       <CustomModal
@@ -41,7 +53,7 @@ export default function PrimaryInfo({ user }) {
         show={show}
         onHide={() => setShow(false)}
       >
-        <UpdatePrimaryInfo user={user} />
+        <UpdatePrimaryInfo user={user} open={setShow} />
       </CustomModal>
     </Container>
   );

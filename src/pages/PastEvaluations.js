@@ -1,47 +1,32 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
-import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../store/user";
-import evaluationsApi from "../api/evaluations";
+import { useSelector } from "react-redux";
 import { EvaluationCard } from "../components/Cards";
 
-import {
-  evaluationsRequested,
-  pastReceived,
-  evaluationsRequestFailed,
-  getEvaluations,
-} from "../store/evaluations";
+import { getEvaluations } from "../store/evaluations";
 import { MyLoader } from "../components";
+import moment from "moment";
 
 export default function PastEvaluations({ history }) {
-  const dispatch = useDispatch();
-  const user = useSelector(getUser);
-  const evaluations = useSelector(getEvaluations);
+  const { list, loading } = useSelector(getEvaluations);
 
-  useEffect(() => {
-    fetchPastEvaluations(user.currentUser.dept);
-  }, []);
+  const pastEvaluations = list.filter((evaluation) => {
+    const isDue = moment(evaluation.due).isAfter(Date.now());
+    if (isDue) return;
+    return evaluation;
+  });
 
-  const fetchPastEvaluations = async (dept) => {
-    try {
-      dispatch(evaluationsRequested());
-      const response = await evaluationsApi.getPastEvaluations(dept);
-      return dispatch(pastReceived(response.data));
-    } catch (error) {
-      return dispatch(evaluationsRequestFailed(error));
-    }
-  };
   return (
     <AppContainer>
       <AppHeader>
-        <h2>List of Past Evaluations</h2>
+        <h4 className="m-0">Past Evaluations</h4>
       </AppHeader>
-      {evaluations.loading ? (
+      {loading ? (
         <MyLoader />
       ) : (
         <AppContent>
-          {evaluations?.past?.map((evaluation) => (
+          {pastEvaluations?.map((evaluation) => (
             <EvaluationCard
               evaluationInfo={evaluation}
               key={evaluation._id}
@@ -62,20 +47,11 @@ const AppContainer = styled.div`
 
 const AppHeader = styled.div`
   margin-bottom: 1rem;
-  border-bottom: 4px solid rgba(0, 0, 0, 0.1);
   padding: 0.5rem 0;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.secondary};
 `;
 
 const AppContent = styled.div`
   display: grid;
   gap: 1rem;
-
-  @media (min-width: ${(props) => props.theme.breakpoints.md}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-
-  @media (min-width: ${(props) => props.theme.breakpoints.lg}) {
-    grid-template-columns: repeat(3, 1fr);
-  }
 `;

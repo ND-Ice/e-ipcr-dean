@@ -12,14 +12,14 @@ export default function ProfileIntro({ user }) {
         <h3 className="mt-2">
           {user.name.firstName} {user.name.lastName}
         </h3>
-        <p>Dean of {user.dept}</p>
+        <p>{user.college.full}</p>
       </Header>
       <CustomModal
         show={show}
         onHide={() => setShow(false)}
         heading="Update Profile Picture"
       >
-        <UpdateProfilePicture />
+        <UpdateProfilePicture user={user} open={setShow} />
       </CustomModal>
     </Container>
   );
@@ -35,8 +35,4 @@ const Header = styled.div`
   display: grid;
   place-items: center;
   padding: 1rem;
-`;
-
-const Content = styled.div`
-  padding: 0.5rem;
 `;

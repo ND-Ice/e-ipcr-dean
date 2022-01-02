@@ -1,17 +1,24 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import { FiCalendar } from "react-icons/fi";
 
-import { EvaluationSummary, ResponseCountSummary } from "../components";
-import background from "../image/background.jpg";
+import { ResponseCountSummary, SentimentSummary } from "../components";
 
 import evaluationsApi from "../api/evaluations";
+import responseApi from "../api/response";
+
 import {
   evaluationsRequested,
   evaluationPreviewed,
   evaluationsRequestFailed,
   getEvaluations,
 } from "../store/evaluations";
+import {
+  evaluationReponseRequestFailed,
+  evaluationResponseReceived,
+} from "../store/response";
 
 export default function EvaluationPreview({ match }) {
   const dispatch = useDispatch();
@@ -21,6 +28,7 @@ export default function EvaluationPreview({ match }) {
 
   useEffect(() => {
     getEvaluationPreview(id);
+    getEvaluationResponse(id);
   }, []);
 
   const getEvaluationPreview = async (evaluationId) => {
@@ -35,50 +43,60 @@ export default function EvaluationPreview({ match }) {
     }
   };
 
+  const getEvaluationResponse = async (evaluationId) => {
+    try {
+      dispatch(evaluationsRequested());
+      const response = await responseApi.getEvaluationResponse(evaluationId);
+      return dispatch(evaluationResponseReceived(response.data));
+    } catch (error) {
+      dispatch(evaluationReponseRequestFailed(error));
+    }
+  };
+
   return (
     <AppContainer>
-      <AppHeader bg={background}>
-        <AppHeading>{evaluation?.title}</AppHeading>
-        <Description>{evaluation?.desc}</Description>
-      </AppHeader>
+      <header>
+        <Title>
+          Individual Performance Commitment Review (IPCR){" "}
+          <strong>
+            {evaluation?.targetYear - 1}-{evaluation?.targetYear}
+          </strong>
+        </Title>
+        <DueDate>
+          <FiCalendar className="icon" /> {moment(evaluation?.due).format("LL")}
+        </DueDate>
+      </header>
+
       <AppContent>
-        <ResponseCountSummary />
-        <EvaluationSummary />
+        <ResponseCountSummary evaluation={evaluations} />
       </AppContent>
     </AppContainer>
   );
 }
 
-const AppContainer = styled.div``;
-
-const AppHeader = styled.div`
-  padding: 2rem;
-  min-height: 200px;
-  border-radius: 0.5rem;
-  background: url(${(props) => props.bg});
-  background-size: cover;
-  background-position: center;
-`;
-
-const AppHeading = styled.h2`
-  color: ${(props) => props.theme.colors.white};
-  max-width: 40ch;
-`;
-
-const Description = styled.p`
-  color: ${(props) => props.theme.colors.white};
-
-  @media (min-width: ${(props) => props.theme.breakpoints.md}) {
-    max-width: 70ch;
-  }
+const AppContainer = styled.div`
+  padding: 0.5rem;
 `;
 
 const AppContent = styled.div`
   display: grid;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   gap: 0.5rem;
 
   @media (min-width: ${(props) => props.theme.breakpoints.lg}) {
     grid-template-columns: 1fr 3fr;
+  }
+`;
+
+const Title = styled.h4`
+  max-width: 40ch;
+`;
+
+const DueDate = styled.div`
+  display: flex;
+  align-items: center;
+
+  .icon {
+    margin-right: 0.5rem;
   }
 `;

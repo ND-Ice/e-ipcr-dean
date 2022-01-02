@@ -1,84 +1,49 @@
 import React from "react";
 import styled from "styled-components";
-import EvaluationResultSummary from "../components/Cards/EvaluationResultSummary";
+import { Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-const evaluationResults = [
-  {
-    id: 1,
-    title: "20201 E-ipcr Evaluation for CAS",
-    dept: "CAS",
-    user: {
-      image:
-        "https://www.asurascans.com/wp-content/uploads/2021/10/promo-banner.jpg",
-      name: "Asura Scans",
-      email: "asurascans@gmail.com",
-      dept: "CAS",
-    },
-    remarks: "Satisfactory",
-    sentiment: "Positive",
-  },
-  {
-    id: 2,
-    title: "20201 E-ipcr Evaluation for CAS",
-    dept: "CAS",
-    user: {
-      image:
-        "https://ww.asurascans.com/wp-content/uploads/2021/10/promo-banner.jpg",
-      name: "Reaper Scans",
-      email: "reaperscans@gmail.com",
-      dept: "CAS",
-    },
-    remarks: "Poor",
-    sentiment: "Negative",
-  },
-  {
-    id: 3,
-    title: "20201 E-ipcr Evaluation for CAS",
-    dept: "CAS",
-    user: {
-      image:
-        "https://ww.asurascans.com/wp-content/uploads/2021/10/promo-banner.jpg",
-      name: "Emperor Scans",
-      email: "emperorscans@gmail.com",
-      dept: "CAS",
-    },
-    remarks: "Poor",
-    sentiment: "Negative",
-  },
-];
+import { ResponseData } from "../components";
+import { getEvaluationResponses } from "../store/response";
+import { getSentiment } from "../utils";
 
 export default function FilteredSentimentResult({ match }) {
+  const history = useHistory();
   const sentiment = match.params.result;
+  const { list } = useSelector(getEvaluationResponses);
+
+  const filtered = list.filter(
+    (response) => getSentiment(response?.ratings?.average) === sentiment
+  );
   return (
     <AppContainer>
-      <AppHeader>
-        <h1>{sentiment}</h1>
-      </AppHeader>
-      <AppContent>
-        {evaluationResults.map((result) => (
-          <EvaluationResultSummary evaluation={result} key={result.id} />
-        ))}
-      </AppContent>
+      <Table bordered>
+        <tbody>
+          <tr>
+            <td>Profile</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Email Address</td>
+            <td>Date</td>
+            <td>Response Code</td>
+            <td>Final Average</td>
+            <td>Final Remraks</td>
+            <td>Final Sentiment</td>
+            <td>Approved by</td>
+            <td>Status</td>
+          </tr>
+          {filtered?.map((response) => (
+            <ResponseData
+              key={response?._id}
+              response={response}
+              onPreview={(id) => history.push(`/response/${id}`)}
+            />
+          ))}
+        </tbody>
+      </Table>
     </AppContainer>
   );
 }
 
 const AppContainer = styled.div``;
-
-const AppHeader = styled.div`
-  padding: 1rem;
-`;
-
-const AppContent = styled.div`
-  padding: 1rem;
-  display: grid;
-  gap: 1rem;
-
-  @media (min-width: ${(props) => props.theme.breakpoints.md}) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: ${(props) => props.theme.breakpoints.lg}) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-`;

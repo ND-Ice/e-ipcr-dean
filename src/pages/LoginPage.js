@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -10,7 +10,7 @@ import { AppForm, FormControl } from "../components/forms";
 import {
   currentUserReceived,
   getUser,
-  userRequesetFailed,
+  userRequestFailed,
   userRequested,
 } from "../store/user";
 import authApi from "../api/auth";
@@ -27,6 +27,7 @@ const validationSchema = Yup.object().shape({
 export default function LoginPage({ history }) {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (user.currentUser) return history.push("/dashboard");
@@ -42,7 +43,8 @@ export default function LoginPage({ history }) {
       dispatch(currentUserReceived(currentUser.data));
       return history.push("/dashboard");
     } catch (error) {
-      return dispatch(userRequesetFailed(error));
+      dispatch(userRequestFailed(errorMessage));
+      return setErrorMessage(error);
     }
   };
 
@@ -74,21 +76,21 @@ export default function LoginPage({ history }) {
             name="password"
             loading={user.loading}
           />
-          {user.errorMessage && (
+          {errorMessage && (
             <Alert variant="danger">
-              {user?.errorMessage?.response?.data ||
+              {errorMessage?.response?.data ||
                 "Something went wrong. Please try again later."}
             </Alert>
           )}
           <FormControl
             variant="button"
-            className="w-100 p-2"
+            className="w-100 p-2 mt-2"
             title="Login"
             loading={user.loading}
           />
           <LinkContainer>
             <Links to="/forgot-password" title="Forgot Password" />
-            <Links to="/register" title="Create account" />
+            <Links to="/register" title="Register" />
           </LinkContainer>
         </AppForm>
       </FormContainer>

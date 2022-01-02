@@ -7,6 +7,7 @@ const slice = createSlice({
     loading: null,
     lastFetch: null,
     errorMessage: null,
+    sortBy: null,
     list: [],
   },
   reducers: {
@@ -22,11 +23,18 @@ const slice = createSlice({
       faculties.lastFetch = Date.now();
       faculties.list = action.payload;
     },
+    facultySorted: (faculties, action) => {
+      faculties.sortBy = action.payload;
+    },
   },
 });
 
-export const { facultiesReceived, facultiesRequested, facultiesRequestFailed } =
-  slice.actions;
+export const {
+  facultiesReceived,
+  facultiesRequested,
+  facultiesRequestFailed,
+  facultySorted,
+} = slice.actions;
 export default slice.reducer;
 
 // selectors

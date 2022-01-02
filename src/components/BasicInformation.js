@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FiEdit } from "react-icons/fi";
-import BasicInfoItem from "./BasicInfoItem";
-import { CustomModal } from ".";
-import UpdateBasicInformation from "./Modals/UpdateBasicInformation";
-import { useState } from "react";
+import moment from "moment";
+
+import { CustomModal, BasicInfoItem } from ".";
+import { UpdateBasicInformation } from "./Modals";
 
 export default function BasicInformation({ user }) {
   const [show, setShow] = useState(false);
@@ -27,10 +27,16 @@ export default function BasicInformation({ user }) {
         />
         <BasicInfoItem
           title="Date of Birth"
-          item={user.birthDate || "Not yet defined."}
+          item={moment(user.birthDate).format("LL") || "Not yet defined."}
         />
-        <BasicInfoItem title="Age" item={user.age || "Not yet defined."} />
-        <BasicInfoItem title="College" item={user.dept || "Not yet defined."} />
+        <BasicInfoItem
+          title="Age"
+          item={moment().diff(user.birthDate, "years") || "Not yet defined."}
+        />
+        <BasicInfoItem
+          title="Department"
+          item={user.dept || "Not yet defined."}
+        />
         <BasicInfoItem
           title="Position"
           item={user.position || "Not yet defined."}
@@ -46,7 +52,7 @@ export default function BasicInformation({ user }) {
         show={show}
         onHide={() => setShow(false)}
       >
-        <UpdateBasicInformation user={user} />
+        <UpdateBasicInformation user={user} open={setShow} />
       </CustomModal>
     </Container>
   );

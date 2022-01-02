@@ -1,7 +1,7 @@
 import client from "./client";
 
-const getFacultiesByDepartment = (dept) =>
-  client.get(`/faculties/department/${dept}`);
+const getFaculties = (dept) => client.get(`/faculties/`);
+const getFaculty = (id) => client.get(`/faculties/${id}`);
 
-const facultiesApi = { getFacultiesByDepartment };
+const facultiesApi = { getFaculties, getFaculty };
 export default facultiesApi;

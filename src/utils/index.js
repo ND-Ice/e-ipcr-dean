@@ -5,3 +5,5 @@ export { default as getColorMark } from "./getColorMark";
 export { default as getSentimentColor } from "./getSentimentColor";
 export { default as department } from "./departmentList";
 export { default as lowerCase } from "./lowerCase";
+export { default as getSentiment } from "./getSentiment";
+export { default as getRemarks } from "./getRemarks";

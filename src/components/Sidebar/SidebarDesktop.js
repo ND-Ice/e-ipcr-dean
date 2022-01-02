@@ -1,31 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { FiCalendar, FiClock, FiFolder, FiUsers } from "react-icons/fi";
-
-import { SidebarItem } from ".";
 import { useHistory, useLocation } from "react-router";
 
-const sidebarItems = [
-  {
-    id: 1,
-    path: "/dashboard",
-    title: "Evaluations",
-    icon: FiFolder,
-  },
-  { id: 2, path: "/dashboard/faculties", title: "Faculties", icon: FiUsers },
-  {
-    id: 3,
-    path: "/dashboard/ongoing-evaluations",
-    title: "Ongoing Evaluations",
-    icon: FiClock,
-  },
-  {
-    id: 4,
-    path: "/dashboard/past-evaluations",
-    title: "Past Evaluations",
-    icon: FiCalendar,
-  },
-];
+import { SidebarItem } from ".";
+import sidebarItems from "../../utils/sidebarItems";
 
 export default function SidebarDesktop() {
   const history = useHistory();

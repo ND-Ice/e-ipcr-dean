@@ -8,7 +8,7 @@ import {
   getUser,
   userRequested,
   currentUserReceived,
-  userRequesetFailed,
+  userRequestFailed,
 } from "../store/user";
 import { Alert } from "react-bootstrap";
 import authApi from "../api/auth";
@@ -35,7 +35,7 @@ export default function ChangePassword({ match, history }) {
       dispatch(currentUserReceived(response.data));
       return history.push("/dashboard");
     } catch (error) {
-      return dispatch(userRequesetFailed(error));
+      return dispatch(userRequestFailed(error));
     }
   };
 

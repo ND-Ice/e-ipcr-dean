@@ -12,7 +12,7 @@ import {
   changePasswordRequest,
   getUser,
   userRequested,
-  userRequesetFailed,
+  userRequestFailed,
 } from "../store/user";
 
 const validationSchema = Yup.object().shape({
@@ -31,7 +31,7 @@ export default function PasswordRecoveryPage() {
       const response = await authApi.forgotPassword(values.email);
       return dispatch(changePasswordRequest(response.data));
     } catch (error) {
-      return dispatch(userRequesetFailed(error));
+      return dispatch(userRequestFailed(error));
     }
   };
   return (

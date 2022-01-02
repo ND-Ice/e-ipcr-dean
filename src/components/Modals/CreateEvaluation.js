@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { Alert } from "react-bootstrap";
 
 import { AppForm, FormControl } from "../forms";
-import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../store/user";
 import evaluationsApi from "../../api/evaluations";
 import {
@@ -12,20 +13,18 @@ import {
   evaluationsRequestFailed,
   getEvaluations,
 } from "../../store/evaluations";
-import { Alert } from "react-bootstrap";
 
 const validationSchema = Yup.object().shape({
-  title: Yup.string()
-    .min(10, "This must be atleast 10 characters long.")
-    .required("This Field is required."),
-  due: Yup.date().required("This field is required"),
-  desc: Yup.string(),
+  targetYear: Yup.string().required("This field is required."),
+  due: Yup.date().required("This field is required."),
 });
 
 export default function CreateEvaluation() {
   const user = useSelector(getUser);
   const evaluations = useSelector(getEvaluations);
   const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
@@ -34,28 +33,28 @@ export default function CreateEvaluation() {
         ...values,
         dept: user.currentUser.dept,
       });
+      setSuccessMessage("Created Successfuly");
+      setErrorMessage(null);
       dispatch(evaluationsAdded(response.data));
       return resetForm();
     } catch (error) {
+      setSuccessMessage(null);
+      setErrorMessage(error);
       return dispatch(evaluationsRequestFailed(error.response));
     }
   };
 
   return (
     <AppContainer>
+      <AppHeader>
+        <h5 className="m-0">Create Stream</h5>
+      </AppHeader>
       <AppForm
-        initialValues={{ title: "", due: "", desc: "" }}
+        initialValues={{ targetYear: "", due: "" }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         <ColumnContainer>
-          <FormControl
-            variant="input"
-            title="Evaluation Title"
-            name="title"
-            className="p-2"
-            loading={evaluations.loading}
-          />
           <FormControl
             variant="date"
             title="Due Date"
@@ -63,21 +62,19 @@ export default function CreateEvaluation() {
             className="p-2"
             loading={evaluations.loading}
           />
+          <FormControl
+            variant="input"
+            title="Target Year"
+            name="targetYear"
+            className="p-2"
+            loading={evaluations.loading}
+          />
         </ColumnContainer>
 
-        <FormControl
-          variant="multiline"
-          title="Description"
-          name="desc"
-          className="p-2"
-          loading={evaluations.loading}
-        />
-        {evaluations.successMessage && (
-          <Alert variant="success">{evaluations?.successMessage}</Alert>
-        )}
-        {evaluations.errorMessage && (
+        {successMessage && <Alert variant="success">{successMessage}</Alert>}
+        {errorMessage && (
           <Alert variant="danger">
-            {evaluations.errorMessage.data ||
+            {errorMessage.response.data ||
               "Something went wrong. Please try again later."}
           </Alert>
         )}
@@ -92,13 +89,16 @@ export default function CreateEvaluation() {
   );
 }
 
-const AppContainer = styled.section``;
+const AppContainer = styled.section`
+  padding: 1rem;
+`;
+
+const AppHeader = styled.div`
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.secondary};
+`;
 
 const ColumnContainer = styled.div`
-  display: grid;
-
-  @media (min-width: ${(props) => props.theme.breakpoints.md}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
+  margin-bottom: 1rem;
 `;

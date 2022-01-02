@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { BrandName, IconButton } from "..";
 import { FiX } from "react-icons/fi";
+
+import { BrandName, IconButton } from "..";
 
 export default function Sidebar({ onSidebarToggle, isToggle, children }) {
   return (

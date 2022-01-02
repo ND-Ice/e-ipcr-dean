@@ -6,12 +6,8 @@ const slice = createSlice({
   initialState: {
     loading: false,
     lastFetch: null,
-    errorMessage: null,
-    successMessage: null,
-    preview: null,
     list: [],
-    ongoing: [],
-    past: [],
+    responses: [],
   },
   reducers: {
     evaluationsRequested: (evaluations, action) => {
@@ -19,8 +15,6 @@ const slice = createSlice({
     },
     evaluationsRequestFailed: (evaluations, action) => {
       evaluations.loading = false;
-      evaluations.errorMessage = action.payload;
-      evaluations.successMessage = null;
     },
     evaluationsReceived: (evaluations, action) => {
       evaluations.loading = false;
@@ -30,16 +24,6 @@ const slice = createSlice({
     evaluationsAdded: (evaluations, action) => {
       evaluations.loading = false;
       evaluations.list.push(action.payload);
-      evaluations.successMessage = "Added Successfuly.";
-      evaluations.errorMessage = null;
-    },
-    ongoingReceived: (evaluations, action) => {
-      evaluations.loading = false;
-      evaluations.ongoing = action.payload;
-    },
-    pastReceived: (evaluations, action) => {
-      evaluations.loading = false;
-      evaluations.past = action.payload;
     },
     evaluationPreviewed: (evaluations, action) => {
       evaluations.preview = action.payload;
@@ -53,8 +37,6 @@ export const {
   evaluationsRequested,
   evaluationsRequestFailed,
   evaluationsAdded,
-  ongoingReceived,
-  pastReceived,
   evaluationPreviewed,
 } = slice.actions;
 export default slice.reducer;

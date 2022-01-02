@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { AppForm, FormControl } from "../components/forms";
 import { department } from "../utils";
 import { Links } from "../components";
+
+import deansApi from "../api/deans";
+import {
+  getUser,
+  userRegistered,
+  userRequestFailed,
+  userRequested,
+} from "../store/user";
+import { Alert } from "react-bootstrap";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -21,11 +30,35 @@ const validationSchema = Yup.object().shape({
   birthDate: Yup.date()
     .max(new Date(Date.now() - 567648000000), "You must be at least 18 years")
     .required("This field is required."),
+  password: Yup.string()
+    .min(8, "This should be atleast 8 characters long")
+    .required("This field is required."),
+  repeatPassword: Yup.string().oneOf(
+    [Yup.ref("password"), null],
+    "Passwords must match"
+  ),
 });
 
 export default function RegisterPage() {
   const dispatch = useDispatch();
-  const handleSubmit = (values) => console.log(values);
+  const user = useSelector(getUser);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleSubmit = async (values, { resetForm }) => {
+    try {
+      dispatch(userRequested());
+      const dean = await deansApi.registerDean(values);
+      dispatch(userRegistered(dean.data));
+      setSuccessMessage(dean.data);
+      setErrorMessage(null);
+      return resetForm();
+    } catch (error) {
+      dispatch(userRequestFailed(error));
+      setSuccessMessage(null);
+      return setErrorMessage(error);
+    }
+  };
 
   return (
     <AppContainer>
@@ -38,6 +71,8 @@ export default function RegisterPage() {
             lastName: "",
             birthDate: "",
             dept: "",
+            password: "",
+            repeatPassword: "",
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -51,39 +86,39 @@ export default function RegisterPage() {
               title="First Name"
               name="firstName"
               className="p-2"
-              // loading={deans.loading}
+              loading={user.loading}
             />
             <FormControl
               variant="input"
               title="Last Name"
               name="lastName"
               className="p-2"
-              // loading={deans.loading}
+              loading={user.loading}
             />
             <FormControl
               variant="input"
               title="Middle Name (Optional)"
               name="middleName"
               className="p-2"
-              // loading={deans.loading}
+              loading={user.loading}
             />
-          </NameContainer>
-
-          <FormControl
-            variant="input"
-            title="Email Address"
-            name="email"
-            className="p-2"
-            // loading={deans.loading}
-          />
-          <GridContainer>
             <FormControl
               variant="date"
               title="Birth Date"
               name="birthDate"
               className="p-2"
               menuItems={department}
-              // loading={deans.loading}
+              loading={user.loading}
+            />
+          </NameContainer>
+
+          <GridContainer>
+            <FormControl
+              variant="input"
+              title="Email Address"
+              name="email"
+              className="p-2"
+              loading={user.loading}
             />
             <FormControl
               variant="select"
@@ -91,15 +126,36 @@ export default function RegisterPage() {
               name="dept"
               className="p-2"
               menuItems={department}
-              // loading={deans.loading}
+              loading={user.loading}
+            />
+            <FormControl
+              variant="password"
+              title="Password"
+              name="password"
+              className="p-2"
+              loading={user.loading}
+            />
+            <FormControl
+              variant="password"
+              title="Repeat Password"
+              name="repeatPassword"
+              className="p-2"
+              loading={user.loading}
             />
           </GridContainer>
+          {successMessage && <Alert variant="success">{successMessage}</Alert>}
+          {errorMessage && (
+            <Alert variant="danger">
+              {errorMessage.response.data ||
+                "Something went wrong. Please try again later."}
+            </Alert>
+          )}
           <div className="d-flex align-items-center justify-content-between">
             <FormControl
               variant="button"
               title="Register"
               className="p-2"
-              // loading={deans.loading}
+              loading={user.loading}
             />
             <Links to="/" title="Back to Login" />
           </div>
@@ -120,7 +176,7 @@ const FormContainer = styled.div`
   width: 100%;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    max-width: 500px;
+    max-width: 600px;
   }
 `;
 

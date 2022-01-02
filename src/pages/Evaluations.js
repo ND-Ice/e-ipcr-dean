@@ -14,13 +14,15 @@ import {
   getEvaluations,
 } from "../store/evaluations";
 import { getUser } from "../store/user";
+import { Button, Modal } from "react-bootstrap";
 
 export default function Evaluations({ history }) {
   const [isActive, setIsActive] = useState(false);
 
   const user = useSelector(getUser);
-  const evaluations = useSelector(getEvaluations);
   const dispatch = useDispatch();
+  const evaluations = useSelector(getEvaluations);
+  console.log(evaluations);
 
   useEffect(() => {
     fetchEvaluations(user.currentUser.dept);
@@ -41,14 +43,8 @@ export default function Evaluations({ history }) {
   return (
     <AppContainer>
       <AppHeader>
-        <h2>List of Evaluations</h2>
-        <IconButton
-          icon={FiPlus}
-          size={40}
-          bg="#0064f9"
-          iconColor="#ffffff"
-          onClick={handleCreateEvaluation}
-        />
+        <h4 className="m-0">Evaluations</h4>
+        <Button onClick={handleCreateEvaluation}>Create</Button>
       </AppHeader>
       {evaluations.loading ? (
         <MyLoader />
@@ -65,13 +61,9 @@ export default function Evaluations({ history }) {
           ))}
         </AppContent>
       )}
-      <CustomModal
-        show={isActive}
-        onHide={handleCreateEvaluation}
-        heading="Create Evaluation Stream"
-      >
+      <Modal centered show={isActive} size="md" onHide={handleCreateEvaluation}>
         <CreateEvaluation />
-      </CustomModal>
+      </Modal>
     </AppContainer>
   );
 }
@@ -82,23 +74,14 @@ const AppContainer = styled.div`
 
 const AppHeader = styled.div`
   margin-bottom: 1rem;
-  border-bottom: 4px solid rgba(0, 0, 0, 0.1);
   padding: 0.5rem 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.secondary};
 `;
 
 const AppContent = styled.div`
   display: grid;
   gap: 1rem;
-
-  @media (min-width: ${(props) => props.theme.breakpoints.md}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-
-  @media (min-width: ${(props) => props.theme.breakpoints.lg}) {
-    grid-template-columns: repeat(3, 1fr);
-  }
 `;

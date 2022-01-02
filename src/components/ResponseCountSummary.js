@@ -1,50 +1,80 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Button } from "react-bootstrap";
+import moment from "moment";
+import { useSelector } from "react-redux";
 
-export default function ResponseCountSummary() {
+import { CustomModal } from ".";
+import { getEvaluationResponses } from "../store/response";
+import { AllResponse, Late } from "./Modals";
+
+export default function ResponseCountSummary({ evaluation }) {
+  const [showAllResponse, setShowAllResponse] = useState(false);
+  const [showlateResponse, setShowLateResponse] = useState(false);
+  const { preview } = evaluation;
+
+  const { list } = useSelector(getEvaluationResponses);
+  const late = list?.filter((response) =>
+    moment(parseInt(response?.dateSubmitted)).isAfter(preview?.due)
+  );
+
   return (
     <Container>
-      <h4>Responses</h4>
       <SummaryItems>
-        <SummaryItem>
-          All Responses <Badge bg="#0064f9">{20}</Badge>
+        <SummaryItem onClick={() => setShowAllResponse(true)}>
+          All Responses
+          <Badge bg="#0064f9">{list?.length}</Badge>
         </SummaryItem>
-        <SummaryItem>
-          Missing <Badge bg="#EF4444">{2}</Badge>
-        </SummaryItem>
-        <SummaryItem>
-          Late <Badge bg="#f0c810">{3}</Badge>
+        <SummaryItem onClick={() => setShowLateResponse(true)}>
+          Late Responses <Badge bg="#f0c810">{late?.length}</Badge>
         </SummaryItem>
       </SummaryItems>
-      <Button className="w-100">View All</Button>
+
+      <Divider />
+      <SummaryItem onClick={() => setShowAllResponse(true)}>
+        View All
+      </SummaryItem>
+      <CustomModal
+        fullscreen={true}
+        show={showAllResponse}
+        heading={`Individual Performance Commitment Review (IPCR) ${
+          preview?.targetYear - 1
+        }-${preview?.targetYear}`}
+        onHide={() => setShowAllResponse(false)}
+      >
+        <AllResponse />
+      </CustomModal>
+
+      {/* lates */}
+      <CustomModal
+        fullscreen={true}
+        show={showlateResponse}
+        heading={`Individual Performance Commitment Review (IPCR) ${
+          preview?.targetYear - 1
+        }-${preview?.targetYear}`}
+        onHide={() => setShowLateResponse(false)}
+      >
+        <Late response={late} />
+      </CustomModal>
     </Container>
   );
 }
 
-const Container = styled.div`
-  padding: 1rem;
-  background: ${(props) => props.theme.colors.secondary};
-  border-radius: 0.5rem;
-  height: max-content;
-`;
+const Container = styled.div``;
 
 const SummaryItems = styled.div`
-  margin: 0.5rem 0;
-  padding: 0.5rem 0;
-  border: 4px solid white;
-  border-left: 0;
-  border-right: 0;
+  margin: 5px 0;
 `;
 
 const SummaryItem = styled.div`
   margin: 2px 0;
   cursor: pointer;
-  font-size: 1.2rem;
   display: flex;
   align-items: center;
-  background: #ffffff;
   padding: 1rem;
+
+  :hover {
+    background: ${({ theme }) => theme.colors.secondary};
+  }
 `;
 
 const Badge = styled.span`
@@ -58,4 +88,11 @@ const Badge = styled.span`
   color: ${(props) => props.theme.colors.white};
   background: ${(props) => props.bg};
   border-radius: 1rem;
+`;
+
+const Divider = styled.div`
+  width: 100%;
+  height: 1px;
+  margin-bottom: 0.5rem;
+  background: ${({ theme }) => theme.colors.secondary};
 `;

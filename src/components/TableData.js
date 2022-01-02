@@ -24,8 +24,9 @@ export default function TableData({ userInfo, onNavigate }) {
       <TableDataItem>{userInfo.name.firstName}</TableDataItem>
       <TableDataItem>{userInfo.name.lastName}</TableDataItem>
       <TableDataItem>
-        <Badge dept={userInfo.dept}>{userInfo.dept}</Badge>
+        <Badge college={userInfo?.college?.acronym}>{userInfo.dept}</Badge>
       </TableDataItem>
+      <TableDataItem>{userInfo?.position}</TableDataItem>
       <TableDataItem>
         {diffInHours < 5 ? <NewBadge>New</NewBadge> : null}
       </TableDataItem>
@@ -48,7 +49,7 @@ const Badge = styled.span`
   border-radius: 1rem;
   font-size: 12px;
   color: ${({ theme }) => theme.colors.white};
-  background: ${({ dept }) => getLetterAvatarBg(dept)};
+  background: ${({ college }) => getLetterAvatarBg(college)};
 `;
 
 const TableDataItem = styled.td`

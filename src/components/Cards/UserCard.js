@@ -27,7 +27,7 @@ export default function UserCard({ user, onClick }) {
             {user?.name?.firstName} {user?.name?.lastName}
           </h4>
           <p className="email-address text-muted mb-0">{user?.email}</p>
-          <Badge user={user.dept}>{user?.dept}</Badge>
+          <Badge user={user.college.acronym}>{user.college.acronym}</Badge>
         </InformationContainer>
       </CardHeader>
       {diffInHours < 5 && <NewBadge>New </NewBadge>}

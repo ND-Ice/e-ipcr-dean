@@ -1,5 +1,4 @@
 export { default as LoginPage } from "./LoginPage";
-export { default as ActivateAccount } from "./ActivateAccount";
 export { default as PasswordRecoveryPage } from "./PasswordRecoveryPage";
 export { default as Me } from "./Me";
 export { default as Dashboard } from "./Dashboard";
@@ -14,3 +13,4 @@ export { default as FilteredEvaluationResult } from "./FilteredEvaluationResult"
 export { default as FilteredSentimentResult } from "./FilteredSentimentResult";
 export { default as ChangePassword } from "./ChangePassword";
 export { default as RegisterPage } from "./RegisterPage";
+export { default as Response } from "./Response";

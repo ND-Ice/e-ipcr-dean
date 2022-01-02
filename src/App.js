@@ -6,6 +6,7 @@ import {
   LoginPage,
   PasswordRecoveryPage,
   RegisterPage,
+  Response,
 } from "./pages";
 
 import { Provider } from "react-redux";
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/forgot-password" component={PasswordRecoveryPage} />
           <ProtectedRoute path="/dashboard" component={Dashboard} />
           <Route path="/change-password/:id" component={ChangePassword} />
+          <Route path="/response/:id" component={Response} />
           <Route path="/" component={LoginPage} />
         </Switch>
       </PersistGate>

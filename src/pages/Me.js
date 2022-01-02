@@ -21,7 +21,7 @@ export default function Me() {
 }
 
 const AppContainer = styled.section`
-  padding: 1rem;
+  padding: 0.5rem;
   display: grid;
   gap: 0.5rem;
   border-radius: 0.5rem;

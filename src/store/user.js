@@ -13,28 +13,26 @@ const slice = createSlice({
     userRequested: (user, action) => {
       user.loading = true;
     },
-    userRequesetFailed: (user, action) => {
+    userRequestFailed: (user, action) => {
       user.loading = false;
-      user.errorMessage = action.payload;
-      user.successMessage = null;
     },
     currentUserReceived: (user, action) => {
       user.loading = false;
       user.currentUser = action.payload;
-      user.errorMessage = null;
     },
     accountActivated: (user, action) => {
       user.loading = false;
       user.successMessage = action.payload;
-      user.errorMessage = null;
     },
     changePasswordRequest: (user, action) => {
       user.loading = false;
-      user.successMessage = action.payload;
-      user.errorMessage = null;
     },
     userLoggedOut: (user, action) => {
       user.currentUser = null;
+      localStorage.removeItem("persist:root");
+    },
+    userRegistered: (user, action) => {
+      user.loading = false;
     },
   },
 });
@@ -43,9 +41,10 @@ export const {
   currentUserReceived,
   accountActivated,
   userRequested,
-  userRequesetFailed,
+  userRequestFailed,
   changePasswordRequest,
   userLoggedOut,
+  userRegistered,
 } = slice.actions;
 export default slice.reducer;
 
