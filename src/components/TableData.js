@@ -4,7 +4,6 @@ import moment from "moment";
 
 import { Avatar, LetterAvatar } from ".";
 import { getLetterAvatarBg } from "../utils";
-import { useState } from "react";
 
 export default function TableData({ userInfo, onNavigate }) {
   const [imageError, setImageError] = useState(false);
