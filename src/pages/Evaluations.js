@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { EvaluationCard } from "../components/Cards";
 import styled from "styled-components";
-import { CustomModal, IconButton, MyLoader } from "../components";
-import { FiPlus } from "react-icons/fi";
+import { MyLoader } from "../components";
 import { CreateEvaluation } from "../components/Modals";
 import { useDispatch, useSelector } from "react-redux";
 

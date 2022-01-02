@@ -16,7 +16,6 @@ import {
   FilteredEvaluationResult,
   FilteredSentimentResult,
   Me,
-  Response,
 } from ".";
 import { useSelector } from "react-redux";
 import { getUser } from "../store/user";

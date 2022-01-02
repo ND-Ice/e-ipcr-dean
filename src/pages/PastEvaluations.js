@@ -13,7 +13,7 @@ export default function PastEvaluations({ history }) {
 
   const pastEvaluations = list.filter((evaluation) => {
     const isDue = moment(evaluation.due).isAfter(Date.now());
-    if (isDue) return;
+    if (isDue) return null;
     return evaluation;
   });
 

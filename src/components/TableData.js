@@ -8,14 +8,16 @@ import { getLetterAvatarBg } from "../utils";
 export default function TableData({ userInfo, onNavigate }) {
   const [imageError, setImageError] = useState(false);
   const diffInHours = moment().diff(
-    moment(parseInt(userInfo.timeStamp)),
+    moment(parseInt(userInfo?.timeStamp)),
     "hours"
   );
+
+  console.log(userInfo);
 
   return (
     <TableDataRow onClick={() => onNavigate(userInfo._id)}>
       <TableDataItem>
-        {userInfo.image.current && !imageError ? (
+        {userInfo?.image?.current && !imageError ? (
           <Avatar
             user={userInfo}
             size={40}

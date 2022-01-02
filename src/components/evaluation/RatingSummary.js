@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Button, Form, Modal, Table } from "react-bootstrap";
+import { Button, Modal, Table } from "react-bootstrap";
 
 import { getRemarks, getSentiment } from "../../utils";
 import { useSelector } from "react-redux";

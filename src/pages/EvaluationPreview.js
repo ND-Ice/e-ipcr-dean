@@ -4,7 +4,7 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { FiCalendar } from "react-icons/fi";
 
-import { ResponseCountSummary, SentimentSummary } from "../components";
+import { ResponseCountSummary } from "../components";
 
 import evaluationsApi from "../api/evaluations";
 import responseApi from "../api/response";

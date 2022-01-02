@@ -30,18 +30,16 @@ export default function ResponseData({ response, onPreview }) {
     }
   };
 
+  console.log(user);
+
   return (
     <TableRow isLate={isLate} onClick={() => onPreview(response?._id)}>
       <TableData>
         <div>
-          {imageError || !user?.image?.current ? (
-            <LetterAvatar user={user} size={30} />
+          {user?.image?.current && !imageError ? (
+            <Avatar user={user} size={30} onError={() => setImageError(true)} />
           ) : (
-            <Avatar
-              user={user}
-              size={30}
-              onError={() => setImageError(false)}
-            />
+            <LetterAvatar user={user} size={30} />
           )}
         </div>
       </TableData>

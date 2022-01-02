@@ -13,12 +13,12 @@ import {
 } from "../store/user";
 
 export default function UpdateProfilePicture({ user, open }) {
+  const dispatch = useDispatch();
   const hiddenFileUpdload = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
-
-  const dispatch = useDispatch();
-  const userProps = useSelector(getUser);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handlePick = () => hiddenFileUpdload.current.click();
 
@@ -32,12 +32,21 @@ export default function UpdateProfilePicture({ user, open }) {
 
   const handleUpdate = async () => {
     try {
+      setLoading(true);
       dispatch(userRequested());
-      const dean = await deansApi.udpateProfilePicture(user._id, selectedImage);
+      const dean = await deansApi.udpateProfilePicture(
+        user?._id,
+        selectedImage
+      );
       setSuccessMessage("Updated Successfuly.");
+      setErrorMessage(null);
       dispatch(currentUserReceived(dean.data));
+      setLoading(false);
       return open(false);
     } catch (error) {
+      setSuccessMessage(null);
+      setErrorMessage(error);
+      setLoading(false);
       return dispatch(userRequestFailed(error));
     }
   };
@@ -55,7 +64,12 @@ export default function UpdateProfilePicture({ user, open }) {
           />
         </Button>
         {selectedImage && (
-          <Button onClick={handleDelete} variant="danger" className="mx-1">
+          <Button
+            disabled={loading}
+            onClick={handleDelete}
+            variant="danger"
+            className="mx-1"
+          >
             Delete
           </Button>
         )}
@@ -65,13 +79,13 @@ export default function UpdateProfilePicture({ user, open }) {
           src={
             selectedImage
               ? URL.createObjectURL(selectedImage)
-              : user.image.current || avatarImg
+              : user?.image?.current || avatarImg
           }
         />
       </ImageContainer>
-      {userProps.errorMessage && (
+      {errorMessage && (
         <Alert variant="danger">
-          {userProps?.errorMessage?.response?.data ||
+          {errorMessage?.response?.data ||
             "Something went wrong. Please try again later."}
         </Alert>
       )}

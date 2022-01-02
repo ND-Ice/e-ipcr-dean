@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import moment from "moment";
 import { useSelector } from "react-redux";
 import { getFaculties } from "../store/faculties";
-import moment from "moment";
 
 import {
   Avatar,
@@ -10,13 +10,7 @@ import {
   LetterAvatar,
   ProfileItem,
 } from "../components";
-import {
-  FiCalendar,
-  FiMail,
-  FiMapPin,
-  FiPhoneCall,
-  FiEdit,
-} from "react-icons/fi";
+import { FiCalendar, FiMail, FiMapPin, FiPhoneCall } from "react-icons/fi";
 
 export default function FacultyPreview({ match }) {
   const [imageError, setImageError] = useState(false);
@@ -31,7 +25,7 @@ export default function FacultyPreview({ match }) {
     <AppContainer>
       <div>
         <ProfileContainer>
-          {!faculty.image.current || imageError ? (
+          {!faculty?.image?.current || imageError ? (
             <LetterAvatar user={faculty} size={100} />
           ) : (
             <Avatar
@@ -41,9 +35,9 @@ export default function FacultyPreview({ match }) {
             />
           )}
           <h3 className="mt-2">
-            {faculty.name.firstName} {faculty.name.lastName}
+            {faculty?.name?.firstName} {faculty?.name?.lastName}
           </h3>
-          <p>{faculty.college.full}</p>
+          <p>{faculty?.college?.full}</p>
         </ProfileContainer>
 
         {/*  primary information */}
@@ -54,31 +48,31 @@ export default function FacultyPreview({ match }) {
           <ProfileItem
             title="Email Address"
             icon={FiMail}
-            text={faculty.email}
+            text={faculty?.email}
           />
           <ProfileItem
             title="Contact Number"
             icon={FiPhoneCall}
-            text={faculty.contact || "Not yet defined."}
+            text={faculty?.contact || "Not yet defined."}
           />
           <ProfileItem
             title="Birth Date"
             icon={FiCalendar}
             text={`Born in, ${
-              moment(faculty.birthDate).format("LL") || "Not yet defined."
+              moment(faculty?.birthDate).format("LL") || "Not yet defined."
             }`}
           />
           <ProfileItem
             title="Address"
             icon={FiMapPin}
             text={
-              faculty.address.houseNumber &&
-              faculty.address.street &&
-              faculty.address.barangay &&
-              faculty.address.barangay &&
-              faculty.address.city &&
-              faculty.address.province
-                ? `${faculty.address.houseNumber} ${faculty.address.street} ${faculty.address.barangay} ${faculty.address.city} ${faculty.address.province}`
+              faculty?.address?.houseNumber &&
+              faculty?.address?.street &&
+              faculty?.address?.barangay &&
+              faculty?.address?.barangay &&
+              faculty?.address?.city &&
+              faculty?.address?.province
+                ? `${faculty?.address?.houseNumber} ${faculty?.address?.street} ${faculty?.address?.barangay} ${faculty?.address?.city} ${faculty?.address?.province}`
                 : "Not yet defined."
             }
           />
@@ -121,7 +115,7 @@ export default function FacultyPreview({ match }) {
           />
           <BasicInfoItem
             title="Highest qualification"
-            item={faculty.qualification || "Not yet defined."}
+            item={faculty?.qualification || "Not yet defined."}
           />
         </Content>
       </BasicContainer>

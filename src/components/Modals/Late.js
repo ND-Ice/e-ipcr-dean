@@ -6,7 +6,6 @@ import { useHistory } from "react-router-dom";
 
 import { Filter, ResponseData } from "..";
 import { getFaculties } from "../../store/faculties";
-import { getEvaluationResponses } from "../../store/response";
 import { getRemarks, getSentiment } from "../../utils";
 import moment from "moment";
 import { getEvaluations } from "../../store/evaluations";

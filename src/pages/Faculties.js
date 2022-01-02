@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Button, Table } from "react-bootstrap";
 
-import { FiSearch } from "react-icons/fi";
-import { Filter, IconButton, MyLoader, TableData } from "../components";
+import { Filter, MyLoader, TableData } from "../components";
 
 import facultiesApi from "../api/faculties";
 import { useDispatch, useSelector } from "react-redux";
