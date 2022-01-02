@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
 
 import { Avatar, LetterAvatar } from ".";
 import { getLetterAvatarBg } from "../utils";
+import { useState } from "react";
 
 export default function TableData({ userInfo, onNavigate }) {
+  const [imageError, setImageError] = useState(false);
   const diffInHours = moment().diff(
     moment(parseInt(userInfo.timeStamp)),
     "hours"
@@ -14,17 +16,21 @@ export default function TableData({ userInfo, onNavigate }) {
   return (
     <TableDataRow onClick={() => onNavigate(userInfo._id)}>
       <TableDataItem>
-        {userInfo.image.current ? (
-          <Avatar user={userInfo} size={40} />
+        {userInfo.image.current && !imageError ? (
+          <Avatar
+            user={userInfo}
+            size={40}
+            onError={() => setImageError(true)}
+          />
         ) : (
           <LetterAvatar user={userInfo} size={40} />
         )}
       </TableDataItem>
-      <TableDataItem>{userInfo.email}</TableDataItem>
-      <TableDataItem>{userInfo.name.firstName}</TableDataItem>
-      <TableDataItem>{userInfo.name.lastName}</TableDataItem>
+      <TableDataItem>{userInfo?.email}</TableDataItem>
+      <TableDataItem>{userInfo?.name?.firstName}</TableDataItem>
+      <TableDataItem>{userInfo.name?.lastName}</TableDataItem>
       <TableDataItem>
-        <Badge college={userInfo?.college?.acronym}>{userInfo.dept}</Badge>
+        <Badge college={userInfo?.college?.acronym}>{userInfo?.dept}</Badge>
       </TableDataItem>
       <TableDataItem>{userInfo?.position}</TableDataItem>
       <TableDataItem>

@@ -62,7 +62,7 @@ export default function Evaluations({ history }) {
         </AppContent>
       )}
       <Modal centered show={isActive} size="md" onHide={handleCreateEvaluation}>
-        <CreateEvaluation />
+        <CreateEvaluation open={setIsActive} />
       </Modal>
     </AppContainer>
   );

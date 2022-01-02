@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
   due: Yup.date().required("This field is required."),
 });
 
-export default function CreateEvaluation() {
+export default function CreateEvaluation({ open }) {
   const user = useSelector(getUser);
   const evaluations = useSelector(getEvaluations);
   const dispatch = useDispatch();
@@ -31,12 +31,13 @@ export default function CreateEvaluation() {
       dispatch(evaluationsRequested());
       const response = await evaluationsApi.createEvaluation({
         ...values,
-        dept: user.currentUser.dept,
+        dept: user?.currentUser?.dept,
       });
       setSuccessMessage("Created Successfuly");
       setErrorMessage(null);
       dispatch(evaluationsAdded(response.data));
-      return resetForm();
+      resetForm();
+      return open(false);
     } catch (error) {
       setSuccessMessage(null);
       setErrorMessage(error);
