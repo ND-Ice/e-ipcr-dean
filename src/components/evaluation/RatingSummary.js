@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Button, Modal, Table } from "react-bootstrap";
+import { Button, FloatingLabel, Form, Modal, Table } from "react-bootstrap";
 
 import { getRemarks, getSentiment } from "../../utils";
 import { useSelector } from "react-redux";
@@ -17,6 +17,7 @@ export default function RatingSummary({ response }) {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [recommendations, setRecommendations] = useState(null);
 
   // get the core functions ratings
   const coreFuncRating = coreFunctions?.map((coreFunc) => {
@@ -44,6 +45,8 @@ export default function RatingSummary({ response }) {
       await responseApi.rateEvaluation(
         _id,
         currentUser,
+        Date.now(),
+        recommendations,
         coreFunctions,
         supportFunctions,
         finalRating
@@ -52,13 +55,13 @@ export default function RatingSummary({ response }) {
       return history.goBack();
     } catch (error) {
       setLoading(false);
-      return console.log(error);
+      return setErrorMessage(error);
     }
   };
 
   return (
     <Container>
-      <Table bordered>
+      <Table bordered hover>
         <tbody>
           <tr>
             <td className="p-3">
@@ -68,32 +71,24 @@ export default function RatingSummary({ response }) {
               <h5 className="m-0"> Average</h5>
             </td>
             <td className="p-3">
-              <h5 className="m-0"> Percent</h5>
+              <h5 className="m-0"> Percentage</h5>
             </td>
             <td className="p-3">
               <h5 className="m-0"> Score</h5>
             </td>
           </tr>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td colSpan={4}></td>
           </tr>
           <tr>
-            <td className="p-3">
-              <h5 className="m-0"> Core Functions </h5>
+            <td className="p-3" colSpan={4}>
+              <h6 className="m-0"> Core Functions </h6>
             </td>
-            <td></td>
-            <td></td>
-            <td></td>
           </tr>
           {/* core functions */}
           {coreFunctions?.map((coreFunc) => (
             <tr key={coreFunc?.id}>
-              <td className="p-3">
-                <h6 className="m-0">{coreFunc?.title} </h6>
-              </td>
+              <td className="p-3">{coreFunc?.title}</td>
               <td className="p-3">
                 {(
                   coreFunc?.rawAverage?.reduce((acc, curr) => acc + curr, 0) /
@@ -112,27 +107,19 @@ export default function RatingSummary({ response }) {
           ))}
 
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td colSpan={4}></td>
           </tr>
 
           {/* support functions */}
           <tr>
-            <td className="p-3">
-              <h5 className="m-0">Support Functions </h5>
+            <td className="p-3" colSpan={4}>
+              <h6 className="m-0">Support Functions </h6>
             </td>
-            <td></td>
-            <td></td>
-            <td></td>
           </tr>
 
           {supportFunctions?.map((suppFunc) => (
             <tr key={suppFunc?.id}>
-              <td className="p-3">
-                <h6 className="m-0">{suppFunc?.title} </h6>
-              </td>
+              <td className="p-3">{suppFunc?.title}</td>
               <td className="p-3">
                 {(
                   suppFunc?.rawAverage?.reduce((acc, curr) => acc + curr, 0) /
@@ -150,17 +137,10 @@ export default function RatingSummary({ response }) {
             </tr>
           ))}
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
-          <tr>
-            <td className="bg-primary text-white"></td>
-            <td className="bg-primary text-white">Final Rating</td>
-            <td className="bg-primary text-white">Final Remarks</td>
-            <td className="bg-primary text-white">Final Sentiment</td>
+            <td className="bg-secondary text-white"></td>
+            <td className="bg-secondary text-white">Final Rating</td>
+            <td className="bg-secondary text-white">Final Remarks</td>
+            <td className="bg-secondary text-white">Final Sentiment</td>
           </tr>
           <tr>
             <td></td>
@@ -170,6 +150,19 @@ export default function RatingSummary({ response }) {
           </tr>
         </tbody>
       </Table>
+
+      <FloatingLabel
+        controlId="floatingTextarea2"
+        label="Comments and Reccomendations"
+        className="mb-3"
+      >
+        <Form.Control
+          as="textarea"
+          placeholder="Leave a comment here"
+          style={{ height: "100px" }}
+          onChange={(e) => setRecommendations(e.target.value)}
+        />
+      </FloatingLabel>
       <Button onClick={() => setShow(true)}>Submit</Button>
 
       <Modal show={show} onHide={() => setShow(false)}>

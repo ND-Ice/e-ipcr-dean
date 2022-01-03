@@ -71,33 +71,20 @@ export default function AllResponse() {
           onSelectItem={handleSelectRemarks}
         />
       </FilterContainer>
-      <Table>
+      <Table className="w-100">
         <tbody>
           <tr>
-            <td>Profile</td>
-            <td>First Name</td>
-            <td>Last Name</td>
-            <td>Email Address</td>
+            <td>Respondent</td>
             <td>Date Submitted</td>
-            <td>Response Code</td>
+            <td>Assesed and Approved By</td>
+            <td>Approved Date</td>
             <td>Final Average</td>
             <td>Final Remraks</td>
             <td>Final Sentiment</td>
-            <td>Approved by</td>
             <td>Status</td>
           </tr>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td colSpan={8}></td>
           </tr>
           {filteredByRemarks?.map((response) => (
             <ResponseData

@@ -16,7 +16,7 @@ export default function Supportfunctions({ response }) {
 
   return (
     <Container>
-      <Table bordered>
+      <Table bordered hover>
         <tbody>
           <tr>
             <td>
@@ -33,39 +33,19 @@ export default function Supportfunctions({ response }) {
             </td>
           </tr>
           <tr>
-            <td>
+            <td colSpan={4}>
               <h6> Support Functions - 10% </h6>
-            </td>
-            <td></td>
-            <td></td>
-            <td>
-              <Table bordered>
-                <tbody>
-                  <tr>
-                    <td className="p-4">Q</td>
-                    <td className="p-4">T</td>
-                    <td className="p-4">E</td>
-                    <td className="p-4">Average</td>
-                    <td className="p-4">Remarks</td>
-                  </tr>
-                </tbody>
-              </Table>
             </td>
           </tr>
           {supportFunctions?.map((suppFunc) => (
             <React.Fragment key={suppFunc?.id}>
               <tr>
-                <td>
+                <td colSpan={4}>
                   <h6>
                     {suppFunc?.title} ({suppFunc.percentage}%)
                   </h6>
-                  {suppFunc?.description && (
-                    <Description>{suppFunc?.description}</Description>
-                  )}
+                  {suppFunc?.description && <p>{suppFunc?.description}</p>}
                 </td>
-                <td></td>
-                <td></td>
-                <td></td>
               </tr>
               {suppFunc?.successIndicators?.map((successIndicator) => (
                 <tr key={successIndicator?.id}>
@@ -138,12 +118,6 @@ export default function Supportfunctions({ response }) {
                   </td>
                 </tr>
               ))}
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
             </React.Fragment>
           ))}
         </tbody>

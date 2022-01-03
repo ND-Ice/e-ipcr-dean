@@ -15,7 +15,7 @@ export default function CoreFunctions({ response }) {
   const [showRateCoreFunctions, setShowRateCoreFunctions] = useState(false);
   return (
     <Container>
-      <Table bordered>
+      <Table bordered hover>
         <tbody>
           <tr>
             <td>
@@ -32,30 +32,14 @@ export default function CoreFunctions({ response }) {
             </td>
           </tr>
           <tr>
-            <td>
+            <td colSpan={4}>
               <h5 className="m-0">Core Functions - 90% </h5>
             </td>
-            <td></td>
-            <td></td>
-            <td>
-              <Table bordered>
-                <tbody>
-                  <tr>
-                    <td className="p-4">Q</td>
-                    <td className="p-4">T</td>
-                    <td className="p-4">E</td>
-                    <td className="p-4">Average</td>
-                    <td className="p-4">Remarks</td>
-                  </tr>
-                </tbody>
-              </Table>
-            </td>
-            {/*  */}
           </tr>
           {coreFunctions?.map((coreFunc) => (
             <React.Fragment key={coreFunc?.id}>
               <tr>
-                <td>
+                <td colSpan={4}>
                   <h6>
                     {coreFunc?.title} ({coreFunc.percentage}%)
                   </h6>
@@ -63,9 +47,6 @@ export default function CoreFunctions({ response }) {
                     <Description>{coreFunc?.description}</Description>
                   )}
                 </td>
-                <td></td>
-                <td></td>
-                <td></td>
               </tr>
               {coreFunc?.successIndicators?.map((successIndicator) => (
                 <tr key={successIndicator?.id}>
@@ -136,12 +117,6 @@ export default function CoreFunctions({ response }) {
                   </td>
                 </tr>
               ))}
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
             </React.Fragment>
           ))}
         </tbody>

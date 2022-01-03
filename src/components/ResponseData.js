@@ -24,7 +24,7 @@ export default function ResponseData({ response, onPreview }) {
   const getUser = async (id) => {
     try {
       const faculty = await facultiesApi.getFaculty(id);
-      setUser(faculty.data);
+      return setUser(faculty.data);
     } catch (error) {
       console.log(error);
     }
@@ -33,21 +33,44 @@ export default function ResponseData({ response, onPreview }) {
   return (
     <TableRow isLate={isLate} onClick={() => onPreview(response?._id)}>
       <TableData>
-        <div>
-          {user?.image?.current && !imageError ? (
-            <Avatar user={user} size={30} onError={() => setImageError(true)} />
-          ) : (
-            <LetterAvatar user={user} size={30} />
-          )}
+        <div className="d-flex align-items-center">
+          <div>
+            {user?.image?.current && !imageError ? (
+              <Avatar
+                user={user}
+                size={45}
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <LetterAvatar user={user} size={45} />
+            )}
+          </div>
+          <div className="ms-3">
+            <p className="m-0">
+              {user?.name?.firstName} {user?.name?.lastName}
+            </p>
+            <p className="m-0 text-muted">{user?.email}</p>
+          </div>
         </div>
       </TableData>
-      <TableData>{user?.name?.firstName}</TableData>
-      <TableData>{user?.name?.lastName}</TableData>
-      <TableData>{user?.email}</TableData>
       <TableData>
         {moment(parseInt(response?.dateSubmitted)).format("LL")}
       </TableData>
-      <TableData>{response?._id}</TableData>
+      <TableData>
+        {response?.isApproved && (
+          <p className="m-0">
+            {response?.isApproved?.approvedBy?.name?.firstName}{" "}
+            {response?.isApproved?.approvedBy?.name?.lastName}
+          </p>
+        )}
+      </TableData>
+      <TableData>
+        {response.isApproved && (
+          <p className="m-0">
+            {moment(parseInt(response?.isApproved?.approvedDate)).format("LL")}
+          </p>
+        )}
+      </TableData>
       <TableData>{response?.ratings?.average || "Pending"}</TableData>
       <TableData>
         {getRemarks(response?.ratings?.average) || "Pending"}
@@ -55,12 +78,6 @@ export default function ResponseData({ response, onPreview }) {
       <TableData>
         {getSentiment(response?.ratings?.average) || "Pending"}
       </TableData>
-      {
-        <TableData>
-          {response?.isApproved?.approvedBy?.name?.firstName}{" "}
-          {response?.isApproved?.approvedBy?.name?.lastName}
-        </TableData>
-      }
       <TableData>
         {response?.isApproved ? (
           <Approved>Approved</Approved>

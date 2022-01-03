@@ -6,6 +6,8 @@ const getEvaluationResponse = (evaluationId) =>
 const rateEvaluation = (
   responseId,
   user,
+  dateRated,
+  recommendation,
   coreFunctions,
   supportFunctions,
   average
@@ -13,6 +15,8 @@ const rateEvaluation = (
   client.put(`/response/${responseId}`, {
     isApproved: {
       approvedBy: user,
+      approvedDate: dateRated,
+      recommendation: recommendation,
     },
     coreFunctions,
     supportFunctions,
