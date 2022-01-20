@@ -105,7 +105,8 @@ export default function UpdateBasicInformation({ user, open }) {
 
         <FormControl
           variant="button"
-          title="Save"
+          className="mt-2"
+          title={userProps.loading ? "Saving Changes..." : "Save Changes"}
           loading={userProps.loading}
         />
       </AppForm>

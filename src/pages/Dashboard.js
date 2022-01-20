@@ -16,6 +16,12 @@ import {
   FilteredEvaluationResult,
   FilteredSentimentResult,
   Me,
+  Template,
+  CreateTemplate,
+  AllResponse,
+  LateResponses,
+  ToApproved,
+  Approved,
 } from ".";
 import { useSelector } from "react-redux";
 import { getUser } from "../store/user";
@@ -48,10 +54,16 @@ export default function Dashboard() {
             path="/dashboard/evaluations/sentiment/:result"
             component={FilteredSentimentResult}
           />
+          <Route path="/dashboard/template" component={Template} />
+          <Route path="/dashboard/create-template" component={CreateTemplate} />
           <Route
             path="/dashboard/evaluations/:id"
             component={EvaluationPreview}
           />
+          <Route path="/dashboard/responses" component={AllResponse} />
+          <Route path="/dashboard/late-responses" component={LateResponses} />
+          <Route path="/dashboard/to-approved" component={ToApproved} />
+          <Route path="/dashboard/approved" component={Approved} />
           <Route path="/dashboard" component={Evaluations} />
         </Switch>
       </AppContainer>

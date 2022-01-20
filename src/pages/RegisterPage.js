@@ -37,7 +37,13 @@ const validationSchema = Yup.object().shape({
     [Yup.ref("password"), null],
     "Passwords must match"
   ),
+  position: Yup.string().required("this Field is required."),
 });
+
+const positions = [
+  { id: 1, value: "Evaluator" },
+  { id: 2, value: "HR" },
+];
 
 export default function RegisterPage() {
   const dispatch = useDispatch();
@@ -73,6 +79,7 @@ export default function RegisterPage() {
             dept: "",
             password: "",
             repeatPassword: "",
+            position: "",
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -107,7 +114,6 @@ export default function RegisterPage() {
               title="Birth Date"
               name="birthDate"
               className="p-2"
-              menuItems={department}
               loading={user.loading}
             />
           </NameContainer>
@@ -143,6 +149,14 @@ export default function RegisterPage() {
               loading={user.loading}
             />
           </GridContainer>
+          <FormControl
+            variant="select"
+            title="Position"
+            name="position"
+            className="p-2"
+            menuItems={positions}
+            loading={user.loading}
+          />
           {successMessage && <Alert variant="success">{successMessage}</Alert>}
           {errorMessage && (
             <Alert variant="danger">
@@ -150,10 +164,10 @@ export default function RegisterPage() {
                 "Something went wrong. Please try again later."}
             </Alert>
           )}
-          <div className="d-flex align-items-center justify-content-between">
+          <div className="d-flex align-items-center justify-content-between mt-2">
             <FormControl
               variant="button"
-              title="Register"
+              title={user.loading ? "Generating..." : "Register"}
               className="p-2"
               loading={user.loading}
             />

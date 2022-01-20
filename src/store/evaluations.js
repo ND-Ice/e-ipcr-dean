@@ -7,7 +7,6 @@ const slice = createSlice({
     loading: false,
     lastFetch: null,
     list: [],
-    responses: [],
   },
   reducers: {
     evaluationsRequested: (evaluations, action) => {

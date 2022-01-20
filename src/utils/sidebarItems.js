@@ -1,4 +1,4 @@
-import { FiCalendar, FiClock, FiFolder, FiUsers } from "react-icons/fi";
+import { FiCalendar, FiClock, FiFolder, FiList, FiUsers } from "react-icons/fi";
 
 const sidebarItems = [
   { id: 1, path: "/dashboard", title: "Evaluations", icon: FiFolder },
@@ -15,6 +15,12 @@ const sidebarItems = [
     icon: FiCalendar,
   },
   { id: 4, path: "/dashboard/faculties", title: "Faculties", icon: FiUsers },
+  {
+    id: 5,
+    path: "/dashboard/template",
+    title: "Templates",
+    icon: FiList,
+  },
 ];
 
 export default sidebarItems;

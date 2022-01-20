@@ -89,7 +89,7 @@ export default function UpdateProfilePicture({ user, open }) {
           disabled={loading}
           onClick={handleUpdate}
         >
-          Upload
+          {loading ? "Updating..." : "Update"}
         </Button>
       )}
     </Container>

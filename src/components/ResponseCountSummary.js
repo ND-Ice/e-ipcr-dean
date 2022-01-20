@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import moment from "moment";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-import { CustomModal } from ".";
 import { getEvaluationResponses } from "../store/response";
-import { AllResponse, Approved, Late, ToBeRate } from "./Modals";
 
 export default function ResponseCountSummary({ evaluation }) {
-  const [showAllResponse, setShowAllResponse] = useState(false);
-  const [showlateResponse, setShowLateResponse] = useState(false);
-  const [showToBeRate, setShowToBeRate] = useState(false);
-  const [showApproved, setShowApproved] = useState(false);
+  const history = useHistory();
   const { preview } = evaluation;
 
   const { list } = useSelector(getEvaluationResponses);
@@ -25,68 +21,25 @@ export default function ResponseCountSummary({ evaluation }) {
   return (
     <Container>
       <SummaryItems>
-        <SummaryItem onClick={() => setShowAllResponse(true)}>
+        <SummaryItem onClick={() => history.push("/dashboard/responses")}>
           All Responses
           <Badge bg="#0064f9">{list?.length}</Badge>
         </SummaryItem>
-        <SummaryItem onClick={() => setShowLateResponse(true)}>
+        <SummaryItem onClick={() => history.push("/dashboard/late-responses")}>
           Late Responses <Badge bg="#f0c810">{late?.length}</Badge>
         </SummaryItem>
-        <SummaryItem onClick={() => setShowToBeRate(true)}>
+        <SummaryItem onClick={() => history.push("/dashboard/to-approved")}>
           Need to Rate<Badge bg="#f97316">{toBeRate?.length}</Badge>
         </SummaryItem>
-        <SummaryItem onClick={() => setShowApproved(true)}>
+        <SummaryItem onClick={() => history.push("/dashboard/approved")}>
           Approved<Badge bg="#059669">{approved?.length}</Badge>
         </SummaryItem>
       </SummaryItems>
 
       <Divider />
-      <SummaryItem onClick={() => setShowAllResponse(true)}>
+      <SummaryItem onClick={() => history.push("/dashboard/responses")}>
         View All
       </SummaryItem>
-      <CustomModal
-        fullscreen={true}
-        show={showAllResponse}
-        heading={`Individual Performance Commitment Review (IPCR) ${
-          preview?.targetYear - 1
-        }-${preview?.targetYear}`}
-        onHide={() => setShowAllResponse(false)}
-      >
-        <AllResponse />
-      </CustomModal>
-
-      {/* lates */}
-      <CustomModal
-        fullscreen={true}
-        show={showlateResponse}
-        heading={`Individual Performance Commitment Review (IPCR) ${
-          preview?.targetYear - 1
-        }-${preview?.targetYear}`}
-        onHide={() => setShowLateResponse(false)}
-      >
-        <Late response={late} />
-      </CustomModal>
-      {/* to be rate */}
-      <CustomModal
-        fullscreen={true}
-        show={showToBeRate}
-        heading={`Individual Performance Commitment Review (IPCR) ${
-          preview?.targetYear - 1
-        }-${preview?.targetYear}`}
-        onHide={() => setShowToBeRate(false)}
-      >
-        <ToBeRate response={toBeRate} />
-      </CustomModal>
-      <CustomModal
-        fullscreen={true}
-        show={showApproved}
-        heading={`Individual Performance Commitment Review (IPCR) ${
-          preview?.targetYear - 1
-        }-${preview?.targetYear}`}
-        onHide={() => setShowApproved(false)}
-      >
-        <Approved response={approved} />
-      </CustomModal>
     </Container>
   );
 }

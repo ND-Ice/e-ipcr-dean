@@ -32,18 +32,27 @@ export default function Navbar({ user }) {
       </StatusContainer>
 
       <Sidebar isToggle={isSidebarToggle} onSidebarToggle={handleSidebarToggle}>
-        {sidebarItems?.map((sidebarInfo) => (
-          <SidebarItem
-            sidebarInfo={sidebarInfo}
-            key={sidebarInfo?.id}
-            icon={sidebarInfo?.icon}
-            isActive={location?.pathname === sidebarInfo?.path}
-            onNavigate={() => {
-              history.push(sidebarInfo?.path);
-              return handleSidebarToggle();
-            }}
-          />
-        ))}
+        {sidebarItems?.map((sidebarInfo) => {
+          if (
+            user?.currentUser?.position === "Evaluator" &&
+            sidebarInfo?.title === "Templates"
+          ) {
+            return null;
+          } else {
+            return (
+              <SidebarItem
+                sidebarInfo={sidebarInfo}
+                key={sidebarInfo?.id}
+                icon={sidebarInfo?.icon}
+                isActive={location?.pathname === sidebarInfo?.path}
+                onNavigate={() => {
+                  history.push(sidebarInfo?.path);
+                  return handleSidebarToggle();
+                }}
+              />
+            );
+          }
+        })}
       </Sidebar>
     </NavContainer>
   );

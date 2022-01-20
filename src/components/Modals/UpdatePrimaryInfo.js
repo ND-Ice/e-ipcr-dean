@@ -94,7 +94,7 @@ export default function UpdatePrimaryInfo({ user, open }) {
         {successMessage && <Alert variant="success">{successMessage}</Alert>}
         <FormControl
           variant="button"
-          title="Save"
+          title={userProps.loading ? "Saving Changes..." : "Save Changes"}
           loading={userProps.loading}
         />
       </AppForm>
@@ -108,6 +108,7 @@ const Container = styled.div`
 
 const AddressContainer = styled.div`
   display: grid;
+  margin-bottom: 1rem;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
 

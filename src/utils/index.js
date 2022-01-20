@@ -7,3 +7,4 @@ export { default as department } from "./departmentList";
 export { default as lowerCase } from "./lowerCase";
 export { default as getSentiment } from "./getSentiment";
 export { default as getRemarks } from "./getRemarks";
+export { default as getRemarksColor } from "./getRemarksColor";

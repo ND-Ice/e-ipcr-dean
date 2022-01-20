@@ -28,6 +28,144 @@ const slice = createSlice({
       state.targetIndicator.funcId = action.payload.funcId;
       state.targetIndicator.indicatorId = action.payload.indicatorId;
     },
+    // feedback
+    addComment: (state, action) => {
+      const { responseId, comments } = action.payload;
+      const responseIdx = state.list.findIndex(
+        (response) => response._id === responseId
+      );
+      const response = state.list[responseIdx];
+      response.feedback.comments = comments;
+    },
+    addRecommendation: (state, action) => {
+      const { responseId, recommendations } = action.payload;
+      const responseIdx = state.list.findIndex(
+        (response) => response._id === responseId
+      );
+      const response = state.list[responseIdx];
+      response.feedback.recommendations = recommendations;
+    },
+    // add core rating
+    addCoreRating: (state, action) => {
+      const { responseId, funcId, succId, quality, timeliness, efficiency } =
+        action.payload;
+
+      const responseIdx = state.list.findIndex(
+        (response) => response._id === responseId
+      );
+      const response = state.list[responseIdx];
+      const cfIdx = response.coreFunctions.findIndex((cf) => cf.id === funcId);
+
+      const cf = response.coreFunctions[cfIdx];
+      cf.rawAverage.push(
+        (parseInt(quality) + parseInt(timeliness) + parseInt(efficiency)) / 3
+      );
+      const succIdx = cf.successIndicators.findIndex(
+        (succ) => succ.id === succId
+      );
+      const succ = cf.successIndicators[succIdx];
+      succ.actualAccomplishments.rating = {
+        quality: parseInt(quality),
+        timeliness: parseInt(timeliness),
+        efficiency: parseInt(efficiency),
+        average:
+          (parseInt(quality) + parseInt(timeliness) + parseInt(efficiency)) / 3,
+      };
+    },
+    addSupportRating: (state, action) => {
+      const { responseId, funcId, succId, quality, timeliness, efficiency } =
+        action.payload;
+
+      const responseIdx = state.list.findIndex(
+        (response) => response._id === responseId
+      );
+      const response = state.list[responseIdx];
+      const sfIdx = response.supportFunctions.findIndex(
+        (sf) => sf.id === funcId
+      );
+
+      const sf = response.supportFunctions[sfIdx];
+      sf.rawAverage.push(
+        (parseInt(quality) + parseInt(timeliness) + parseInt(efficiency)) / 3
+      );
+      const succIdx = sf.successIndicators.findIndex(
+        (succ) => succ.id === succId
+      );
+      const succ = sf.successIndicators[succIdx];
+      succ.actualAccomplishments.rating = {
+        quality: parseInt(quality),
+        timeliness: parseInt(timeliness),
+        efficiency: parseInt(efficiency),
+        average:
+          (parseInt(quality) + parseInt(timeliness) + parseInt(efficiency)) / 3,
+      };
+    },
+    // core remarks
+    deleteCoreRemarks: (state, action) => {
+      const { responseId, funcId, succId } = action.payload;
+      const responseIdx = state.list.findIndex(
+        (response) => response._id === responseId
+      );
+      const cfIdx = state.list[responseIdx].coreFunctions.findIndex(
+        (cf) => cf.id === funcId
+      );
+      const succIdx = state.list[responseIdx].coreFunctions[
+        cfIdx
+      ].successIndicators.findIndex((succ) => succ.id === succId);
+
+      const succ =
+        state.list[responseIdx].coreFunctions[cfIdx].successIndicators[succIdx];
+      succ.remarks = "";
+    },
+    addCoreRemarks: (state, action) => {
+      const { responseId, funcId, succId, remarks } = action.payload;
+      const responseIdx = state.list.findIndex(
+        (response) => response._id === responseId
+      );
+      const cfIdx = state.list[responseIdx].coreFunctions.findIndex(
+        (cf) => cf.id === funcId
+      );
+      const cf = state.list[responseIdx].coreFunctions[cfIdx];
+      const succIdx = cf.successIndicators.findIndex(
+        (succ) => succ.id === succId
+      );
+      const succ = cf.successIndicators[succIdx];
+      succ.remarks = remarks;
+    },
+    addSupportRemarks: (state, action) => {
+      const { responseId, funcId, succId, remarks } = action.payload;
+      const responseIdx = state.list.findIndex(
+        (response) => response._id === responseId
+      );
+      const sfIdx = state.list[responseIdx].supportFunctions.findIndex(
+        (sf) => sf.id === funcId
+      );
+      const sf = state.list[responseIdx].supportFunctions[sfIdx];
+      const succIdx = sf.successIndicators.findIndex(
+        (succ) => succ.id === succId
+      );
+      const succ = sf.successIndicators[succIdx];
+      succ.remarks = remarks;
+    },
+    deleteSupportRemarks: (state, action) => {
+      const { responseId, funcId, succId } = action.payload;
+      const responseIdx = state.list.findIndex(
+        (response) => response._id === responseId
+      );
+      const sfIdx = state.list[responseIdx].supportFunctions.findIndex(
+        (sf) => sf.id === funcId
+      );
+      const succIdx = state.list[responseIdx].supportFunctions[
+        sfIdx
+      ].successIndicators.findIndex((succ) => succ.id === succId);
+
+      const succ =
+        state.list[responseIdx].supportFunctions[sfIdx].successIndicators[
+          succIdx
+        ];
+      succ.remarks = "";
+    },
+    // ratings
     rateCoreFunctions: (state, action) => {
       const {
         responseId,
@@ -110,9 +248,17 @@ export const {
   evaluationReponseRequested,
   evaluationReponseRequestFailed,
   evaluationResponseReceived,
+  addComment,
+  addRecommendation,
   setTargetIndicator,
   rateCoreFunctions,
   rateSupportFunctions,
+  addCoreRemarks,
+  addSupportRemarks,
+  deleteCoreRemarks,
+  deleteSupportRemarks,
+  addCoreRating,
+  addSupportRating,
 } = slice.actions;
 export default slice.reducer;
 

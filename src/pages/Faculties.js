@@ -33,6 +33,8 @@ export default function Faculties({ history }) {
         )
       : faculties.list;
 
+  const activatedFaculty = filtered?.filter((faculty) => faculty?.isActivated);
+
   useEffect(() => {
     getFacultyList();
   }, []);
@@ -80,7 +82,7 @@ export default function Faculties({ history }) {
             <TableHeader>Position</TableHeader>
           </TableHead>
           <tbody>
-            {filtered.map((faculty) => (
+            {activatedFaculty.map((faculty) => (
               <TableData
                 key={faculty._id}
                 userInfo={faculty}

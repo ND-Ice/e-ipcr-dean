@@ -12,8 +12,6 @@ export default function TableData({ userInfo, onNavigate }) {
     "hours"
   );
 
-  console.log(userInfo);
-
   return (
     <TableDataRow onClick={() => onNavigate(userInfo._id)}>
       <TableDataItem>

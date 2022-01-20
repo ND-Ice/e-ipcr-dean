@@ -4,31 +4,18 @@ import moment from "moment";
 import { Avatar, LetterAvatar } from ".";
 
 import facultiesApi from "../api/faculties";
-import { getRemarks, getSentiment } from "../utils";
+import { getRemarks } from "../utils";
 import { useSelector } from "react-redux";
 import { getEvaluations } from "../store/evaluations";
 
 export default function ResponseData({ response, onPreview }) {
-  const [user, setUser] = useState(null);
   const { preview } = useSelector(getEvaluations);
   const [imageError, setImageError] = useState(false);
+  const { user } = response;
 
   const isLate = moment(parseInt(response?.dateSubmitted)).isAfter(
     preview?.due
   );
-
-  useEffect(() => {
-    getUser(response?.userId);
-  }, []);
-
-  const getUser = async (id) => {
-    try {
-      const faculty = await facultiesApi.getFaculty(id);
-      return setUser(faculty.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <TableRow isLate={isLate} onClick={() => onPreview(response?._id)}>
@@ -45,38 +32,18 @@ export default function ResponseData({ response, onPreview }) {
               <LetterAvatar user={user} size={45} />
             )}
           </div>
-          <div className="ms-3">
-            <p className="m-0">
-              {user?.name?.firstName} {user?.name?.lastName}
-            </p>
-            <p className="m-0 text-muted">{user?.email}</p>
-          </div>
         </div>
       </TableData>
       <TableData>
-        {moment(parseInt(response?.dateSubmitted)).format("LL")}
+        {user?.name?.firstName} {user?.name?.lastName}
       </TableData>
+      <TableData>{user?.email}</TableData>
       <TableData>
-        {response?.isApproved && (
-          <p className="m-0">
-            {response?.isApproved?.approvedBy?.name?.firstName}{" "}
-            {response?.isApproved?.approvedBy?.name?.lastName}
-          </p>
-        )}
-      </TableData>
-      <TableData>
-        {response.isApproved && (
-          <p className="m-0">
-            {moment(parseInt(response?.isApproved?.approvedDate)).format("LL")}
-          </p>
-        )}
+        {moment(parseInt(response?.dateSubmitted)).format("ll")}
       </TableData>
       <TableData>{response?.ratings?.average || "Pending"}</TableData>
       <TableData>
         {getRemarks(response?.ratings?.average) || "Pending"}
-      </TableData>
-      <TableData>
-        {getSentiment(response?.ratings?.average) || "Pending"}
       </TableData>
       <TableData>
         {response?.isApproved ? (
