@@ -21,7 +21,11 @@ import {
   Recommendations,
   Respondent,
 } from "../components/Template/template piece";
-import { EvaluatorSignature, HrSignature } from "../components/Signatures";
+import {
+  ApprovedBy,
+  EvaluatorSignature,
+  HrSignature,
+} from "../components/Signatures";
 
 export default function Response({ match, history }) {
   const id = match.params.id;
@@ -71,6 +75,16 @@ export default function Response({ match, history }) {
             </td>
           </tr>
           <Respondent response={response} />
+          <tr>
+            <td colSpan={8} className="fw-bold text-uppercase">
+              Approved By
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={8}>
+              <ApprovedBy response={response} />
+            </td>
+          </tr>
           <CoreHeader />
 
           {/* ============================== core functions =============================== */}
