@@ -33,7 +33,7 @@ export default function ConfirmSubmission({ response, open }) {
       );
       setLoading(false);
       open(false);
-      return history.goBack();
+      return history.push(`/dashboard/evaluations/${response?.evaluationId}`);
     } catch (error) {
       setLoading(false);
       return setErrorMessage(error);

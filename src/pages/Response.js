@@ -342,9 +342,7 @@ export default function Response({ match, history }) {
             <Attachments
               key={att?.lastDateModified}
               onClick={() =>
-                window.open(
-                  `http://e-ipcr-backend.herokuapp.com/${att?.filename}`
-                )
+                window.open(`http://e-ipcr-backend.herokuapp.com/${att?.path}`)
               }
             >
               {att?.filename}
