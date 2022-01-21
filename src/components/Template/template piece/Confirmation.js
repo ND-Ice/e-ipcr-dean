@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Alert } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import styled from "styled-components";
 import * as Yup from "yup";
 import SignaturePad from "react-signature-canvas";
@@ -86,6 +86,12 @@ export default function Confirmation() {
               }}
             />
           </SigPad>
+          <Button
+            variant="outline-danger"
+            onClick={() => sigPadRef.current.clear()}
+          >
+            Clear
+          </Button>
         </div>
 
         {errorMessage && (

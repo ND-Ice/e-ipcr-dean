@@ -51,21 +51,26 @@ const Content = styled.div`
 
 const Title = styled.p`
   max-width: 100ch;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
 `;
 
 const DateSubmitted = styled.div`
   padding: 2px 5px;
   border-bottom: 2px solid ${({ theme }) => theme.colors.black};
+  text-transform: uppercase;
+  font-weight: 700;
 
   position: relative;
 
   ::before {
-    content: "Date";
+    content: "DATE";
     position: absolute;
     top: calc(100% + 5px);
     width: 100%;
     text-align: center;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 0.8rem;
   }
 `;
 
@@ -76,6 +81,8 @@ const Signature = styled.div`
   border-bottom: 2px solid ${({ theme }) => theme.colors.black};
   position: relative;
   text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
 
   > img {
     object-fit: cover;
@@ -87,11 +94,12 @@ const Signature = styled.div`
   }
 
   ::before {
-    content: "Signature";
+    content: "SIGNATURE";
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     top: calc(100% + 5px);
-    font-weight: bold;
+    font-size: 0.8rem;
+    font-weight: 700;
   }
 `;

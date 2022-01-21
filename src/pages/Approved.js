@@ -150,7 +150,7 @@ const PrintIconContainer = styled(IconContainer)`
 
 const Content = styled.div`
   display: grid;
-  gap: 1rem;
+  gap: 0.5rem;
 `;
 
 const FilterContainer = styled.div`

@@ -29,7 +29,7 @@ export default function ResponseCountSummary({ evaluation }) {
           Late Responses <Badge bg="#f0c810">{late?.length}</Badge>
         </SummaryItem>
         <SummaryItem onClick={() => history.push("/dashboard/to-approved")}>
-          Need to Rate<Badge bg="#f97316">{toBeRate?.length}</Badge>
+          To Evaluate<Badge bg="#f97316">{toBeRate?.length}</Badge>
         </SummaryItem>
         <SummaryItem onClick={() => history.push("/dashboard/approved")}>
           Approved<Badge bg="#059669">{approved?.length}</Badge>

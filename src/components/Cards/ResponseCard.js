@@ -5,13 +5,12 @@ import { useSelector } from "react-redux";
 
 import { Avatar, LetterAvatar } from "..";
 import { getEvaluations } from "../../store/evaluations";
-import facultiesApi from "../../api/faculties";
-import { getLetterAvatarBg } from "../../utils";
+import { getLetterAvatarBg, getRemarks, getRemarksColor } from "../../utils";
 
 export default function ResponseCard({ response, onPreview }) {
   const { preview } = useSelector(getEvaluations);
   const [imageError, setImageError] = useState(false);
-  const { user } = response;
+  const { user, ratings } = response;
 
   const isLate = moment(parseInt(response?.dateSubmitted)).isAfter(
     preview?.due
@@ -37,6 +36,9 @@ export default function ResponseCard({ response, onPreview }) {
         </div>
       </Header>
       <Badge college={user?.college?.acronym}>{user?.college?.acronym}</Badge>
+      <DepartmentBadge average={ratings?.average}>
+        {getRemarks(ratings?.average)}
+      </DepartmentBadge>
     </Container>
   );
 }
@@ -57,6 +59,7 @@ const Container = styled.div`
 
 const Header = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const AvatarContainer = styled.div`
@@ -67,7 +70,8 @@ const AvatarContainer = styled.div`
 const Name = styled.h4`
   margin: 0;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  text-transform: uppercase;
 `;
 const Email = styled.p`
   word-break: break-all;
@@ -78,8 +82,23 @@ const Badge = styled.div`
   position: absolute;
   top: 1rem;
   right: 1rem;
-  padding: 0.2rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
   max-width: max-content;
   color: ${({ theme }) => theme.colors.white};
   background: ${({ college }) => getLetterAvatarBg(college)};
+`;
+
+const DepartmentBadge = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  max-width: max-content;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.white};
+  background: ${({ average }) => getRemarksColor(average)};
 `;

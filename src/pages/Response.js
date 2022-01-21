@@ -21,7 +21,7 @@ import {
   Recommendations,
   Respondent,
 } from "../components/Template/template piece";
-import Signatories from "../components/Signatories";
+import { EvaluatorSignature, HrSignature } from "../components/Signatures";
 
 export default function Response({ match, history }) {
   const id = match.params.id;
@@ -328,7 +328,13 @@ export default function Response({ match, history }) {
           {/* ======================== signatories ======================== */}
           <tr>
             <td colSpan={8}>
-              <Signatories response={response} />
+              <div className="d-flex align-items-center justify-content-between p-4">
+                <HrSignature response={response} />
+
+                {response?.isApproved && (
+                  <EvaluatorSignature response={response} />
+                )}
+              </div>
             </td>
           </tr>
         </tbody>
@@ -356,7 +362,7 @@ export default function Response({ match, history }) {
         className="mt-2"
         onClick={() => setShowConfirmSubmission(true)}
       >
-        Approve
+        {response?.isApproved ? "Re Evaluate" : "Evaluate"}
       </Button>
 
       <Modal
