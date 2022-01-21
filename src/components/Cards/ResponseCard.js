@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
 import { useSelector } from "react-redux";
+import { FiCheckCircle, FiLoader } from "react-icons/fi";
 
 import { Avatar, LetterAvatar } from "..";
 import { getEvaluations } from "../../store/evaluations";
@@ -29,16 +30,25 @@ export default function ResponseCard({ response, onPreview }) {
         </AvatarContainer>
         {/* user handle */}
         <div>
-          <Name>
-            {user?.name?.firstName} {user?.name?.lastName}
-          </Name>
-          <Email>{user?.email}</Email>
+          <div className="d-flex align-items-center">
+            <Name>
+              {user?.name?.firstName} {user?.name?.lastName}
+            </Name>
+            <DepartmentBadge average={ratings?.average}>
+              {getRemarks(ratings?.average)}
+            </DepartmentBadge>
+          </div>
+          <Email className="text-muted">{user?.email}</Email>
         </div>
       </Header>
       <Badge college={user?.college?.acronym}>{user?.college?.acronym}</Badge>
-      <DepartmentBadge average={ratings?.average}>
-        {getRemarks(ratings?.average)}
-      </DepartmentBadge>
+      <Status>
+        {response?.isApproved ? (
+          <FiCheckCircle className="icon check-icon" />
+        ) : (
+          <FiLoader className="icon loader-icon" />
+        )}
+      </Status>
     </Container>
   );
 }
@@ -80,7 +90,7 @@ const Email = styled.p`
 
 const Badge = styled.div`
   position: absolute;
-  top: 1rem;
+  bottom: 1rem;
   right: 1rem;
   font-size: 0.8rem;
   font-weight: 700;
@@ -91,14 +101,29 @@ const Badge = styled.div`
 `;
 
 const DepartmentBadge = styled.div`
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  font-size: 0.8rem;
+  font-size: 8px;
   font-weight: 700;
   padding: 0.2rem 0.5rem;
+  margin-left: 0.5rem;
   max-width: max-content;
   text-transform: uppercase;
+  border-radius: 0.5rem;
   color: ${({ theme }) => theme.colors.white};
   background: ${({ average }) => getRemarksColor(average)};
+`;
+
+const Status = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+
+  .icon {
+    font-size: 1.2rem;
+  }
+  .check-icon {
+    color: ${({ theme }) => theme.colors.accent.emerald};
+  }
+  .loader-icon {
+    color: ${({ theme }) => theme.colors.accent.red};
+  }
 `;
