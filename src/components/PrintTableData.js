@@ -1,25 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import moment from "moment";
 
 import { getRemarks } from "../utils";
-import facultiesApi from "../api/faculties";
 
 export default function PrintTableData({ response }) {
-  const [user, setUser] = useState(null);
-  const { dateSubmitted, ratings, userId } = response;
+  const { dateSubmitted, ratings, user } = response;
 
-  useEffect(() => {
-    getUser(userId);
-  }, []);
-
-  const getUser = async (id) => {
-    try {
-      const faculty = await facultiesApi.getFaculty(id);
-      return setUser(faculty.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <tr className="text-center">
       <td>

@@ -80,11 +80,13 @@ export default function Response({ match, history }) {
               Approved By
             </td>
           </tr>
-          <tr>
-            <td colSpan={8}>
-              <ApprovedBy response={response} />
-            </td>
-          </tr>
+          {response?.isApproved && (
+            <tr>
+              <td colSpan={8}>
+                <ApprovedBy response={response} />
+              </td>
+            </tr>
+          )}
           <CoreHeader />
 
           {/* ============================== core functions =============================== */}

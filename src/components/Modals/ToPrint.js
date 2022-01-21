@@ -8,6 +8,8 @@ import Logo from "../../image/Logo.png";
 import PrintTableData from "../PrintTableData";
 import ToPrintHeader from "./ToPrintHeader";
 import ToPrintSummary from "./ToPrintSummary";
+import BarChart from "./BarChart";
+import { DoughnutChart, LinChart, RadarChart } from ".";
 
 export default function ToPrint({ responses, open }) {
   const componentToPrintRef = useRef();
@@ -53,6 +55,12 @@ export default function ToPrint({ responses, open }) {
             <ToPrintSummary responses={responses} />
           </tbody>
         </Table>
+        <ChartContainer>
+          <BarChart responses={responses} />
+          <DoughnutChart responses={responses} />
+          <RadarChart responses={responses} />
+          <LinChart responses={responses} />
+        </ChartContainer>
       </Content>
     </Container>
   );
@@ -106,4 +114,10 @@ const PrintIconContainer = styled(IconContainer)`
   :hover {
     background: #0c4a6e;
   }
+`;
+
+const ChartContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 `;

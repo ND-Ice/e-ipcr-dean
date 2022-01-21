@@ -2,7 +2,7 @@ import { getRemarks } from "../utils";
 
 export default function useSummary(responses) {
   const outStanding = responses?.filter(
-    (response) => getRemarks(response?.ratings?.average) === "Outsanding"
+    (response) => getRemarks(response?.ratings?.average) === "Outstanding"
   );
   const verySatisfactory = responses?.filter(
     (response) => getRemarks(response?.ratings?.average) === "Very Satisfactory"
