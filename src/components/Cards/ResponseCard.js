@@ -30,15 +30,13 @@ export default function ResponseCard({ response, onPreview }) {
         </AvatarContainer>
         {/* user handle */}
         <div>
-          <div className="d-flex align-items-center">
-            <Name>
-              {user?.name?.firstName} {user?.name?.lastName}
-            </Name>
-            <DepartmentBadge average={ratings?.average}>
-              {getRemarks(ratings?.average)}
-            </DepartmentBadge>
-          </div>
-          <Email className="text-muted">{user?.email}</Email>
+          <Name>
+            {user?.name?.firstName} {user?.name?.lastName}
+          </Name>
+          <Email className="text-muted mb-1">{user?.email}</Email>
+          <VerbalRating average={ratings?.average}>
+            {getRemarks(ratings?.average)}
+          </VerbalRating>
         </div>
       </Header>
       <Badge college={user?.college?.acronym}>{user?.college?.acronym}</Badge>
@@ -100,11 +98,10 @@ const Badge = styled.div`
   background: ${({ college }) => getLetterAvatarBg(college)};
 `;
 
-const DepartmentBadge = styled.div`
+const VerbalRating = styled.div`
   font-size: 8px;
   font-weight: 700;
   padding: 0.2rem 0.5rem;
-  margin-left: 0.5rem;
   max-width: max-content;
   text-transform: uppercase;
   border-radius: 0.5rem;

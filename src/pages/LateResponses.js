@@ -110,6 +110,8 @@ export default function LateResponses({ history }) {
 }
 
 const Container = styled.div`
+  max-height: 600px;
+  overflow: auto;
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     padding: 1rem;
   }

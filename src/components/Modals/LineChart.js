@@ -71,7 +71,7 @@ export default function BarChart({ responses }) {
   };
   return (
     <Container>
-      <h5 className="text-uppercase fw-bold mb-4">Radar Chart</h5>
+      <h5 className="text-uppercase fw-bold mb-4">Line Chart</h5>
       <Line data={data} options={options} />
     </Container>
   );
