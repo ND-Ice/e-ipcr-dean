@@ -14,7 +14,7 @@ export default function ToPrintHeader() {
         <td colSpan={7}></td>
       </tr>
       {/* table header */}
-      <tr className="text-center fw-bold text-uppercase">
+      <tr className="fw-bold text-uppercase">
         <td>Full Name</td>
         <td>Email Address</td>
         <td>Position</td>

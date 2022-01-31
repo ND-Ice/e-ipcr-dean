@@ -6,3 +6,8 @@ export { default as BarChart } from "./BarChart";
 export { default as DoughnutChart } from "./DoughnutChart";
 export { default as RadarChart } from "./RadarChart";
 export { default as LinChart } from "./LineChart";
+export { default as OutstandingChart } from "./OutstandingChart";
+export { default as VerySatisfactoryChart } from "./VerySatisfactoryChart";
+export { default as SatisfactoryChart } from "./SatisfactoryChart";
+export { default as UnsatisfactoryChart } from "./UnsatisfactoryChart";
+export { default as PoorChart } from "./PoorChart";

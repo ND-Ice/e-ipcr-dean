@@ -10,9 +10,7 @@ import { addComment } from "../../../store/response";
 import { AppForm, FormControl } from "../../forms";
 
 const validationSchema = Yup.object().shape({
-  comment: Yup.string()
-    .min(10, "This Should be atleast the characters long.")
-    .required("This field is required."),
+  comment: Yup.string().min(10, "This Should be atleast the characters long."),
 });
 
 export default function AddComments({ response, open }) {

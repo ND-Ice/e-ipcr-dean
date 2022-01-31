@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { FiCalendar } from "react-icons/fi";
 
-import { ResponseCountSummary } from "../components";
+import { Loader, ResponseCountSummary } from "../components";
 
 import evaluationsApi from "../api/evaluations";
 import responseApi from "../api/response";
@@ -25,6 +25,7 @@ export default function EvaluationPreview({ match }) {
   const id = match.params.id;
   const evaluations = useSelector(getEvaluations);
   const evaluation = evaluations.preview;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getEvaluationPreview(id);
@@ -45,32 +46,42 @@ export default function EvaluationPreview({ match }) {
 
   const getEvaluationResponse = async (evaluationId) => {
     try {
+      setLoading(true);
       dispatch(evaluationsRequested());
       const response = await responseApi.getEvaluationResponse(evaluationId);
+      setLoading(false);
       return dispatch(evaluationResponseReceived(response.data));
     } catch (error) {
+      setLoading(false);
       dispatch(evaluationReponseRequestFailed(error));
     }
   };
 
   return (
-    <AppContainer>
-      <header>
-        <Title>
-          Individual Performance Commitment Review (IPCR){" "}
-          <strong>
-            {evaluation?.targetYear - 1}-{evaluation?.targetYear}
-          </strong>
-        </Title>
-        <DueDate>
-          <FiCalendar className="icon" /> {moment(evaluation?.due).format("LL")}
-        </DueDate>
-      </header>
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <AppContainer>
+          <header>
+            <Title>
+              Individual Performance Commitment Review (IPCR){" "}
+              <strong>
+                {evaluation?.targetYear - 1}-{evaluation?.targetYear}
+              </strong>
+            </Title>
+            <DueDate>
+              <FiCalendar className="icon" />{" "}
+              {moment(evaluation?.due).format("LL")}
+            </DueDate>
+          </header>
 
-      <AppContent>
-        <ResponseCountSummary evaluation={evaluations} />
-      </AppContent>
-    </AppContainer>
+          <AppContent>
+            <ResponseCountSummary evaluation={evaluations} />
+          </AppContent>
+        </AppContainer>
+      )}
+    </>
   );
 }
 

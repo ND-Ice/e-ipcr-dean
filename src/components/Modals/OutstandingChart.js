@@ -33,40 +33,43 @@ const options = {
 };
 
 const labels = [
-  "Outstanding",
-  "Very Satisfactory",
-  "Satisfactory",
-  "Unsatisfactory",
-  "Poor",
+  "Computer Science",
+  "Applied Physics",
+  "Industrial Psychology",
+  "Mathematics",
 ];
 
-export default function BarChart({ responses }) {
-  const { outStanding, verySatisfactory, satisfactory, unSatisfactory, poor } =
-    useSummary(responses);
+export default function OutstandingChart({ responses }) {
+  const { outStanding } = useSummary(responses);
+
+  const cs = outStanding?.filter(
+    (response) => response?.user?.dept === "Computer Science"
+  );
+
+  const ap = outStanding?.filter(
+    (response) => response?.user?.dept === "Applied Physics"
+  );
+
+  const ip = outStanding?.filter(
+    (response) => response?.user?.dept === "Industrial Psychology"
+  );
+
+  const math = outStanding?.filter(
+    (response) => response?.user?.dept === "Mathematics"
+  );
+
   const data = {
     labels,
     datasets: [
       {
-        data: [
-          outStanding?.length,
-          verySatisfactory?.length,
-          satisfactory?.length,
-          unSatisfactory?.length,
-          poor?.length,
-        ],
-        backgroundColor: [
-          "#6dc73f",
-          "#a0d44d",
-          "#f3c20a",
-          "#feb328",
-          "#f73632",
-        ],
+        data: [cs?.length, ap?.length, ip?.length, math?.length],
+        backgroundColor: ["#6dc73f"],
       },
     ],
   };
   return (
     <Container>
-      <h5 className="text-uppercase fw-bold mb-4">All Responses</h5>
+      <h5 className="text-uppercase fw-bold mb-4">Outstanding Performance</h5>
       <Bar data={data} options={options} />
     </Container>
   );

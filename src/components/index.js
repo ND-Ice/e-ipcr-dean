@@ -23,3 +23,4 @@ export { default as BasicInfoItem } from "./BasicInfoItem";
 export { default as Filter } from "./Filter";
 export { default as ResponseData } from "./ResponseData";
 export { default as PrintTableData } from "./PrintTableData";
+export { default as Loader } from "./Loader";

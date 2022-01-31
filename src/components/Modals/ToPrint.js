@@ -8,8 +8,14 @@ import Logo from "../../image/Logo.png";
 import PrintTableData from "../PrintTableData";
 import ToPrintHeader from "./ToPrintHeader";
 import ToPrintSummary from "./ToPrintSummary";
-import BarChart from "./BarChart";
-import { DoughnutChart, LinChart, RadarChart } from ".";
+import {
+  BarChart,
+  OutstandingChart,
+  SatisfactoryChart,
+  VerySatisfactoryChart,
+  UnsatisfactoryChart,
+  PoorChart,
+} from ".";
 
 export default function ToPrint({ responses, open }) {
   const componentToPrintRef = useRef();
@@ -57,9 +63,11 @@ export default function ToPrint({ responses, open }) {
         </Table>
         <ChartContainer>
           <BarChart responses={responses} />
-          <DoughnutChart responses={responses} />
-          <RadarChart responses={responses} />
-          <LinChart responses={responses} />
+          <OutstandingChart responses={responses} />
+          <VerySatisfactoryChart responses={responses} />
+          <SatisfactoryChart responses={responses} />
+          <UnsatisfactoryChart responses={responses} />
+          <PoorChart responses={responses} />
         </ChartContainer>
       </Content>
     </Container>
