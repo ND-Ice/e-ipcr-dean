@@ -13,6 +13,7 @@ const slice = createSlice({
       funcId: null,
       indicatorId: null,
     },
+    list: [],
   },
   reducers: {
     addCoreFunction: (state, action) => {
@@ -132,6 +133,18 @@ const slice = createSlice({
       state.coreFunctionsMeasure = 90;
       state.supportFunctionsMeasure = 10;
     },
+    templatesReceived: (state, action) => {
+      state.list = action.payload;
+    },
+    addTemplate: (state, action) => {
+      state.list.push(action.payload);
+    },
+    deleteTemplate: (state, action) => {
+      const updated = state.list.filter(
+        (template) => template._id !== action.payload.id
+      );
+      state.list = updated;
+    },
   },
 });
 
@@ -144,6 +157,9 @@ export const {
   deleteCoreSuccessIndicator,
   editCoreSuccessIndicator,
   setTargetIndicator,
+  templatesReceived,
+  addTemplate,
+  deleteTemplate,
 
   // support functions
   addSupportFunctions,

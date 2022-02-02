@@ -66,7 +66,7 @@ export default function LateResponses({ history }) {
             label="Switch to Detailed View"
           />
           <span className="ms-4">
-            {list?.length} out of {facultyList?.length}
+            {filteredByRemarks?.length} out of {facultyList?.length}
           </span>
         </Form>
       </FilterContainer>

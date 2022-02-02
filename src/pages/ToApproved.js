@@ -62,7 +62,7 @@ export default function ToApproved({ history }) {
           />
 
           <span className="ms-4">
-            {list?.length} out of {facultyList?.length}
+            {filteredByRemarks?.length} out of {facultyList?.length}
           </span>
         </Form>
       </FilterContainer>

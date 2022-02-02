@@ -11,3 +11,7 @@ export { default as VerySatisfactoryChart } from "./VerySatisfactoryChart";
 export { default as SatisfactoryChart } from "./SatisfactoryChart";
 export { default as UnsatisfactoryChart } from "./UnsatisfactoryChart";
 export { default as PoorChart } from "./PoorChart";
+export { default as RankingChart } from "./RankingChart";
+export { default as FailRankingChart } from "./FailRankingChart";
+export { default as ReuseTemplate } from "./ReuseTemplate";
+export { default as TemplatedDeleteConfirmation } from "./TemplatedDeleteConfirmation";

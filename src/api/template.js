@@ -6,6 +6,8 @@ const getTemplates = () => client.get("/templates");
 const analyzeSentiment = (accomplishment) =>
   client.post("/templates/analyzer", { accomplishment });
 
+const deleteTemplate = (id) => client.delete(`/templates/${id}`);
+
 const submitTemplate = (
   coreFunctionsMeasure,
   supportFunctionsMeasure,
@@ -28,5 +30,10 @@ const submitTemplate = (
     },
   });
 
-const templateApi = { submitTemplate, getTemplates, analyzeSentiment };
+const templateApi = {
+  submitTemplate,
+  getTemplates,
+  analyzeSentiment,
+  deleteTemplate,
+};
 export default templateApi;

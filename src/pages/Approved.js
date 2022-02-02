@@ -63,7 +63,7 @@ export default function Approved({ history }) {
             label="Switch to Detailed View"
           />
           <span className="ms-4">
-            {list?.length} out of {facultyList?.length}
+            {filteredByRemarks?.length} out of {facultyList?.length}
           </span>
           <PrintIconContainer
             className="ms-4"

@@ -8,15 +8,17 @@ export default function PrintTableData({ response }) {
 
   return (
     <tr>
-      <td>
+      <td className="p-3">
         {user?.name?.firstName} {user?.name?.lastName}
       </td>
-      <td>{user?.email}</td>
-      <td>{user?.position}</td>
-      <td>{user?.dept}</td>
-      <td>{moment(parseInt(dateSubmitted)).format("LL")}</td>
-      <td className="text-center">{ratings?.average}</td>
-      <td>{getRemarks(ratings?.average)}</td>
+      <td className="p-3">{user?.email}</td>
+      <td className="p-3">{user?.position}</td>
+      <td className="p-3">{user?.dept}</td>
+      <td className="p-3">{moment(parseInt(dateSubmitted)).format("LL")}</td>
+      <td className="p-3" className="text-center">
+        {ratings?.average}
+      </td>
+      <td className="p-3">{getRemarks(ratings?.average)}</td>
     </tr>
   );
 }

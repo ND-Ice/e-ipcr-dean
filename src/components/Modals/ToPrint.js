@@ -7,7 +7,7 @@ import { Table } from "react-bootstrap";
 import Logo from "../../image/Logo.png";
 import PrintTableData from "../PrintTableData";
 import ToPrintHeader from "./ToPrintHeader";
-import ToPrintSummary from "./ToPrintSummary";
+
 import {
   BarChart,
   OutstandingChart,
@@ -15,6 +15,8 @@ import {
   VerySatisfactoryChart,
   UnsatisfactoryChart,
   PoorChart,
+  RankingChart,
+  FailRankingChart,
 } from ".";
 
 export default function ToPrint({ responses, open }) {
@@ -58,7 +60,6 @@ export default function ToPrint({ responses, open }) {
               <PrintTableData key={response?._id} response={response} />
             ))}
             {/* to print summary */}
-            <ToPrintSummary responses={responses} />
           </tbody>
         </Table>
         <ChartContainer>
@@ -68,6 +69,8 @@ export default function ToPrint({ responses, open }) {
           <SatisfactoryChart responses={responses} />
           <UnsatisfactoryChart responses={responses} />
           <PoorChart responses={responses} />
+          <RankingChart responses={responses} />
+          <FailRankingChart responses={responses} />
         </ChartContainer>
       </Content>
     </Container>
