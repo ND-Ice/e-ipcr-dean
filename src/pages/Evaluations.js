@@ -41,7 +41,7 @@ export default function Evaluations({ history }) {
   return (
     <AppContainer>
       <AppHeader>
-        <h4 className="m-0">Evaluations</h4>
+        <h5 className="m-0 text-uppercase fw-bold">Evaluations</h5>
         <Button onClick={handleCreateEvaluation}>Create</Button>
       </AppHeader>
       {evaluations.loading ? (

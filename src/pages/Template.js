@@ -10,7 +10,11 @@ import {
 } from "../components/Modals";
 import { Loader } from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import { getTemplate, templatesReceived } from "../store/template";
+import {
+  getTemplate,
+  previewTemplate,
+  templatesReceived,
+} from "../store/template";
 
 export default function Template({ history }) {
   const dispatch = useDispatch();
@@ -50,7 +54,7 @@ export default function Template({ history }) {
       ) : (
         <Container>
           <Header>
-            <h4 className="m-0">Templates</h4>
+            <h5 className="m-0 text-uppercase fw-bold">Templates</h5>
             <Button onClick={handleCreate}>Create</Button>
           </Header>
           <div className="mt-2">
@@ -58,6 +62,18 @@ export default function Template({ history }) {
               <TemplateCard
                 key={template?._id}
                 template={template}
+                onPreview={() => {
+                  dispatch(
+                    previewTemplate({
+                      coreFunctionsMeasure: template?.coreFunctionsMeasure,
+                      supportFunctionsMeasure:
+                        template?.supportFunctionsMeasure,
+                      coreFunctions: template?.coreFunctions,
+                      supportFunctions: template?.supportFunctions,
+                    })
+                  );
+                  return history.push("/dashboard/create-template");
+                }}
                 onDelete={() => {
                   setTemplate(template);
                   return setShowDeleteTemplate(true);
@@ -72,11 +88,7 @@ export default function Template({ history }) {
         </Container>
       )}
 
-      <Modal
-        size="lg"
-        show={showTemplates}
-        onHide={() => setShowTemplates(false)}
-      >
+      <Modal show={showTemplates} onHide={() => setShowTemplates(false)}>
         <ReuseTemplate template={template} open={setShowTemplates} />
       </Modal>
 

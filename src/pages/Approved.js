@@ -7,8 +7,7 @@ import { getEvaluationResponses } from "../store/response";
 import { Filter, ResponseData } from "../components";
 import { getFaculties } from "../store/faculties";
 import { getRemarks } from "../utils";
-import { ResponseCard } from "../components/Cards";
-import { Form, Modal, Table } from "react-bootstrap";
+import { Modal, Table } from "react-bootstrap";
 import { ToPrint } from "../components/Modals";
 
 const remarks = [
@@ -25,12 +24,13 @@ export default function Approved({ history }) {
   const [showToPrint, setShowToPrint] = useState(false);
   const { list } = useSelector(getEvaluationResponses);
   const { list: facultyList } = useSelector(getFaculties);
-  const [detailedView, setDetailedView] = useState(false);
 
   const handleSelectRemarks = (item) => setSortByRemarks(item);
   const handlePreview = (id) => history.push(`/response/${id}`);
 
-  const filteredList = list.filter((response) => response?.isApproved);
+  const filteredList = list.filter(
+    (response) => response?.status?.intermediateSupervisor?.isApproved
+  );
 
   const filteredByRemarks =
     sortByRemarks && sortByRemarks?.id
@@ -43,7 +43,7 @@ export default function Approved({ history }) {
   return (
     <Container>
       <div className="d-flex align-items-center justify-content-between mb-2">
-        <h5 className="m-0">Approved Responses</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Approved Responses</h5>
         <IconContainer onClick={() => history.goBack()}>
           <FiX className="icon" />
         </IconContainer>
@@ -54,60 +54,36 @@ export default function Approved({ history }) {
           selectedItem={sortByRemarks}
           onSelectItem={handleSelectRemarks}
         />
-        <Form className="d-flex align-items-center">
-          <Form.Check
-            type="switch"
-            checked={detailedView}
-            onChange={() => setDetailedView(!detailedView)}
-            id="custom-switch"
-            label="Switch to Detailed View"
-          />
+        <div className="d-flex align-items-center">
           <span className="ms-4">
             {filteredByRemarks?.length} out of {facultyList?.length}
           </span>
-          <PrintIconContainer
-            className="ms-4"
-            onClick={() => setShowToPrint(true)}
-          >
-            <FiPrinter className="icon" />
-          </PrintIconContainer>
-        </Form>
+        </div>
       </FilterContainer>
-      {!detailedView ? (
-        <Content>
+
+      <Table>
+        <tbody>
+          <tr className="text-uppercase">
+            <td>Profile</td>
+            <td>Name</td>
+            <td>Email Address</td>
+            <td>Date Submitted</td>
+            <td>Final Average</td>
+            <td>Adjectival Rating</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colSpan={7}></td>
+          </tr>
           {filteredByRemarks?.map((response) => (
-            <ResponseCard
+            <ResponseData
               key={response?._id}
               response={response}
               onPreview={handlePreview}
             />
           ))}
-        </Content>
-      ) : (
-        <Table>
-          <tbody>
-            <tr>
-              <td>Profile</td>
-              <td>Name</td>
-              <td>Email Address</td>
-              <td>Date Submitted</td>
-              <td>Final Average</td>
-              <td>Adjectival Rating</td>
-              <td>Status</td>
-            </tr>
-            <tr>
-              <td colSpan={7}></td>
-            </tr>
-            {filteredByRemarks?.map((response) => (
-              <ResponseData
-                key={response?._id}
-                response={response}
-                onPreview={handlePreview}
-              />
-            ))}
-          </tbody>
-        </Table>
-      )}
+        </tbody>
+      </Table>
       <Modal fullscreen show={showToPrint} onHide={() => setShowToPrint(false)}>
         <ToPrint responses={filteredByRemarks} open={setShowToPrint} />
       </Modal>

@@ -22,7 +22,17 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(8, "This should be atleast 8 characters long.")
     .required("This field is required."),
+  position: Yup.string().required("This field is required."),
 });
+
+const positions = [
+  { id: 1, value: "INTERMEDIATE SUPERVISOR" },
+  { id: 2, value: "DIRECTOR" },
+  { id: 3, value: "PMT" },
+  { id: 4, value: "HEAD" },
+  { id: 5, value: "CHAIRPERSON" },
+  { id: 6, value: "HR" },
+];
 
 export default function LoginPage({ history }) {
   const dispatch = useDispatch();
@@ -52,7 +62,7 @@ export default function LoginPage({ history }) {
     <AppContainer>
       <FormContainer>
         <AppForm
-          initialValues={{ email: "", password: "" }}
+          initialValues={{ email: "", password: "", position: "" }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -67,14 +77,22 @@ export default function LoginPage({ history }) {
             className="p-2"
             title="Email Address"
             name="email"
-            loading={user.loading}
+            loading={user?.loading}
           />
           <FormControl
             variant="password"
             className="p-2"
             title="Password"
             name="password"
-            loading={user.loading}
+            loading={user?.loading}
+          />
+          <FormControl
+            variant="select"
+            className="p-2"
+            title="Position"
+            name="position"
+            menuItems={positions}
+            loading={user?.loading}
           />
           {errorMessage && (
             <Alert variant="danger">
@@ -85,8 +103,8 @@ export default function LoginPage({ history }) {
           <FormControl
             variant="button"
             className="w-100 p-2 mt-2"
-            title={user.loading ? "Loging in..." : "Login"}
-            loading={user.loading}
+            title={user?.loading ? "Loging in..." : "Login"}
+            loading={user?.loading}
           />
           <LinkContainer>
             <Links to="/forgot-password" title="Forgot Password" />

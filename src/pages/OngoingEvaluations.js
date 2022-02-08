@@ -19,7 +19,7 @@ export default function OngoingEvaluations({ history }) {
   return (
     <AppContainer>
       <AppHeader>
-        <h4 className="m-0">Ongoing Evaluations</h4>
+        <h5 className="m-0 text-uppercase fw-bold">Ongoing Evaluations</h5>
       </AppHeader>
       {loading ? (
         <MyLoader />

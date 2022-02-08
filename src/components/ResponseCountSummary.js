@@ -15,24 +15,27 @@ export default function ResponseCountSummary({ evaluation }) {
     moment(parseInt(response?.dateSubmitted)).isAfter(preview?.due)
   );
 
-  const toBeRate = list?.filter((response) => !response?.isApproved);
-  const approved = list?.filter((response) => response.isApproved);
+  const toBeRate = list?.filter(
+    (response) => !response?.status?.intermediateSupervisor?.isApproved
+  );
+  const approved = list?.filter(
+    (response) => response?.status?.intermediateSupervisor?.isApproved
+  );
 
   return (
     <Container>
       <SummaryItems>
         <SummaryItem onClick={() => history.push("/dashboard/responses")}>
-          All Responses
-          <Badge bg="#0064f9">{list?.length}</Badge>
+          All Responses <Badge bg="#0064f9">{list?.length}</Badge>
         </SummaryItem>
         <SummaryItem onClick={() => history.push("/dashboard/late-responses")}>
           Late Responses <Badge bg="#f0c810">{late?.length}</Badge>
         </SummaryItem>
         <SummaryItem onClick={() => history.push("/dashboard/to-approved")}>
-          To Evaluate<Badge bg="#f97316">{toBeRate?.length}</Badge>
+          To Evaluate <Badge bg="#f97316">{toBeRate?.length}</Badge>
         </SummaryItem>
         <SummaryItem onClick={() => history.push("/dashboard/approved")}>
-          Approved<Badge bg="#059669">{approved?.length}</Badge>
+          Approved <Badge bg="#059669">{approved?.length}</Badge>
         </SummaryItem>
       </SummaryItems>
 
@@ -56,6 +59,9 @@ const SummaryItem = styled.div`
   display: flex;
   align-items: center;
   padding: 1rem;
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
 
   :hover {
     background: ${({ theme }) => theme.colors.secondary};

@@ -1,15 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Alert, Button } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 import styled from "styled-components";
 import * as Yup from "yup";
-import SignaturePad from "react-signature-canvas";
 
 import { getTemplate } from "../../../store/template";
 import templateApi from "../../../api/template";
 import { AppForm, FormControl } from "../../forms";
 import { getUser } from "../../../store/user";
+import logsApi from "../../../api/logs";
 
 const validationSchema = Yup.object().shape({
   target: Yup.string().required("This field is required."),
@@ -26,7 +26,6 @@ export default function Confirmation() {
   const [errorMessage, setErrorMessage] = useState(null);
   const { currentUser } = useSelector(getUser);
   const history = useHistory();
-  let sigPadRef = useRef({});
 
   const {
     coreFunctions,
@@ -46,9 +45,8 @@ export default function Confirmation() {
           supportFunctionsMeasure,
           coreFunctions,
           supportFunctions,
-          values.target,
-          currentUser,
-          sigPadRef.current.getTrimmedCanvas().toDataURL()
+          values?.target,
+          currentUser
         );
         setErrorMessage(null);
         setLoading(false);
@@ -60,7 +58,7 @@ export default function Confirmation() {
   };
   return (
     <Container>
-      <h6>Confimation</h6>
+      <h5>Confimation</h5>
       <AppForm
         initialValues={{ target: "" }}
         validationSchema={validationSchema}
@@ -72,27 +70,6 @@ export default function Confirmation() {
           title="Target Position"
           menuItems={facultyPosition}
         />
-        <div className="my-3">
-          <h6>Draw your Signature here:</h6>
-          <SigPad>
-            <SignaturePad
-              penColor="black"
-              ref={sigPadRef}
-              canvasProps={{
-                width: 450,
-                height: 200,
-                className: "sigCanvas",
-                border: "2px solid black",
-              }}
-            />
-          </SigPad>
-          <Button
-            variant="outline-danger"
-            onClick={() => sigPadRef.current.clear()}
-          >
-            Clear
-          </Button>
-        </div>
 
         {errorMessage && (
           <Alert variant="danger">

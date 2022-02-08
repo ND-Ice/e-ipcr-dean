@@ -36,4 +36,5 @@ const Container = styled.div`
 
 const SidebarTitle = styled.span`
   margin-left: 1rem;
+  text-transform: uppercase;
 `;

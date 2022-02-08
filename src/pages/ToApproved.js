@@ -23,12 +23,13 @@ export default function ToApproved({ history }) {
   const [sortByRemarks, setSortByRemarks] = useState({ value: "All" });
   const { list } = useSelector(getEvaluationResponses);
   const { list: facultyList } = useSelector(getFaculties);
-  const [detailedView, setDetailedView] = useState(false);
 
   const handleSelectRemarks = (item) => setSortByRemarks(item);
   const handlePreview = (id) => history.push(`/response/${id}`);
 
-  const filteredList = list.filter((response) => !response?.isApproved);
+  const filteredList = list.filter(
+    (response) => !response?.status?.intermediateSupervisor?.isApproved
+  );
 
   const filteredByRemarks =
     sortByRemarks && sortByRemarks?.id
@@ -41,8 +42,9 @@ export default function ToApproved({ history }) {
   return (
     <Container>
       <div className="d-flex align-items-center justify-content-between mb-2">
-        <h5 className="m-0">To Approve</h5>
+        <h5 className="m-0 fw-bold">PENDING</h5>
         <IconContainer onClick={() => history.goBack()}>
+          {" "}
           <FiX className="icon" />
         </IconContainer>
       </div>
@@ -52,55 +54,34 @@ export default function ToApproved({ history }) {
           selectedItem={sortByRemarks}
           onSelectItem={handleSelectRemarks}
         />
-        <Form className="d-flex">
-          <Form.Check
-            type="switch"
-            checked={detailedView}
-            onChange={() => setDetailedView(!detailedView)}
-            id="custom-switch"
-            label="Switch to Detailed View"
-          />
-
-          <span className="ms-4">
-            {filteredByRemarks?.length} out of {facultyList?.length}
-          </span>
-        </Form>
+        <span>
+          {list?.length} out of {facultyList?.length}
+        </span>
       </FilterContainer>
-      {!detailedView ? (
-        <Content>
+
+      <Table>
+        <tbody>
+          <tr className="text-uppercase">
+            <td>Profile</td>
+            <td>Name</td>
+            <td>Email Address</td>
+            <td>Date Submitted</td>
+            <td>Final Average</td>
+            <td>Adjectival Rating</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colSpan={7}></td>
+          </tr>
           {filteredByRemarks?.map((response) => (
-            <ResponseCard
+            <ResponseData
               key={response?._id}
               response={response}
               onPreview={handlePreview}
             />
           ))}
-        </Content>
-      ) : (
-        <Table>
-          <tbody>
-            <tr>
-              <td>Profile</td>
-              <td>Name</td>
-              <td>Email Address</td>
-              <td>Date Submitted</td>
-              <td>Final Average</td>
-              <td>Adjectival Rating</td>
-              <td>Status</td>
-            </tr>
-            <tr>
-              <td colSpan={7}></td>
-            </tr>
-            {filteredByRemarks?.map((response) => (
-              <ResponseData
-                key={response?._id}
-                response={response}
-                onPreview={handlePreview}
-              />
-            ))}
-          </tbody>
-        </Table>
-      )}
+        </tbody>
+      </Table>
     </Container>
   );
 }
@@ -129,11 +110,6 @@ const IconContainer = styled.div`
   .icon {
     font-size: 1.2rem;
   }
-`;
-
-const Content = styled.div`
-  display: grid;
-  gap: 0.5rem;
 `;
 
 const FilterContainer = styled.div`

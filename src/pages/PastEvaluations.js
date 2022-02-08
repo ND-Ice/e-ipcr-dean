@@ -20,7 +20,7 @@ export default function PastEvaluations({ history }) {
   return (
     <AppContainer>
       <AppHeader>
-        <h4 className="m-0">Past Evaluations</h4>
+        <h5 className="m-0 text-uppercase fw-bold">Past Evaluations</h5>
       </AppHeader>
       {loading ? (
         <MyLoader />

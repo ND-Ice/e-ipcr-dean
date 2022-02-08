@@ -1,43 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
 import { Avatar, LetterAvatar } from ".";
 
-import facultiesApi from "../api/faculties";
 import { getRemarks } from "../utils";
 import { useSelector } from "react-redux";
 import { getEvaluations } from "../store/evaluations";
+import { Button } from "react-bootstrap";
 
 export default function ResponseData({ response, onPreview }) {
   const { preview } = useSelector(getEvaluations);
   const [imageError, setImageError] = useState(false);
-  const { user } = response;
+  const { status } = response;
+  const { faculty, intermediateSupervisor } = status;
 
   const isLate = moment(parseInt(response?.dateSubmitted)).isAfter(
     preview?.due
   );
 
   return (
-    <TableRow isLate={isLate} onClick={() => onPreview(response?._id)}>
+    <TableRow isLate={isLate}>
+      {" "}
       <TableData>
         <div className="d-flex align-items-center">
           <div>
-            {user?.image?.current && !imageError ? (
+            {faculty?.user?.image?.current && !imageError ? (
               <Avatar
-                user={user}
+                user={faculty?.user}
                 size={45}
                 onError={() => setImageError(true)}
               />
             ) : (
-              <LetterAvatar user={user} size={45} />
+              <LetterAvatar user={faculty?.user} size={45} />
             )}
           </div>
         </div>
       </TableData>
       <TableData>
-        {user?.name?.firstName} {user?.name?.lastName}
+        {faculty?.user?.name?.firstName} {faculty?.user?.name?.lastName}
       </TableData>
-      <TableData>{user?.email}</TableData>
+      <TableData>{faculty?.user?.email}</TableData>
       <TableData>
         {moment(parseInt(response?.dateSubmitted)).format("ll")}
       </TableData>
@@ -46,10 +48,21 @@ export default function ResponseData({ response, onPreview }) {
         {getRemarks(response?.ratings?.average) || "Pending"}
       </TableData>
       <TableData>
-        {response?.isApproved ? (
-          <Approved>Approved</Approved>
+        {intermediateSupervisor?.isApproved ? (
+          <Button
+            className="text-uppercase"
+            onClick={() => onPreview(response?._id)}
+          >
+            View
+          </Button>
         ) : (
-          <Pending>Pending</Pending>
+          <Button
+            variant="danger"
+            className="text-uppercase"
+            onClick={() => onPreview(response?._id)}
+          >
+            Evaluate
+          </Button>
         )}
       </TableData>
     </TableRow>
@@ -57,7 +70,6 @@ export default function ResponseData({ response, onPreview }) {
 }
 
 const TableRow = styled.tr`
-  cursor: pointer;
   transition: all 0.3s;
   background: ${({ isLate }) => (isLate ? "yellow" : "white")};
 

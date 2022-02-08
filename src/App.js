@@ -4,6 +4,10 @@ import {
   ChangePassword,
   Dashboard,
   LoginPage,
+  NeedDirectorApproval,
+  NeedHEADApproval,
+  NeedHrApproval,
+  NeedPMTApproval,
   PasswordRecoveryPage,
   RegisterPage,
   Response,
@@ -12,7 +16,7 @@ import {
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
-import { ProtectedRoute, ScrollToTop } from "./components";
+import { ProtectedRoute, ScrollToTop, ToApproveByPMT } from "./components";
 
 const { store, persistor } = configureStore();
 
@@ -26,7 +30,23 @@ export default function App() {
           <Route path="/forgot-password" component={PasswordRecoveryPage} />
           <ProtectedRoute path="/dashboard" component={Dashboard} />
           <Route path="/change-password/:id" component={ChangePassword} />
-          <Route path="/response/:id" component={Response} />
+          <ProtectedRoute path="/response/:id" component={Response} />
+          <ProtectedRoute
+            path="/to-approve-by-director/:id"
+            component={NeedDirectorApproval}
+          />
+          <ProtectedRoute
+            path="/to-approve-by-PMT/:id"
+            component={NeedPMTApproval}
+          />
+          <ProtectedRoute
+            path="/to-approve-by-HEAD/:id"
+            component={NeedHEADApproval}
+          />
+          <ProtectedRoute
+            path="/to-approve-by-HR/:id"
+            component={NeedHrApproval}
+          />
           <Route path="/" component={LoginPage} />
         </Switch>
       </PersistGate>

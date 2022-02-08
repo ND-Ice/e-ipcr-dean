@@ -11,9 +11,9 @@ export default function EvaluationCard({ evaluationInfo, onPreview }) {
   );
 
   return (
-    <StyledCard onClick={onPreview}>
+    <StyledCard>
       <CardBody>
-        <CardTitle>
+        <CardTitle onClick={onPreview}>
           Individual Performance Commitment Review (IPCR){" "}
           <strong>
             {parseInt(evaluationInfo.targetYear - 1)} -
@@ -31,7 +31,6 @@ export default function EvaluationCard({ evaluationInfo, onPreview }) {
 
 const StyledCard = styled.div`
   transition: all 0.3s;
-  cursor: pointer;
   position: relative;
   border: 2px solid ${({ theme }) => theme.colors.secondary};
 
@@ -46,6 +45,12 @@ const CardBody = styled.div`
 
 const CardTitle = styled.p`
   max-width: 35ch;
+  transition: all 120ms;
+  cursor: pointer;
+
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const Badge = styled.span`

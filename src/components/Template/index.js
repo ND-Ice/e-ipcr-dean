@@ -13,3 +13,4 @@ export { default as EditSupportFunctions } from "./EditSupportFunctions";
 export { default as AddCoreRating } from "./AddCoreRating";
 export { default as AddSupportRating } from "./AddSupportRating";
 export { default as ConfirmSubmission } from "./ConfirmSubmission";
+export { default as EditSupportRating } from "./EditSupportRating";

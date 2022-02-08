@@ -41,8 +41,12 @@ const validationSchema = Yup.object().shape({
 });
 
 const positions = [
-  { id: 1, value: "Evaluator" },
-  { id: 2, value: "HR" },
+  { id: 1, value: "INTERMEDIATE SUPERVISOR" },
+  { id: 2, value: "DIRECTOR" },
+  { id: 3, value: "PMT" },
+  { id: 4, value: "HEAD" },
+  { id: 5, value: "CHAIRPERSON" },
+  { id: 6, value: "HR" },
 ];
 
 export default function RegisterPage() {

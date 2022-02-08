@@ -46,6 +46,7 @@ const slice = createSlice({
         actualAccomplishments: {
           title: "",
           description: "",
+          sentiment: "",
           rating: {},
         },
       });
@@ -103,6 +104,7 @@ const slice = createSlice({
         actualAccomplishments: {
           title: "",
           description: "",
+          sentiment: "",
           rating: {},
         },
       });
@@ -145,6 +147,19 @@ const slice = createSlice({
       );
       state.list = updated;
     },
+    previewTemplate: (state, action) => {
+      const {
+        coreFunctionsMeasure,
+        supportFunctionsMeasure,
+        coreFunctions,
+        supportFunctions,
+      } = action.payload;
+
+      state.coreFunctionsMeasure = coreFunctionsMeasure;
+      state.supportFunctionsMeasure = supportFunctionsMeasure;
+      state.coreFunctions = coreFunctions;
+      state.supportFunctions = supportFunctions;
+    },
   },
 });
 
@@ -160,6 +175,7 @@ export const {
   templatesReceived,
   addTemplate,
   deleteTemplate,
+  previewTemplate,
 
   // support functions
   addSupportFunctions,

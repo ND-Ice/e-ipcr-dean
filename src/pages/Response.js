@@ -21,11 +21,7 @@ import {
   Recommendations,
   Respondent,
 } from "../components/Template/template piece";
-import {
-  ApprovedBy,
-  EvaluatorSignature,
-  HrSignature,
-} from "../components/Signatures";
+import { ApprovedBy, Signature } from "../components/Signatures";
 
 export default function Response({ match, history }) {
   const id = match.params.id;
@@ -33,16 +29,16 @@ export default function Response({ match, history }) {
   const [showConfirmSubmission, setShowConfirmSubmission] = useState(false);
 
   const response = evaluationResponses?.list?.filter(
-    (response) => response._id === id
+    (response) => response?._id === id
   )[0];
 
   const coreFinalRating = response?.coreFunctions?.map((cf) => {
-    const ave = cf?.rawAverage?.reduce((acc, curr) => acc + curr, 0);
+    const ave = cf?.rawAverage?.reduce((acc, curr) => acc + curr?.average, 0);
     return (ave / cf?.successIndicators?.length) * (cf?.percentage / 100);
   });
 
   const supportFinalRating = response?.supportFunctions?.map((sf) => {
-    const ave = sf?.rawAverage?.reduce((acc, curr) => acc + curr, 0);
+    const ave = sf?.rawAverage?.reduce((acc, curr) => acc + curr?.average, 0);
     return (ave / sf?.successIndicators?.length) * (sf?.percentage / 100);
   });
 
@@ -75,17 +71,20 @@ export default function Response({ match, history }) {
             </td>
           </tr>
           <Respondent response={response} />
-          <tr>
-            <td colSpan={8} className="fw-bold text-uppercase">
-              Approved By
-            </td>
-          </tr>
-          {response?.isApproved && (
-            <tr>
-              <td colSpan={8}>
-                <ApprovedBy response={response} />
-              </td>
-            </tr>
+
+          {response?.status?.intermediateSupervisor?.signature && (
+            <>
+              <tr>
+                <td colSpan={8} className="fw-bold text-uppercase">
+                  Approved By
+                </td>
+              </tr>
+              <tr>
+                <td colSpan={8}>
+                  <ApprovedBy response={response} />
+                </td>
+              </tr>
+            </>
           )}
           <CoreHeader />
 
@@ -141,7 +140,8 @@ export default function Response({ match, history }) {
                     />
                   </td>
                   <td className="text-center align-middle">
-                    {succ?.actualAccomplishments?.rating?.average.toFixed(2)}
+                    {succ?.actualAccomplishments?.rating?.average &&
+                      succ?.actualAccomplishments?.rating?.average.toFixed(2)}
                   </td>
                   <td className="align-middle">
                     <CoreRemarks
@@ -215,7 +215,8 @@ export default function Response({ match, history }) {
                     />
                   </td>
                   <td className="text-center align-middle">
-                    {succ?.actualAccomplishments?.rating?.average.toFixed(2)}
+                    {succ?.actualAccomplishments?.rating?.average &&
+                      succ?.actualAccomplishments?.rating?.average.toFixed(2)}
                   </td>
                   <td className="align-middle">
                     <SupportRemarks
@@ -261,7 +262,10 @@ export default function Response({ match, history }) {
               </td>
               <td colSpan={2} className="text-center">
                 {(
-                  (cf?.rawAverage?.reduce((acc, curr) => acc + curr, 0) /
+                  (cf?.rawAverage?.reduce(
+                    (acc, curr) => acc + curr?.average,
+                    0
+                  ) /
                     cf?.rawAverage?.length) *
                   (cf?.percentage / 100)
                 ).toFixed(2)}
@@ -285,7 +289,10 @@ export default function Response({ match, history }) {
               </td>
               <td colSpan={2} className="text-center">
                 {(
-                  (sf?.rawAverage?.reduce((acc, curr) => acc + curr, 0) /
+                  (sf?.rawAverage?.reduce(
+                    (acc, curr) => acc + curr?.average,
+                    0
+                  ) /
                     sf?.rawAverage?.length) *
                   (sf?.percentage / 100)
                 ).toFixed(2)}
@@ -344,11 +351,15 @@ export default function Response({ match, history }) {
           {/* ======================== signatories ======================== */}
           <tr>
             <td colSpan={8}>
-              <div className="d-flex align-items-center justify-content-between p-4">
-                <HrSignature response={response} />
-
-                {response?.isApproved && (
-                  <EvaluatorSignature response={response} />
+              <div className="d-flex align-items-center justify-content-between">
+                {response?.status?.director?.isApproved && (
+                  <Signature response={response} positionProperty="director" />
+                )}
+                {response?.status?.PMT?.isApproved && (
+                  <Signature response={response} positionProperty="PMT" />
+                )}
+                {response?.status?.HEAD?.isApproved && (
+                  <Signature response={response} positionProperty="HEAD" />
                 )}
               </div>
             </td>
@@ -378,7 +389,9 @@ export default function Response({ match, history }) {
         className="mt-2"
         onClick={() => setShowConfirmSubmission(true)}
       >
-        {response?.isApproved ? "Re Evaluate" : "Evaluate"}
+        {response?.status?.intermediateSupervisor?.isApproved
+          ? "Re Evaluate"
+          : "Evaluate"}
       </Button>
 
       <Modal

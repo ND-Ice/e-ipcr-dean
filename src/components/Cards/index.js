@@ -3,3 +3,8 @@ export { default as EvaluationCard } from "./EvaluationCard";
 export { default as InformationCard } from "./InformationCard";
 export { default as ResponseCard } from "./ResponseCard";
 export { default as TemplateCard } from "./TemplateCard";
+export { default as DirectorData } from "./DirectorData";
+export { default as PMTdata } from "./PMTdata";
+export { default as HEADdata } from "./HEADdata";
+export { default as HRData } from "./HRData";
+export { default as ApprovedData } from "./ApprovedData";

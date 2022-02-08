@@ -59,7 +59,7 @@ export default function Faculties({ history }) {
   return (
     <Appcontainer>
       <AppHeader>
-        <h4 className="m-0">Faculties</h4>
+        <h5 className="m-0 text-uppercase fw-bold">Faculties</h5>
         <IconContainer>
           <Button onClick={handleSearch}>Search</Button>
         </IconContainer>

@@ -6,11 +6,21 @@ import { FiTrash } from "react-icons/fi";
 
 const getRelativeTime = (timeStamp) => moment(parseInt(timeStamp)).format("LL");
 
-export default function TemplateCard({ template, onRecycle, onDelete }) {
+export default function TemplateCard({
+  template,
+  onRecycle,
+  onDelete,
+  onPreview,
+}) {
   return (
     <Container>
-      <h4>Template - ({template?._id})</h4>
-      <p className="m-0">Target - {template?.target}</p>
+      <Title onClick={onPreview}>
+        Individual Performance Commitment Review (IPCR) Template{" "}
+        <strong>
+          ({template?.targetYear}) - ({parseInt(template?.targetYear) + 1})
+        </strong>
+      </Title>
+      <p className="m-0 mt-4">Target - {template?.target}</p>
       <p className="m-0">
         Generated on - {getRelativeTime(template?.dateGenerated)}
       </p>
@@ -34,6 +44,16 @@ const Container = styled.div`
 
   :hover {
     border-bottom-color: ${({ theme }) => theme.colors.accent.emerald};
+  }
+`;
+
+const Title = styled.h5`
+  max-width: 40ch;
+  cursor: pointer;
+  transition: all 12ms;
+
+  :hover {
+    text-decoration: underline;
   }
 `;
 

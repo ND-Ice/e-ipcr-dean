@@ -8,7 +8,8 @@ import { getEvaluations } from "../../../store/evaluations";
 export default function Respondent({ response }) {
   const evaluation = useSelector(getEvaluations);
   const { preview } = evaluation;
-  const { user } = response;
+  const { status } = response;
+  const { faculty } = status;
 
   return (
     <tr>
@@ -18,7 +19,8 @@ export default function Respondent({ response }) {
             <Title>
               I,{" "}
               <strong>
-                {user?.name?.firstName} {user?.name?.lastName},
+                {faculty?.user?.name?.firstName} {faculty?.user?.name?.lastName}
+                ,
               </strong>
               commit to deliver and agree to be rated on the attainment of the
               following targets in accordance with the indicated measures for
@@ -29,11 +31,9 @@ export default function Respondent({ response }) {
 
           <div className="d-flex align-items-center justify-content-end">
             <Signature>
-              {response?.signatures?.userSignature && (
-                <img src={response?.signatures?.userSignature} />
-              )}
-              {user?.name?.firstName}
-              {user?.name?.lastName}
+              {faculty?.signature && <img src={faculty?.signature} />}
+              {faculty?.user?.name?.firstName}
+              {faculty?.user?.name?.lastName}
             </Signature>
             <DateSubmitted>
               {moment(parseInt(response?.dateSubmitted)).format("LL")}

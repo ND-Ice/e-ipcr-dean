@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import SignaturePad from "react-signature-canvas";
 import { Alert, Button } from "react-bootstrap";
@@ -25,7 +25,6 @@ export default function ReuseTemplate({ template, open }) {
   const { currentUser } = useSelector(getUser);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  let sigPadRef = useRef({});
 
   const handleSubmit = async (values) => {
     try {
@@ -36,8 +35,7 @@ export default function ReuseTemplate({ template, open }) {
         template?.coreFunctions,
         template?.supportFunctions,
         values.target,
-        currentUser,
-        sigPadRef.current.getTrimmedCanvas().toDataURL()
+        currentUser
       );
       setErrorMessage(null);
       setLoading(false);
@@ -64,27 +62,6 @@ export default function ReuseTemplate({ template, open }) {
             title="Target Position"
             menuItems={facultyPosition}
           />
-          <div className="my-3">
-            <h6>Draw your Signature here:</h6>
-            <SigPad>
-              <SignaturePad
-                penColor="black"
-                ref={sigPadRef}
-                canvasProps={{
-                  width: 700,
-                  height: 200,
-                  className: "sigCanvas",
-                  border: "2px solid black",
-                }}
-              />
-            </SigPad>
-            <Button
-              variant="outline-danger"
-              onClick={() => sigPadRef.current.clear()}
-            >
-              Clear
-            </Button>
-          </div>
           {errorMessage && (
             <Alert variant="danger">
               {errorMessage?.response?.data ||
@@ -92,6 +69,7 @@ export default function ReuseTemplate({ template, open }) {
             </Alert>
           )}
           <FormControl
+            className="mt-2"
             variant="button"
             title={loading ? "Processing..." : "Reuse"}
             loading={loading}
@@ -109,9 +87,4 @@ const Container = styled.div`
 const Content = styled.div`
   margin-top: 2rem;
   margin-bottom: 0.5rem;
-`;
-
-const SigPad = styled.div`
-  margin-bottom: 1rem;
-  border: 1px solid ${({ theme }) => theme.colors.accent.blue};
 `;

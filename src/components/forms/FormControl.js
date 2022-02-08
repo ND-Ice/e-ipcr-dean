@@ -1,4 +1,12 @@
-import { DatePicker, Password, SubmitButton, TextInput, Select } from ".";
+import {
+  DatePicker,
+  Password,
+  SubmitButton,
+  TextInput,
+  Select,
+  RadioButtons,
+  ConditionalRadio,
+} from ".";
 
 export default function FormControl(props) {
   const { variant, ...otherProps } = props;
@@ -10,5 +18,8 @@ export default function FormControl(props) {
   else if (variant === "password") return <Password {...otherProps} />;
   else if (variant === "date") return <DatePicker {...otherProps} />;
   else if (variant === "select") return <Select {...otherProps} />;
+  else if (variant === "radio") return <RadioButtons {...otherProps} />;
+  else if (variant === "conditionalRadio")
+    return <ConditionalRadio {...otherProps} />;
   else return null;
 }

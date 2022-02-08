@@ -4,7 +4,14 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { FiCalendar } from "react-icons/fi";
 
-import { Loader, ResponseCountSummary } from "../components";
+import {
+  Loader,
+  ResponseCountSummary,
+  ToApproveByHEAD,
+  ToApproveByHR,
+  ToApproveByPMT,
+  TobeApprovedByDirector,
+} from "../components";
 
 import evaluationsApi from "../api/evaluations";
 import responseApi from "../api/response";
@@ -19,10 +26,12 @@ import {
   evaluationReponseRequestFailed,
   evaluationResponseReceived,
 } from "../store/response";
+import { getUser } from "../store/user";
 
 export default function EvaluationPreview({ match }) {
   const dispatch = useDispatch();
   const id = match.params.id;
+  const { currentUser } = useSelector(getUser);
   const evaluations = useSelector(getEvaluations);
   const evaluation = evaluations.preview;
   const [loading, setLoading] = useState(false);
@@ -71,13 +80,29 @@ export default function EvaluationPreview({ match }) {
               </strong>
             </Title>
             <DueDate>
-              <FiCalendar className="icon" />{" "}
-              {moment(evaluation?.due).format("LL")}
+              <FiCalendar className="icon" /> Due{" "}
+              {moment(evaluation?.due).endOf("day").fromNow()}
             </DueDate>
           </header>
 
           <AppContent>
-            <ResponseCountSummary evaluation={evaluations} />
+            {currentUser?.position === "INTERMEDIATE SUPERVISOR" && (
+              <SummaryWrapper>
+                <ResponseCountSummary evaluation={evaluations} />
+              </SummaryWrapper>
+            )}
+            {currentUser?.position === "DIRECTOR" && (
+              <TobeApprovedByDirector evaluations={evaluations} />
+            )}
+            {currentUser?.position === "PMT" && (
+              <ToApproveByPMT evaluations={evaluations} />
+            )}
+            {currentUser?.position === "HEAD" && (
+              <ToApproveByHEAD evaluations={evaluations} />
+            )}
+            {currentUser?.position === "HR" && (
+              <ToApproveByHR evaluations={evaluations} />
+            )}
           </AppContent>
         </AppContainer>
       )}
@@ -89,18 +114,17 @@ const AppContainer = styled.div`
   padding: 0.5rem;
 `;
 
-const AppContent = styled.div`
-  display: grid;
-  margin-top: 1rem;
-  gap: 0.5rem;
+const AppContent = styled.div``;
 
-  @media (min-width: ${(props) => props.theme.breakpoints.lg}) {
-    grid-template-columns: 1fr 3fr;
-  }
+const SummaryWrapper = styled.div`
+  margin-top: 2rem;
+  width: 300px;
 `;
 
-const Title = styled.h4`
+const Title = styled.h5`
   max-width: 40ch;
+  text-transform: uppercase;
+  font-weight: 700;
 `;
 
 const DueDate = styled.div`

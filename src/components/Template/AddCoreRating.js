@@ -1,77 +1,87 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import * as Yup from "yup";
-import { addCoreRating, getEvaluationResponses } from "../../store/response";
 
+import { addCoreRating, getEvaluationResponses } from "../../store/response";
 import { AppForm, FormControl } from "../forms";
 
-const validationSchema = Yup.object().shape({
-  quality: Yup.number().required("This Field is required."),
-  timeliness: Yup.number().required("This Field is required."),
-  efficiency: Yup.number().required("This Field is required."),
-});
-
-const ratingScale = [
-  { id: 1, value: 5 },
-  { id: 2, value: 4 },
-  { id: 3, value: 3 },
-  { id: 4, value: 2 },
-  { id: 5, value: 1 },
+const quality = [
+  { id: "q1", value: 5, label: "Outstanding" },
+  { id: "q2", value: 4, label: "Very Satisfactory" },
+  { id: "q3", value: 3, label: "Satisfactory" },
+  { id: "q4", value: 2, label: "Unsatisfactory" },
+  { id: "q5", value: 1, label: "Poor" },
+];
+const timeliness = [
+  { id: "t1", value: 5, label: "Outstanding" },
+  { id: "t2", value: 4, label: "Very Satisfactory" },
+  { id: "t3", value: 3, label: "Satisfactory" },
+  { id: "t4", value: 2, label: "Unsatisfactory" },
+  { id: "t5", value: 1, label: "Poor" },
+];
+const efficiency = [
+  { id: "e1", value: 5, label: "Outstanding" },
+  { id: "e2", value: 4, label: "Very Satisfactory" },
+  { id: "e3", value: 3, label: "Satisfactory" },
+  { id: "e4", value: 2, label: "Unsatisfactory" },
+  { id: "e5", value: 1, label: "Poor" },
 ];
 
-export default function AddCoreRating({ response, open }) {
-  const dispatch = useDispatch();
+export default function AddCoreRating({ id, successIndicator, open }) {
   const { targetIndicator } = useSelector(getEvaluationResponses);
-  const { responseId, funcId, indicatorId: succId } = targetIndicator;
-
-  const cf = response?.coreFunctions.filter((cf) => cf?.id === funcId)[0];
-  const succ = cf?.successIndicators?.filter((succ) => succ?.id === succId)[0];
+  const dispatch = useDispatch();
 
   const handleSubmit = (values) => {
-    dispatch(addCoreRating({ responseId, funcId, succId, ...values }));
+    dispatch(
+      addCoreRating({
+        currentId: id,
+        funcId: targetIndicator?.funcId,
+        succId: targetIndicator?.indicatorId,
+        ...values,
+      })
+    );
     return open(false);
   };
 
   return (
     <Container>
       <Header>
-        <h5>Add Rating</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Add Rating</h5>
       </Header>
 
-      <div>
-        <h6 className="m-0">{succ?.title}</h6>
-        <p>{succ?.description}</p>
+      <div className="mb-4">
+        <h6 className="m-0">{successIndicator?.title}</h6>
+        <p>{successIndicator?.description}</p>
       </div>
-
-      <div className="mt-4">
-        <h6 className="m-0">{succ?.actualAccomplishments?.title}</h6>
-        <p>{succ?.actualAccomplishments?.description}</p>
+      <div className="mb-4">
+        <h6 className="m-0">
+          {successIndicator?.actualAccomplishments?.title}
+        </h6>
+        <p>{successIndicator?.actualAccomplishments?.description}</p>
       </div>
 
       <AppForm
         initialValues={{ quality: "", timeliness: "", efficiency: "" }}
-        validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         <GridContainer>
           <FormControl
-            variant="select"
-            name="quality"
+            variant="radio"
             title="Quality"
-            menuItems={ratingScale}
+            name="quality"
+            menuItems={quality}
           />
           <FormControl
-            variant="select"
-            name="timeliness"
+            variant="radio"
             title="Timeliness"
-            menuItems={ratingScale}
+            name="timeliness"
+            menuItems={timeliness}
           />
           <FormControl
-            variant="select"
-            name="efficiency"
+            variant="radio"
             title="Efficiency"
-            menuItems={ratingScale}
+            name="efficiency"
+            menuItems={efficiency}
           />
         </GridContainer>
         <FormControl variant="button" title="Rate" className="mt-2" />
@@ -84,15 +94,16 @@ const Container = styled.div`
   padding: 1.5rem;
 `;
 
-const GridContainer = styled.div`
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: repeat(3, 1fr);
-`;
-
 const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
 `;

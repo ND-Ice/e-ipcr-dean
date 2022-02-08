@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { Alert, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import SignaturePad from "react-signature-canvas";
+import logsApi from "../../api/logs";
 
 import { getUser } from "../../store/user";
 import responseApi from "../../api/response";
@@ -14,22 +15,56 @@ export default function ConfirmSubmission({ response, open }) {
   const { currentUser } = useSelector(getUser);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const { status } = response;
+  const { faculty } = status;
   let sigPadRef = useRef({});
 
-  const handleSubmit = async (values) => {
+  const coreFuncRating = response?.coreFunctions?.map((coreFunc) => {
+    const ave = coreFunc?.rawAverage?.reduce(
+      (acc, curr) => acc + curr?.average,
+      0
+    );
+    return (
+      (ave / coreFunc?.successIndicators?.length) * (coreFunc?.percentage / 100)
+    );
+  });
+
+  // get the support functions rating
+  const supportFuncRating = response?.supportFunctions?.map((suppFunc) => {
+    const ave = suppFunc?.rawAverage?.reduce(
+      (acc, curr) => acc + curr?.average,
+      0
+    );
+    return (
+      (ave / suppFunc?.successIndicators?.length) * (suppFunc?.percentage / 100)
+    );
+  });
+
+  const finalRating = [...supportFuncRating, ...coreFuncRating]
+    .reduce((acc, curr) => acc + curr, 0)
+    .toFixed(2);
+
+  const handleSubmit = async () => {
     try {
       setLoading(true);
       await responseApi.evaluateResponse(
         response?._id,
-        currentUser,
-        Date.now(),
         response?.coreFunctions,
         response?.supportFunctions,
         response?.attachments,
         response?.feedback,
+        faculty?.user,
+        faculty?.signature,
+        currentUser,
         sigPadRef.current.getTrimmedCanvas().toDataURL(),
-        response?.signatures?.userSignature,
-        response?.signatures?.hrSignature
+        finalRating
+      );
+
+      await logsApi.addEvaluationLogs(
+        response?.evaluationId,
+        currentUser,
+        "approved the evaluation of",
+        faculty?.user
       );
       setLoading(false);
       open(false);

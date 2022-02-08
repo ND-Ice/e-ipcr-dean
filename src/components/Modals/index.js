@@ -15,3 +15,4 @@ export { default as RankingChart } from "./RankingChart";
 export { default as FailRankingChart } from "./FailRankingChart";
 export { default as ReuseTemplate } from "./ReuseTemplate";
 export { default as TemplatedDeleteConfirmation } from "./TemplatedDeleteConfirmation";
+export { default as ApprovedResponses } from "./ApprovedResponses";

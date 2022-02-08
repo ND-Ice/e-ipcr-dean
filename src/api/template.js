@@ -13,9 +13,7 @@ const submitTemplate = (
   supportFunctionsMeasure,
   coreFunctions,
   supportFunctions,
-  target,
-  createdBy,
-  signature
+  target
 ) =>
   client.post("/templates", {
     coreFunctionsMeasure,
@@ -24,10 +22,6 @@ const submitTemplate = (
     supportFunctions,
     target,
     targetYear,
-    generatedBy: {
-      createdBy,
-      signature,
-    },
   });
 
 const templateApi = {

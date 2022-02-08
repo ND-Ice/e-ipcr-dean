@@ -20,3 +20,7 @@ export { default as AllResponse } from "./AllResponses";
 export { default as LateResponses } from "./LateResponses";
 export { default as ToApproved } from "./ToApproved";
 export { default as Approved } from "./Approved";
+export { default as NeedDirectorApproval } from "./NeedDirectorApproval";
+export { default as NeedPMTApproval } from "./NeedPMTApproval";
+export { default as NeedHEADApproval } from "./NeedHEADApproval";
+export { default as NeedHrApproval } from "./NeedHrApproval";

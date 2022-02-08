@@ -8,8 +8,7 @@ import { getEvaluationResponses } from "../store/response";
 import { Filter, ResponseData } from "../components";
 import { getFaculties } from "../store/faculties";
 import { getRemarks } from "../utils";
-import { ResponseCard } from "../components/Cards";
-import { Form, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { getEvaluations } from "../store/evaluations";
 
 const remarks = [
@@ -26,7 +25,6 @@ export default function LateResponses({ history }) {
   const { list } = useSelector(getEvaluationResponses);
   const { list: facultyList } = useSelector(getFaculties);
   const { preview } = useSelector(getEvaluations);
-  const [detailedView, setDetailedView] = useState(false);
 
   const late = list.filter((response) =>
     moment(parseInt(response.dateSubmmitted)).isAfter(preview.due)
@@ -46,65 +44,47 @@ export default function LateResponses({ history }) {
   return (
     <Container>
       <div className="d-flex align-items-center justify-content-between mb-2">
-        <h5 className="m-0">Late Reponses</h5>
+        <h5 className="m-0 fw-bold text-uppercase">late responses</h5>
         <IconContainer onClick={() => history.goBack()}>
           <FiX className="icon" />
         </IconContainer>
       </div>
+
       <FilterContainer>
         <Filter
           items={remarks}
           selectedItem={sortByRemarks}
           onSelectItem={handleSelectRemarks}
         />
-        <Form className="d-flex">
-          <Form.Check
-            type="switch"
-            checked={detailedView}
-            onChange={() => setDetailedView(!detailedView)}
-            id="custom-switch"
-            label="Switch to Detailed View"
-          />
-          <span className="ms-4">
-            {filteredByRemarks?.length} out of {facultyList?.length}
-          </span>
-        </Form>
+
+        <span className="ms-4">
+          {filteredByRemarks?.length} out of {facultyList?.length}
+        </span>
       </FilterContainer>
-      {!detailedView ? (
-        <Content>
+
+      <Table>
+        <tbody>
+          <tr className="text-uppercase">
+            <td>Profile</td>
+            <td>Name</td>
+            <td>Email Address</td>
+            <td>Date Submitted</td>
+            <td>Final Average</td>
+            <td>Adjectival Rating</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colSpan={7}></td>
+          </tr>
           {filteredByRemarks?.map((response) => (
-            <ResponseCard
+            <ResponseData
               key={response?._id}
               response={response}
               onPreview={handlePreview}
             />
           ))}
-        </Content>
-      ) : (
-        <Table>
-          <tbody>
-            <tr>
-              <td>Profile</td>
-              <td>Name</td>
-              <td>Email Address</td>
-              <td>Date Submitted</td>
-              <td>Final Average</td>
-              <td>Adjectival Rating</td>
-              <td>Status</td>
-            </tr>
-            <tr>
-              <td colSpan={7}></td>
-            </tr>
-            {filteredByRemarks?.map((response) => (
-              <ResponseData
-                key={response?._id}
-                response={response}
-                onPreview={handlePreview}
-              />
-            ))}
-          </tbody>
-        </Table>
-      )}
+        </tbody>
+      </Table>
     </Container>
   );
 }
