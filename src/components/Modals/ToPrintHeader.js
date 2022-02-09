@@ -10,7 +10,7 @@ export default function ToPrintHeader() {
       </tr>
       <tr className="fw-bold text-uppercase">
         <td className="p-3" colSpan={7}>
-          Evaluation Responses
+          Evaluation summary
         </td>
       </tr>
       <tr>

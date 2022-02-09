@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import { DirectorData } from "./Cards";
-import { Approved, ApprovedResponses } from "./Modals";
+import { ApprovedResponses } from "./Modals";
 import { getEvaluationResponses } from "../store/response";
 
 export default function TobeApprovedByDirector() {

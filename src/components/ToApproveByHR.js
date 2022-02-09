@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
-import { ApprovedResponses } from "./Modals";
+import { ApprovedResponses, Ranking } from "./Modals";
 import { HRData } from "./Cards";
 import { getEvaluationResponses } from "../store/response";
 
@@ -12,9 +12,11 @@ export default function ToApproveByHR() {
   const { list } = useSelector(getEvaluationResponses);
   const history = useHistory();
   const [showApproved, setShowApproved] = useState(false);
+  const [showRanking, setShowRanking] = useState(false);
 
   const filteredList = list.filter(
-    (response) => !response?.status?.HR?.isApproved
+    (response) =>
+      response?.status?.HEAD?.isApproved && !response?.status?.HR?.isApproved
   );
 
   const approved = list.filter((response) => response?.status?.HR?.isApproved);
@@ -25,15 +27,20 @@ export default function ToApproveByHR() {
     <>
       <Container>
         <div className="mt-4 mb-4 d-flex align-items-center justify-content-between">
-          <h5 className="text-uppercase fw-bold">HEAD</h5>
-          <Button onClick={handleViewApproved}>
-            Approved
-            {approved?.length !== 0 && (
-              <Badge variant="pll" bg="danger" className="ms-2">
-                {approved?.length}
-              </Badge>
-            )}
-          </Button>
+          <h5 className="text-uppercase fw-bold">HR</h5>
+          <div>
+            <Button className="me-2" onClick={() => setShowRanking(true)}>
+              Ranking
+            </Button>
+            <Button onClick={handleViewApproved}>
+              Approved
+              {approved?.length !== 0 && (
+                <Badge variant="pll" bg="danger" className="ms-2">
+                  {approved?.length}
+                </Badge>
+              )}
+            </Button>
+          </div>
         </div>
 
         <Table className="w-100 ">
@@ -70,6 +77,10 @@ export default function ToApproveByHR() {
           open={setShowApproved}
           onPreview={handlePreview}
         />
+      </Modal>
+
+      <Modal fullscreen show={showRanking} onHide={() => setShowRanking(false)}>
+        <Ranking responses={approved} open={setShowRanking} />
       </Modal>
     </>
   );

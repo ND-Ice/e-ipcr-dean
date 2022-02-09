@@ -4,7 +4,8 @@ import moment from "moment";
 import { getRemarks } from "../utils";
 
 export default function PrintTableData({ response }) {
-  const { dateSubmitted, ratings, user } = response;
+  const { dateSubmitted, ratings, status } = response;
+  const { user } = status?.faculty;
 
   return (
     <tr>

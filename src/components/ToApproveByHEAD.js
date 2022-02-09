@@ -15,7 +15,8 @@ export default function ToApproveByHEAD() {
   const [showApproved, setShowApproved] = useState(false);
 
   const filteredList = list.filter(
-    (response) => !response?.status?.HEAD?.isApproved
+    (response) =>
+      response?.status?.PMT?.isApproved && !response?.status?.HEAD?.isApproved
   );
 
   const approved = list.filter(

@@ -111,7 +111,9 @@ export default function EvaluationPreview({ match }) {
 }
 
 const AppContainer = styled.div`
-  padding: 0.5rem;
+  padding: 0 1rem;
+  height: 600px;
+  overflow: auto;
 `;
 
 const AppContent = styled.div``;

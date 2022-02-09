@@ -146,10 +146,21 @@ const slice = createSlice({
       const cfIdx = template.coreFunctions.findIndex((cf) => cf.id === funcId);
       const coreFunction = template.coreFunctions[cfIdx];
 
-      coreFunction.rawAverage.push({
-        id: succId,
-        average: parseInt(rawAverage) / newRawScore.length,
-      });
+      const aveIdx = coreFunction.rawAverage.findIndex(
+        (ave) => ave.id === succId
+      );
+
+      if (aveIdx !== -1) {
+        coreFunction.rawAverage[aveIdx] = {
+          id: succId,
+          average: parseInt(rawAverage) / newRawScore,
+        };
+      } else {
+        coreFunction.rawAverage.push({
+          id: succId,
+          average: parseInt(rawAverage) / newRawScore.length,
+        });
+      }
 
       const succIdx = coreFunction.successIndicators.findIndex(
         (succ) => succ.id === succId

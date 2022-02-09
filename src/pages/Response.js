@@ -200,7 +200,7 @@ export default function Response({ match, history }) {
                   </td>
                   <td className="text-center align-middle">
                     <SupportRating
-                      textProperty={"quality"}
+                      textProperty={"timeliness"}
                       response={response}
                       supportFunction={sf}
                       successIndicator={succ}
@@ -208,7 +208,7 @@ export default function Response({ match, history }) {
                   </td>
                   <td className="text-center align-middle">
                     <SupportRating
-                      textProperty={"quality"}
+                      textProperty={"efficiency"}
                       response={response}
                       supportFunction={sf}
                       successIndicator={succ}

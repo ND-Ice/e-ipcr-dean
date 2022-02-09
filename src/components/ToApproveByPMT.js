@@ -14,7 +14,9 @@ export default function TobeApprovedByDirector() {
   const [showApproved, setShowApproved] = useState(false);
 
   const filteredList = list.filter(
-    (response) => !response?.status?.PMT?.isApproved
+    (response) =>
+      response?.status?.intermediateSupervisor?.isApproved &&
+      !response?.status?.PMT?.isApproved
   );
 
   const approved = list.filter((response) => response?.status?.PMT?.isApproved);
