@@ -27,6 +27,23 @@ export default function RadioButtons(props) {
               {...otherProps}
             />
           );
+        } else if (sentiment === "Neutral" && item?.value > 3) {
+          return (
+            <Form.Check
+              className="my-2"
+              key={item?.label}
+              label={`${item?.value} - ${item?.label}`}
+              id={item?.id}
+              name={name}
+              type="radio"
+              onBlur={() => setFieldTouched(name)}
+              onChange={() => setFieldValue(name, item?.value)}
+              disabled={true}
+              checked={item?.value === values[name]}
+              isInvalid={!touched[name] || !errors[name] ? false : true}
+              {...otherProps}
+            />
+          );
         } else {
           return (
             <Form.Check
