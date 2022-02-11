@@ -48,7 +48,7 @@ export default function CreateEvaluation({ open }) {
   return (
     <AppContainer>
       <AppHeader>
-        <h5 className="m-0">Create Stream</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Create Stream</h5>
       </AppHeader>
       <AppForm
         initialValues={{ targetYear: "", due: "" }}

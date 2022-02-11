@@ -105,6 +105,7 @@ const Appcontainer = styled.div`
 
 const AppHeader = styled.div`
   display: flex;
+  padding-bottom: 0.5rem;
   align-items: center;
   justify-content: space-between;
   border-bottom: 2px solid ${(props) => props.theme.colors.secondary};

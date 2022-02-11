@@ -48,7 +48,7 @@ export default function ReuseTemplate({ template, open }) {
   };
   return (
     <Container>
-      <h5 className="mb-4">Reuse Template</h5>
+      <h5 className="mb-4 text-uppercase fw-bold">Reuse Template</h5>
 
       <Content>
         <AppForm
