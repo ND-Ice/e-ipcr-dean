@@ -99,12 +99,11 @@ export default function Faculties({ history }) {
 const Appcontainer = styled.div`
   border-radius: 0.5rem;
   overflow: auto;
-  padding: 0.5rem;
+  padding: 0 0.5rem;
   max-height: 600px;
 `;
 
 const AppHeader = styled.div`
-  padding: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

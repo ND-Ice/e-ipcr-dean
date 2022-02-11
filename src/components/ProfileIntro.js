@@ -8,11 +8,11 @@ export default function ProfileIntro({ user }) {
   return (
     <Container>
       <Header>
-        <AvatarProfile size={100} user={user} onClick={() => setShow(true)} />
-        <h3 className="mt-2">
+        <AvatarProfile size={80} user={user} onClick={() => setShow(true)} />
+        <h5 className="mt-2 m-0 text-uppercase fw-bold">
           {user.name.firstName} {user.name.lastName}
-        </h3>
-        <p>{user.college.full}</p>
+        </h5>
+        <p className="text-muted m-0">{user.college.full}</p>
       </Header>
       <CustomModal
         show={show}
@@ -28,6 +28,7 @@ export default function ProfileIntro({ user }) {
 const Container = styled.div`
   padding: 0.5rem;
   border-radius: 0.5rem;
+  border: 2px solid ${({ theme }) => theme.colors.secondary};
   background: ${({ theme }) => theme.colors.white};
 `;
 

@@ -42,7 +42,7 @@ export default function PastEvaluations({ history }) {
 }
 
 const AppContainer = styled.div`
-  padding: 0.5rem;
+  padding: 0 0.5rem;
 `;
 
 const AppHeader = styled.div`

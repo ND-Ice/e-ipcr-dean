@@ -67,12 +67,12 @@ export default function Evaluations({ history }) {
 }
 
 const AppContainer = styled.div`
-  padding: 0.5rem;
+  padding: 0 0.5rem;
 `;
 
 const AppHeader = styled.div`
   margin-bottom: 1rem;
-  padding: 0.5rem 0;
+  padding-bottom: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -106,12 +106,12 @@ export default function Template({ history }) {
 }
 
 const Container = styled.div`
-  padding: 0.5rem;
+  padding: 0 0.5rem;
 `;
 
 const Header = styled.div`
-  padding: 1rem;
   display: flex;
+  padding-bottom: 0.5rem;
   align-items: center;
   justify-content: space-between;
   border-bottom: 2px solid ${({ theme }) => theme.colors.secondary};

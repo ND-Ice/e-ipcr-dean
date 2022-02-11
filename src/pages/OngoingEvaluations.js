@@ -1,15 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-
 import { useSelector } from "react-redux";
 import { EvaluationCard } from "../components/Cards";
 import { getEvaluations } from "../store/evaluations";
 import { MyLoader } from "../components";
 import moment from "moment";
-
 export default function OngoingEvaluations({ history }) {
   const { list, loading } = useSelector(getEvaluations);
-
   const ongoing = list.filter((evaluation) => {
     const isDue = moment(evaluation.due).isSameOrBefore(Date.now());
     if (isDue) return null;
@@ -41,7 +38,7 @@ export default function OngoingEvaluations({ history }) {
 }
 
 const AppContainer = styled.div`
-  padding: 0.5rem;
+  padding: 0 0.5rem;
 `;
 
 const AppHeader = styled.div`

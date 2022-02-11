@@ -88,7 +88,7 @@ export default function RegisterPage() {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <h2>Register</h2>
+          <h3 className="fw-bold">Register</h3>
           <p className="mb-4">kindly fill up the following field to proceed.</p>
 
           <NameContainer>

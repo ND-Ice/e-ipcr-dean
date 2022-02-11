@@ -21,11 +21,8 @@ export default function Me() {
 }
 
 const AppContainer = styled.section`
-  padding: 0.5rem;
   display: grid;
   gap: 0.5rem;
-  border-radius: 0.5rem;
-  background: ${({ theme }) => theme.colors.secondary};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     grid-template-columns: 1fr 2fr;

@@ -11,39 +11,39 @@ export default function BasicInformation({ user }) {
   return (
     <Container>
       <Header>
-        <h5 className="m-0">Basic Information</h5>
+        <h6 className="m-0 text-uppercase fw-bold">Basic Information</h6>
         <FiEdit className="edit-icon" onClick={() => setShow(true)} />
       </Header>
       <Content>
-        <BasicInfoItem title="First Name" item={user.name.firstName} />
+        <BasicInfoItem title="First Name" item={user?.name?.firstName} />
         <BasicInfoItem
           title="Middle Name"
-          item={user.name.middleName || "Not yet defined."}
+          item={user?.name?.middleName || "Not yet defined."}
         />
-        <BasicInfoItem title="Last Name" item={user.name.lastName} />
+        <BasicInfoItem title="Last Name" item={user?.name?.lastName} />
         <BasicInfoItem
           title="Gender"
-          item={user.gender || "Not yet defined."}
+          item={user?.gender || "Not yet defined."}
         />
         <BasicInfoItem
           title="Date of Birth"
-          item={moment(user.birthDate).format("LL") || "Not yet defined."}
+          item={moment(user?.birthDate).format("LL") || "Not yet defined."}
         />
         <BasicInfoItem
           title="Age"
-          item={moment().diff(user.birthDate, "years") || "Not yet defined."}
+          item={moment().diff(user?.birthDate, "years") || "Not yet defined."}
         />
         <BasicInfoItem
           title="Department"
-          item={user.dept || "Not yet defined."}
+          item={user?.dept || "Not yet defined."}
         />
         <BasicInfoItem
           title="Position"
-          item={user.position || "Not yet defined."}
+          item={user?.position || "Not yet defined."}
         />
         <BasicInfoItem
           title="Highest qualification"
-          item={user.qualification || "Not yet defined."}
+          item={user?.qualification || "Not yet defined."}
         />
       </Content>
 
@@ -61,6 +61,7 @@ export default function BasicInformation({ user }) {
 const Container = styled.div`
   padding: 0.5rem;
   border-radius: 0.5rem;
+  border: 2px solid ${({ theme }) => theme.colors.secondary};
   background: ${({ theme }) => theme.colors.white};
 `;
 
