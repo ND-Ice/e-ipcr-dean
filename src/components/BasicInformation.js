@@ -35,7 +35,7 @@ export default function BasicInformation({ user }) {
         />
         <BasicInfoItem
           title="Department"
-          item={user?.dept || "Not yet defined."}
+          item={user?.college || "Not yet defined."}
         />
         <BasicInfoItem
           title="Position"

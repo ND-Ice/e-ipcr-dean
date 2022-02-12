@@ -23,18 +23,23 @@ export default function AllResponse({ history }) {
   const [sortByRemarks, setSortByRemarks] = useState({ value: "All" });
   const { list } = useSelector(getEvaluationResponses);
   const { list: facultyList } = useSelector(getFaculties);
-  const [detailedView, setDetailedView] = useState(false);
 
   const handleSelectRemarks = (item) => setSortByRemarks(item);
   const handlePreview = (id) => history.push(`/response/${id}`);
 
+  const filteredList = list?.filter(
+    (response) =>
+      response?.status?.intermediateSupervisor?.user?.college ===
+      response.status?.faculty?.user?.college
+  );
+
   const filteredByRemarks =
     sortByRemarks && sortByRemarks?.id
-      ? list.filter(
+      ? filteredList.filter(
           (response) =>
             getRemarks(response?.ratings?.average) === sortByRemarks?.value
         )
-      : list;
+      : filteredList;
 
   return (
     <Container>

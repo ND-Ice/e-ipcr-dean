@@ -6,6 +6,7 @@ import { FiX } from "react-icons/fi";
 import { getEvaluationResponses } from "../store/response";
 import { Filter, ResponseData } from "../components";
 import { getFaculties } from "../store/faculties";
+import { getUser } from "../store/user";
 import { getRemarks } from "../utils";
 import { Table } from "react-bootstrap";
 
@@ -21,13 +22,16 @@ const remarks = [
 export default function ToApproved({ history }) {
   const [sortByRemarks, setSortByRemarks] = useState({ value: "All" });
   const { list } = useSelector(getEvaluationResponses);
+  const { currentUser } = useSelector(getUser);
   const { list: facultyList } = useSelector(getFaculties);
 
   const handleSelectRemarks = (item) => setSortByRemarks(item);
   const handlePreview = (id) => history.push(`/response/${id}`);
 
   const filteredList = list.filter(
-    (response) => !response?.status?.intermediateSupervisor?.isApproved
+    (response) =>
+      !response?.status?.intermediateSupervisor?.isApproved &&
+      response?.status?.faculty?.user?.college === currentUser?.college
   );
 
   const filteredByRemarks =

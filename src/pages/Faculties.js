@@ -78,8 +78,8 @@ export default function Faculties({ history }) {
             <TableHeader>Email Address</TableHeader>
             <TableHeader>First Name</TableHeader>
             <TableHeader>Last Name</TableHeader>
-            <TableHeader>Department</TableHeader>
             <TableHeader>Position</TableHeader>
+            <TableHeader> college</TableHeader>
           </TableHead>
           <tbody>
             {activatedFaculty.map((faculty) => (
@@ -118,6 +118,7 @@ const IconContainer = styled.div`
 `;
 
 const TableHead = styled.thead`
+  text-transform: uppercase;
   border-bottom: 2px solid ${({ theme }) => theme.colors.secondary};
 `;
 

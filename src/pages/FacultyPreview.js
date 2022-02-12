@@ -11,6 +11,7 @@ import {
   ProfileItem,
 } from "../components";
 import { FiCalendar, FiMail, FiMapPin, FiPhoneCall } from "react-icons/fi";
+import getAcronymMeaning from "../utils/getAcronymMeaning";
 
 export default function FacultyPreview({ match }) {
   const [imageError, setImageError] = useState(false);
@@ -26,24 +27,24 @@ export default function FacultyPreview({ match }) {
       <div>
         <ProfileContainer>
           {!faculty?.image?.current || imageError ? (
-            <LetterAvatar user={faculty} size={100} />
+            <LetterAvatar user={faculty} size={70} />
           ) : (
             <Avatar
-              size={100}
+              size={70}
               user={faculty}
               onError={() => setImageError(true)}
             />
           )}
-          <h3 className="mt-2">
+          <h5 className="mt-2 mb-0 text-uppercase fw-bold">
             {faculty?.name?.firstName} {faculty?.name?.lastName}
-          </h3>
-          <p>{faculty?.college?.full}</p>
+          </h5>
+          <p className="text-muted">{getAcronymMeaning(faculty?.college)}</p>
         </ProfileContainer>
 
         {/*  primary information */}
         <PrimaryContainer>
           <Header>
-            <h5 className="m-0">Primary Information</h5>
+            <h6 className="m-0 text-uppercase fw-bold">Primary Information</h6>
           </Header>
           <ProfileItem
             title="Email Address"
@@ -82,7 +83,7 @@ export default function FacultyPreview({ match }) {
       {/* basic informations */}
       <BasicContainer>
         <Header>
-          <h5 className="m-0">Basic Information</h5>
+          <h6 className="m-0 text-uppercase fw-bold">Basic Information</h6>
         </Header>
         <Content>
           <BasicInfoItem title="First Name" item={faculty.name.firstName} />
@@ -124,11 +125,9 @@ export default function FacultyPreview({ match }) {
 }
 
 const AppContainer = styled.div`
-  padding: 0.5rem;
   display: grid;
   gap: 0.5rem;
   border-radius: 0.5rem;
-  background: ${({ theme }) => theme.colors.secondary};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     grid-template-columns: 1fr 2fr;
@@ -147,6 +146,8 @@ const ProfileContainer = styled.div`
   display: grid;
   place-items: center;
   padding: 1rem;
+  border-radius: 3px;
+  border: 2px solid ${({ theme }) => theme.colors.secondary};
   background: ${({ theme }) => theme.colors.white};
 `;
 
@@ -154,12 +155,16 @@ const PrimaryContainer = styled.div`
   margin-top: 0.5rem;
   display: grid;
   padding: 1rem;
+  border-radius: 2px;
+  border: 2px solid ${({ theme }) => theme.colors.secondary};
   background: ${({ theme }) => theme.colors.white};
 `;
 
 const BasicContainer = styled.div`
   padding: 1rem;
   border-radius: 0.5rem;
+  border-radius: 2px;
+  border: 2px solid ${({ theme }) => theme.colors.secondary};
   background: ${({ theme }) => theme.colors.white};
 `;
 

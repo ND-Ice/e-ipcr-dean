@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import getAcronymMeaning from "../utils/getAcronymMeaning";
+
 import { AvatarProfile, UpdateProfilePicture, CustomModal } from ".";
 
 export default function ProfileIntro({ user }) {
@@ -10,9 +12,9 @@ export default function ProfileIntro({ user }) {
       <Header>
         <AvatarProfile size={80} user={user} onClick={() => setShow(true)} />
         <h5 className="mt-2 m-0 text-uppercase fw-bold">
-          {user.name.firstName} {user.name.lastName}
+          {user?.name?.firstName} {user?.name?.lastName}
         </h5>
-        <p className="text-muted m-0">{user.college.full}</p>
+        <p className="text-muted m-0">{getAcronymMeaning(user?.college)}</p>
       </Header>
       <CustomModal
         show={show}

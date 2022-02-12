@@ -28,10 +28,10 @@ export default function TableData({ userInfo, onNavigate }) {
       <TableDataItem>{userInfo?.email}</TableDataItem>
       <TableDataItem>{userInfo?.name?.firstName}</TableDataItem>
       <TableDataItem>{userInfo.name?.lastName}</TableDataItem>
-      <TableDataItem>
-        <Badge college={userInfo?.college?.acronym}>{userInfo?.dept}</Badge>
-      </TableDataItem>
       <TableDataItem>{userInfo?.position}</TableDataItem>
+      <TableDataItem>
+        <Badge college={userInfo?.college}>{userInfo?.college}</Badge>
+      </TableDataItem>
       <TableDataItem>
         {diffInHours < 5 ? <NewBadge>New</NewBadge> : null}
       </TableDataItem>
