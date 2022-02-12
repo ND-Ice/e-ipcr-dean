@@ -7,8 +7,7 @@ import { getEvaluationResponses } from "../store/response";
 import { Filter, ResponseData } from "../components";
 import { getFaculties } from "../store/faculties";
 import { getRemarks } from "../utils";
-import { ResponseCard } from "../components/Cards";
-import { Form, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
 const remarks = [
   { value: "All" },

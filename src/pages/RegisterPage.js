@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
+import { Alert } from "react-bootstrap";
 
 import { AppForm, FormControl } from "../components/forms";
-import { department } from "../utils";
 import { Links } from "../components";
 
 import deansApi from "../api/deans";
@@ -14,7 +14,6 @@ import {
   userRequestFailed,
   userRequested,
 } from "../store/user";
-import { Alert } from "react-bootstrap";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -26,7 +25,7 @@ const validationSchema = Yup.object().shape({
   lastName: Yup.string()
     .min(4, "This should be atleast 4 characters Long")
     .required("This field is required."),
-  dept: Yup.string().required("This field is required."),
+  college: Yup.string().required("This field is required."),
   birthDate: Yup.date()
     .max(new Date(Date.now() - 567648000000), "You must be at least 18 years")
     .required("This field is required."),
@@ -47,6 +46,16 @@ const positions = [
   { id: 4, value: "HEAD" },
   { id: 5, value: "CHAIRPERSON" },
   { id: 6, value: "HR" },
+];
+
+const colleges = [
+  { id: 1, value: "CAFA" },
+  { id: 2, value: "CAS" },
+  { id: 3, value: "CED" },
+  { id: 4, value: "CEN" },
+  { id: 5, value: "CHM" },
+  { id: 6, value: "CIT" },
+  { id: 6, value: "CCJE" },
 ];
 
 export default function RegisterPage() {
@@ -80,7 +89,7 @@ export default function RegisterPage() {
             middleName: "",
             lastName: "",
             birthDate: "",
-            dept: "",
+            college: "",
             password: "",
             repeatPassword: "",
             position: "",
@@ -91,7 +100,14 @@ export default function RegisterPage() {
           <h3 className="fw-bold">Register</h3>
           <p className="mb-4">kindly fill up the following field to proceed.</p>
 
-          <NameContainer>
+          <FormControl
+            variant="input"
+            title="Email Address"
+            name="email"
+            className="p-2"
+            loading={user.loading}
+          />
+          <GridContainer>
             <FormControl
               variant="input"
               title="First Name"
@@ -120,22 +136,22 @@ export default function RegisterPage() {
               className="p-2"
               loading={user.loading}
             />
-          </NameContainer>
 
-          <GridContainer>
-            <FormControl
-              variant="input"
-              title="Email Address"
-              name="email"
-              className="p-2"
-              loading={user.loading}
-            />
             <FormControl
               variant="select"
-              title="Department"
-              name="dept"
+              title="College"
+              name="college"
               className="p-2"
-              menuItems={department}
+              menuItems={colleges}
+              loading={user.loading}
+            />
+
+            <FormControl
+              variant="select"
+              title="Position"
+              name="position"
+              className="p-2"
+              menuItems={positions}
               loading={user.loading}
             />
             <FormControl
@@ -153,14 +169,6 @@ export default function RegisterPage() {
               loading={user.loading}
             />
           </GridContainer>
-          <FormControl
-            variant="select"
-            title="Position"
-            name="position"
-            className="p-2"
-            menuItems={positions}
-            loading={user.loading}
-          />
           {successMessage && <Alert variant="success">{successMessage}</Alert>}
           {errorMessage && (
             <Alert variant="danger">
