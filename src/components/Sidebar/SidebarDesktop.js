@@ -16,7 +16,7 @@ export default function SidebarDesktop() {
     <SidebarContainer>
       {sidebarItems?.map((sidebarInfo) => {
         if (
-          currentUser?.position !== "CHAIRPERSON" &&
+          currentUser?.position !== "INTERMEDIATE SUPERVISOR" &&
           sidebarInfo?.title === "Templates"
         ) {
           return null;

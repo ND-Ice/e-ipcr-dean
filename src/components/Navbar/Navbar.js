@@ -34,7 +34,7 @@ export default function Navbar({ user }) {
       <Sidebar isToggle={isSidebarToggle} onSidebarToggle={handleSidebarToggle}>
         {sidebarItems?.map((sidebarInfo) => {
           if (
-            user?.currentUser?.position === "Evaluator" &&
+            user?.currentUser?.position !== "INTERMEDIATE SUPERVISOR" &&
             sidebarInfo?.title === "Templates"
           ) {
             return null;

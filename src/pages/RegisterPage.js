@@ -44,7 +44,6 @@ const positions = [
   { id: 2, value: "DIRECTOR" },
   { id: 3, value: "PMT" },
   { id: 4, value: "HEAD" },
-  { id: 5, value: "CHAIRPERSON" },
 ];
 
 const colleges = [
