@@ -8,7 +8,7 @@ export default function Ranking({ responses, open }) {
   return (
     <Container>
       <div className="d-flex align-items-center justify-content-between mb-4">
-        <h5 className="m-0 text-uppercase fw-bold">WEIGHTED RANKING</h5>
+        <h5 className="m-0 text-uppercase fw-bold">RANKING</h5>
         <IconContainer onClick={() => open(false)}>
           <FiX className="icon" />
         </IconContainer>
