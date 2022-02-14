@@ -1,40 +1,26 @@
-// import { getRemarks } from "../utils";
-
-// export default function useSummary(responses) {
-//   const outStanding = responses?.filter(
-//     (response) => getRemarks(response?.ratings?.average) === "Outstanding"
-//   );
-//   const verySatisfactory = responses?.filter(
-//     (response) => getRemarks(response?.ratings?.average) === "Very Satisfactory"
-//   );
-//   const satisfactory = responses?.filter(
-//     (response) => getRemarks(response?.ratings?.average) === "Satisfactory"
-//   );
-//   const unSatisfactory = responses?.filter(
-//     (response) => getRemarks(response?.ratings?.average) === "Unsatisfactory"
-//   );
-//   const poor = responses?.filter(
-//     (response) => getRemarks(response?.ratings?.average) === "Poor"
-//   );
-
-//   return { outStanding, verySatisfactory, satisfactory, unSatisfactory, poor };
-// }
-
 export default function useSummary(responses) {
-  const cs = responses?.filter(
-    (response) => response?.status?.faculty?.user?.dept === "Computer Science"
+  const CAFA = responses?.filter(
+    (response) => response?.status?.faculty?.user?.college === "CAFA"
+  );
+  const CAS = responses?.filter(
+    (response) => response?.status?.faculty?.user?.college === "CAS"
+  );
+  const CED = responses?.filter(
+    (response) => response?.status?.faculty?.user?.college === "CED"
+  );
+  const CEN = responses?.filter(
+    (response) => response?.status?.faculty?.user?.college === "CEN"
+  );
+  const CHM = responses?.filter(
+    (response) => response?.status?.faculty?.user?.college === "CHM"
+  );
+  const CIT = responses?.filter(
+    (response) => response?.status?.faculty?.user?.college === "CIT"
   );
 
-  const ap = responses?.filter(
-    (response) => response?.status?.faculty?.user?.dept === "Applied Physics"
-  );
-  const ip = responses?.filter(
-    (response) =>
-      response?.status?.faculty?.user?.dept === "Industrial Psychology"
-  );
-  const math = responses?.filter(
-    (response) => response?.status?.faculty?.user?.dept === "Mathematics"
+  const CPAC = responses?.filter(
+    (response) => response?.status?.faculty?.user?.college === "CPAC"
   );
 
-  return { cs, ap, ip, math };
+  return { CAFA, CAS, CED, CEN, CHM, CIT, CPAC };
 }

@@ -7,12 +7,15 @@ import styled from "styled-components";
 import { HEADdata } from "./Cards";
 import { getEvaluationResponses } from "../store/response";
 import { useState } from "react";
-import { ApprovedResponses } from "./Modals";
+import { ApprovedResponses, Ranking } from "./Modals";
+import RankingSummary from "./Modals/RankingSummary";
 
 export default function ToApproveByHEAD() {
   const { list } = useSelector(getEvaluationResponses);
   const history = useHistory();
   const [showApproved, setShowApproved] = useState(false);
+  const [showRanking, setShowRanking] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
 
   const filteredList = list.filter(
     (response) =>
@@ -30,14 +33,20 @@ export default function ToApproveByHEAD() {
       <Container>
         <div className="mt-4 mb-4 d-flex align-items-center justify-content-between">
           <h5 className="text-uppercase fw-bold">HEAD</h5>
-          <Button onClick={handleViewApproved}>
-            Approved
-            {approved?.length !== 0 && (
-              <Badge variant="pll" bg="danger" className="ms-2">
-                {approved?.length}
-              </Badge>
-            )}
-          </Button>
+          <div className="d-flex align-items-center">
+            <Button onClick={() => setShowRanking(true)}>Ranking</Button>
+            <Button className="mx-2" onClick={() => setShowSummary(true)}>
+              Summary
+            </Button>
+            <Button onClick={handleViewApproved}>
+              Approved
+              {approved?.length !== 0 && (
+                <Badge variant="pll" bg="danger" className="ms-2">
+                  {approved?.length}
+                </Badge>
+              )}
+            </Button>
+          </div>
         </div>
         <Table className="w-100 ">
           <tbody>
@@ -72,6 +81,12 @@ export default function ToApproveByHEAD() {
           open={setShowApproved}
           onPreview={handlePreview}
         />
+      </Modal>
+      <Modal fullscreen show={showRanking} onHide={() => setShowRanking(false)}>
+        <Ranking responses={approved} open={setShowRanking} />
+      </Modal>
+      <Modal fullscreen show={showSummary} onHide={() => setShowSummary(false)}>
+        <RankingSummary responses={approved} open={setShowSummary} />
       </Modal>
     </>
   );

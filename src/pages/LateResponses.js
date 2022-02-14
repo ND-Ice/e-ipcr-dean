@@ -10,6 +10,7 @@ import { getFaculties } from "../store/faculties";
 import { getRemarks } from "../utils";
 import { Table } from "react-bootstrap";
 import { getEvaluations } from "../store/evaluations";
+import { getUser } from "../store/user";
 
 const remarks = [
   { value: "All" },
@@ -22,12 +23,15 @@ const remarks = [
 
 export default function LateResponses({ history }) {
   const [sortByRemarks, setSortByRemarks] = useState({ value: "All" });
+  const { currentUser } = useSelector(getUser);
   const { list } = useSelector(getEvaluationResponses);
   const { list: facultyList } = useSelector(getFaculties);
   const { preview } = useSelector(getEvaluations);
 
-  const late = list.filter((response) =>
-    moment(parseInt(response.dateSubmmitted)).isAfter(preview.due)
+  const late = list.filter(
+    (response) =>
+      moment(parseInt(response.dateSubmmitted)).isAfter(preview.due) &&
+      response?.status?.faculty?.user?.college === currentUser?.college
   );
 
   const filteredByRemarks =

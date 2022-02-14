@@ -58,7 +58,7 @@ export default function ToApproved({ history }) {
           onSelectItem={handleSelectRemarks}
         />
         <span>
-          {list?.length} out of {facultyList?.length}
+          {filteredList?.length} out of {facultyList?.length}
         </span>
       </FilterContainer>
 

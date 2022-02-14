@@ -9,6 +9,7 @@ import { getFaculties } from "../store/faculties";
 import { getRemarks } from "../utils";
 import { ResponseCard } from "../components/Cards";
 import { Form, Table } from "react-bootstrap";
+import { getUser } from "../store/user";
 
 const remarks = [
   { value: "All" },
@@ -26,11 +27,11 @@ export default function AllResponse({ history }) {
 
   const handleSelectRemarks = (item) => setSortByRemarks(item);
   const handlePreview = (id) => history.push(`/response/${id}`);
+  const { currentUser } = useSelector(getUser);
 
   const filteredList = list?.filter(
     (response) =>
-      response?.status?.intermediateSupervisor?.user?.college ===
-      response.status?.faculty?.user?.college
+      response?.status?.faculty?.user?.college === currentUser?.college
   );
 
   const filteredByRemarks =
@@ -56,7 +57,7 @@ export default function AllResponse({ history }) {
           onSelectItem={handleSelectRemarks}
         />
         <span className="ms-4">
-          {list?.length} out of {facultyList?.length}
+          {filteredList?.length} out of {facultyList?.length}
         </span>
       </FilterContainer>
 

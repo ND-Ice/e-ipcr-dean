@@ -8,11 +8,6 @@ export default function ToPrintHeader() {
           INDIVIDUAL PERFORMANCE COMMITMENT REVIEW
         </td>
       </tr>
-      <tr className="fw-bold text-uppercase">
-        <td className="p-3" colSpan={7}>
-          Evaluation summary
-        </td>
-      </tr>
       <tr>
         <td colSpan={7}></td>
       </tr>
@@ -21,7 +16,7 @@ export default function ToPrintHeader() {
         <td className="p-3">Full Name</td>
         <td className="p-3">Email Address</td>
         <td className="p-3">Position</td>
-        <td className="p-3">Department</td>
+        <td className="p-3">College</td>
         <td className="p-3">Date Submitted</td>
         <td className="p-3">Final Rating</td>
         <td className="p-3">Final Adjectival Rating</td>

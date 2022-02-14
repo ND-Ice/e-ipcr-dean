@@ -46,8 +46,6 @@ export default function ApprovedData({ response, onPreview }) {
       <TableData>
         {getRemarks(response?.ratings?.average) || "Pending"}
       </TableData>
-      <TableData>{faculty?.user?.dept}</TableData>
-      <TableData>{faculty?.user?.college?.acronym}</TableData>
     </TableRow>
   );
 }

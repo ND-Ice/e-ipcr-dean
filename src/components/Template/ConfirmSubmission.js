@@ -77,7 +77,7 @@ export default function ConfirmSubmission({ response, open }) {
 
   return (
     <Container>
-      <h6 className="mb-4">Confirmation</h6>
+      <h6 className="mb-4 text-uppercase fw-bold">Confirmation</h6>
       <div className="mb-4">
         <FiCheckCircle className="icon" />
         <span>

@@ -383,6 +383,7 @@ export const {
   editSupportRating,
   addCoreSentiment,
   addSupportSentiment,
+  updateResponse,
 } = slice.actions;
 export default slice.reducer;
 

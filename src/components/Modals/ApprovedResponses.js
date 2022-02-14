@@ -22,8 +22,6 @@ export default function Approved({ responses, onPreview, title, open }) {
             <td>Date Submitted</td>
             <td>Final Average</td>
             <td>Adjectival Rating</td>
-            <td>department</td>
-            <td>college</td>
           </tr>
           <tr>
             <td colSpan={8}></td>

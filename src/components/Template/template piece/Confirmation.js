@@ -9,7 +9,6 @@ import { getTemplate } from "../../../store/template";
 import templateApi from "../../../api/template";
 import { AppForm, FormControl } from "../../forms";
 import { getUser } from "../../../store/user";
-import logsApi from "../../../api/logs";
 
 const validationSchema = Yup.object().shape({
   target: Yup.string().required("This field is required."),
@@ -19,6 +18,7 @@ const facultyPosition = [
   { id: 1, value: "Regular Faculty" },
   { id: 2, value: "Dean" },
   { id: 3, value: "Chair Person" },
+  { id: 4, value: "Non Teaching" },
 ];
 
 export default function Confirmation() {

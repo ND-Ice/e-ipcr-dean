@@ -5,28 +5,41 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { getEvaluationResponses } from "../store/response";
+import { getUser } from "../store/user";
 
 export default function ResponseCountSummary({ evaluation }) {
   const history = useHistory();
+  const { currentUser } = useSelector(getUser);
   const { preview } = evaluation;
-
   const { list } = useSelector(getEvaluationResponses);
-  const late = list?.filter((response) =>
-    moment(parseInt(response?.dateSubmitted)).isAfter(preview?.due)
+
+  const allResponse = list?.filter(
+    (response) =>
+      response?.status?.faculty?.user?.college === currentUser?.college
+  );
+
+  const late = list?.filter(
+    (response) =>
+      moment(parseInt(response?.dateSubmitted)).isAfter(preview?.due) &&
+      response?.status?.faculty?.user?.college === currentUser?.college
   );
 
   const toBeRate = list?.filter(
-    (response) => !response?.status?.intermediateSupervisor?.isApproved
+    (response) =>
+      !response?.status?.intermediateSupervisor?.isApproved &&
+      response?.status?.faculty?.user?.college === currentUser?.college
   );
   const approved = list?.filter(
-    (response) => response?.status?.intermediateSupervisor?.isApproved
+    (response) =>
+      response?.status?.intermediateSupervisor?.isApproved &&
+      response?.status?.faculty?.user?.college === currentUser?.college
   );
 
   return (
     <Container>
       <SummaryItems>
         <SummaryItem onClick={() => history.push("/dashboard/responses")}>
-          All Responses <Badge bg="#0064f9">{list?.length}</Badge>
+          All Responses <Badge bg="#0064f9">{allResponse?.length}</Badge>
         </SummaryItem>
         <SummaryItem onClick={() => history.push("/dashboard/late-responses")}>
           Late Responses <Badge bg="#f0c810">{late?.length}</Badge>

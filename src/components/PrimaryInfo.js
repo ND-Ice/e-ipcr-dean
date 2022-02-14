@@ -20,30 +20,30 @@ export default function PrimaryInfo({ user }) {
         <h6 className="m-0 text-uppercase fw-bold">Primary Information</h6>
         <FiEdit className="edit-icon" onClick={() => setShow(true)} />
       </Header>
-      <ProfileItem title="Email Address" icon={FiMail} text={user.email} />
+      <ProfileItem title="Email Address" icon={FiMail} text={user?.email} />
       <ProfileItem
         title="Contact Number"
         icon={FiPhoneCall}
-        text={user.contact || "Not yet defined."}
+        text={user?.contact || "Not yet defined."}
       />
       <ProfileItem
         title="Birth Date"
         icon={FiCalendar}
         text={`Born in, ${
-          moment(user.birthDate).format("LL") || "Not yet defined."
+          moment(user?.birthDate).format("LL") || "Not yet defined."
         }`}
       />
       <ProfileItem
         title="Address"
         icon={FiMapPin}
         text={
-          user.address.houseNumber &&
-          user.address.street &&
-          user.address.barangay &&
-          user.address.barangay &&
-          user.address.city &&
-          user.address.province
-            ? `${user.address.houseNumber} ${user.address.street} ${user.address.barangay} ${user.address.city} ${user.address.province}`
+          user?.address?.houseNumber &&
+          user?.address?.street &&
+          user?.address?.barangay &&
+          user?.address?.barangay &&
+          user?.address?.city &&
+          user?.address?.province
+            ? `${user?.address?.houseNumber} ${user?.address?.street} ${user?.address?.barangay} ${user?.address?.city} ${user?.address?.province}`
             : "Not yet defined."
         }
       />

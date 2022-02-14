@@ -14,7 +14,7 @@ export default function PrintTableData({ response }) {
       </td>
       <td className="p-3">{user?.email}</td>
       <td className="p-3">{user?.position}</td>
-      <td className="p-3">{user?.dept}</td>
+      <td className="p-3">{user?.college}</td>
       <td className="p-3">{moment(parseInt(dateSubmitted)).format("LL")}</td>
       <td className="p-3" className="text-center">
         {ratings?.average}

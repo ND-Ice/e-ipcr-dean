@@ -9,6 +9,7 @@ import { getFaculties } from "../store/faculties";
 import { getRemarks } from "../utils";
 import { Modal, Table } from "react-bootstrap";
 import { ToPrint } from "../components/Modals";
+import { getUser } from "../store/user";
 
 const remarks = [
   { value: "All" },
@@ -23,13 +24,16 @@ export default function Approved({ history }) {
   const [sortByRemarks, setSortByRemarks] = useState({ value: "All" });
   const [showToPrint, setShowToPrint] = useState(false);
   const { list } = useSelector(getEvaluationResponses);
+  const { currentUser } = useSelector(getUser);
   const { list: facultyList } = useSelector(getFaculties);
 
   const handleSelectRemarks = (item) => setSortByRemarks(item);
   const handlePreview = (id) => history.push(`/response/${id}`);
 
   const filteredList = list.filter(
-    (response) => response?.status?.intermediateSupervisor?.isApproved
+    (response) =>
+      response?.status?.intermediateSupervisor?.isApproved &&
+      response?.status?.faculty?.user?.college === currentUser?.college
   );
 
   const filteredByRemarks =
@@ -56,7 +60,7 @@ export default function Approved({ history }) {
         />
         <div className="d-flex align-items-center">
           <span className="ms-4">
-            {filteredByRemarks?.length} out of {facultyList?.length}
+            {filteredList?.length} out of {facultyList?.length}
           </span>
         </div>
       </FilterContainer>

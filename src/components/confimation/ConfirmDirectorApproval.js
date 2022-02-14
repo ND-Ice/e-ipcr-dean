@@ -9,6 +9,7 @@ import SignaturePad from "react-signature-canvas";
 import { getUser } from "../../store/user";
 import responseApi from "../../api/response";
 import logsApi from "../../api/logs";
+import { useDispatch } from "react-redux";
 
 export default function ConfirmDeanApproval({ response, open }) {
   const history = useHistory();

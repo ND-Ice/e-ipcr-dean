@@ -13,27 +13,23 @@ import {
   facultySorted,
   getFaculties,
 } from "../store/faculties";
-
-const filterItems = [
-  { value: "All" },
-  { id: 1, value: "Applied Physics" },
-  { id: 2, value: "Computer Science" },
-  { id: 3, value: "Industrial Psychology" },
-  { id: 4, value: "Mathematics" },
-];
+import { getUser } from "../store/user";
+import listItem from "../utils/filter";
 
 export default function Faculties({ history }) {
   const dispatch = useDispatch();
   const faculties = useSelector(getFaculties);
 
+  const activatedFaculty = faculties?.list?.filter(
+    (faculty) => faculty?.isActivated
+  );
+
   const filtered =
     faculties.sortBy && faculties.sortBy.id
-      ? faculties.list.filter(
-          (faculty) => faculty.dept === faculties.sortBy.value
+      ? activatedFaculty?.filter(
+          (faculty) => faculty?.college === faculties.sortBy.value
         )
-      : faculties.list;
-
-  const activatedFaculty = filtered?.filter((faculty) => faculty?.isActivated);
+      : activatedFaculty;
 
   useEffect(() => {
     getFacultyList();
@@ -65,7 +61,7 @@ export default function Faculties({ history }) {
         </IconContainer>
       </AppHeader>
       <Filter
-        items={filterItems}
+        items={listItem}
         selectedItem={faculties.sortBy}
         onSelectItem={handleItemSelect}
       />
@@ -82,7 +78,7 @@ export default function Faculties({ history }) {
             <TableHeader> college</TableHeader>
           </TableHead>
           <tbody>
-            {activatedFaculty.map((faculty) => (
+            {filtered?.map((faculty) => (
               <TableData
                 key={faculty._id}
                 userInfo={faculty}
