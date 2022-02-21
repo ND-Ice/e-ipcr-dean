@@ -81,7 +81,7 @@ export default function EvaluationPreview({ match }) {
             </Title>
             <DueDate>
               <FiCalendar className="icon" /> Due{" "}
-              {moment(evaluation?.due).endOf("day").fromNow()}
+              {moment(evaluation?.due).startOf("hour").fromNow()}
             </DueDate>
           </header>
 
